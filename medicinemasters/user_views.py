@@ -6,7 +6,7 @@ import json
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from medicine_masters import helpers
-from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback
+from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback,Prescription
 import razorpay
 from django.conf import settings
 
@@ -961,3 +961,14 @@ def feedback(request):
             )
             feedback.save()
         return redirect('users_home')
+
+# Get Prescription
+def get_prescription(request):
+    if request.method == "POST":
+        prescription_message = request.POST.get('prescription_message')
+        prescription = Prescription(
+            prescription_message = prescription_message,
+            user_id = request.user.user_id
+        )
+        prescription.save()
+        return redirect('users_profile')

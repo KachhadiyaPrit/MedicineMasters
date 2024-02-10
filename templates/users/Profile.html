@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<div class="position-fixed top-5 end-0 p-3" id="myAlert" style="z-index: 11;">
+</div>
 <section style="background-color: #eee;" id="main">
     <div class="container py-4">
         <div id="success"></div>
@@ -358,12 +360,12 @@
                             <div class="col"><h5 class="card-title">Get Prescription?</h5></div>
                         </div>
                         <hr>
-                        <form method="post" class="d-block" id="edit_address">
+                        <form method="POST" class="d-block" id="getprescription">
                             {% csrf_token %}
                             <div class="row mb-3">
                                 <label for="delivery_address" class="col-md-4 col-lg-3 col-form-label">Name Of The Disease :-</label>
                                 <div class="col-md-8 col-lg-9">
-                                    <textarea class="form-control"  name="prescription_message" id="prescription_message" rows="5" placeholder="Enter The Disease Name"></textarea>
+                                    <textarea class="form-control" name="prescription_message" id="prescription_message" rows="5" placeholder="Enter The Disease Name"></textarea>
                                 </div>
                             </div>
                             <div class="text-center">

@@ -137,5 +137,6 @@ urlpatterns = [
     path('user/profile/track_order/cancle_order/<int:order_id>', user_views.cancle_order, name='cancle_order'),
     path('user/all_product_by_category/<int:category_id>', user_views.all_product_by_category, name='all_product_by_category'),
     path('generateinvoice/<int:order_id>/', user_views.GenerateInvoice.as_view(), name = 'generateinvoice'),
+    path('user/profile/get_prescription', user_views.get_prescription, name = 'get_prescription'),
     path('feedback', user_views.feedback, name = 'feedback'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

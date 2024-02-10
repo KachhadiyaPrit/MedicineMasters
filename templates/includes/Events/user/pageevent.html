@@ -777,3 +777,43 @@
         });
     })
 </script>
+
+<!-- Get Prescription Without page reload -->
+<script>
+    $(document).on('submit', '#getprescription', function(e){
+        e.preventDefault();
+
+        var prescription_message = $('#prescription_message').val();
+        
+        var form_data = new FormData();
+
+        form_data.append('prescription_message', prescription_message);
+
+        $.ajax({
+            url: "{% url 'get_prescription' %}",
+            type: "POST",
+            mimeType: "multipart/form-data",
+            contentType: false,
+            processData: false,
+            data: form_data,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#getprescription").load(location.href + " #getprescription>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Get Prescription Request Is Submited...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
