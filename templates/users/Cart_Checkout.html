@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart %}
+{% block content %}
+<div class="position-fixed top-5 end-0 p-3" id="myAlert" style="z-index: 11;">
+</div>
+<section class="shadow" style="background-color: #eee;">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 shadow">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'users_home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <form method="POST" action="" id="cart_checkout_order_now">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 mb-4">
+                    <div class="card shadow border">
+                        <div class="p-4">
+                            <div class="row">
+                                <h5 class="card-title mb-3">Checkout Detail</h5>
+                                <hr class="py-1"/>
+                                <div class="col-6 mb-1">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="text" id="first_name" name="first_name" class="form-control" value="{{user.first_name}}"/>
+                                        <label class="form-label" for="first_name">First Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 mb-1">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="text" id="last_name" name="last_name" class="form-control" value="{{user.last_name}}"/>
+                                        <label class="form-label" for="last_name">Last Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="text" id="phone" name="phone" class="form-control" value="{{user.phone}}"/>
+                                        <label class="form-label" for="phone">Phone</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="email" id="email" name="email" class="form-control" value="{{user.email}}" disabled/>
+                                        <label class="form-label" for="email">Email</label>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="row">
+                                <hr class="py-1"/>
+                                <h5 class="card-title mb-3">Address</h5>
+                                <hr class="py-1"/>
+                                <div class="col-sm-8 mb-3">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="text" id="address" name="address" class="form-control" value="{{address.delivery_address}}"/>
+                                        <label class="form-label" for="address">Delivery Address</label>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-sm-4 mb-3">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="text" id="pincode" name="pincode" class="form-control" value="{{address.delivery_address_pincode}}"/>
+                                        <label class="form-label" for="pincode">Delivery Address Pincode</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end"  id="discount_value">
+                    <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
+                        <div class="card shadow border">
+                            <div class="p-4">
+                                <div class="row">
+                                    <h5 class="card-titlemb-3">Summary</h5>
+                                    <hr class="py-1"/>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2 fw-bold">Total price : </p>
+                                        <input class="mb-2" type="text" name="order_amount" id="order_amount" value="{{total}}" hidden>
+                                        <p class="mb-2">₹ {{total}}</p>
+                                    </div>
+                    
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2 fw-bold">Discount : </p>
+                                        <p class="mb-2 text-danger">- ₹ {{discount}}</p>
+                                        <input class="mb-2" type="text" name="order_discount" id="order_discount" value="{{discount}}" hidden>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2 fw-bold">Shipping Cost : </p>
+                                        <p class="mb-2">+ ₹ {{shipping_cost}}</p>
+                                        <input class="mb-2" type="text" name="shipping_price" id="shipping_price" value="{{shipping_cost}}" hidden>
+                                    </div>
+
+                                    <hr />
+
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2 fw-bold">Total price : </p>
+                                        <p class="mb-2">₹ {{after_discount_value}}</p>
+                                        <input class="mb-2" type="text" name="order_total_amount" id="order_total_amount" value="{{after_discount_value}}" hidden>
+                                    </div>
+                                    
+                                    <hr />
+                                </div>
+                    
+                                <div class="d-flex justify-content-center">
+                                    <button id="go-back" class="btn btn-light border me-1">Cancel</button>
+                                    <button class="btn btn-success shadow-0 border ms-1" id="rzp-button1"><i class="fas fa-money-bill"></i> Continue</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-8 mt-4">
+                    <div class="card shadow border" style="background-color: #f1f0f0;">
+                        <div class="p-4">
+                            <div class="row">
+                                <h5 class="card-title mb-3">Product Detail</h5>
+                                <hr class="py-1"/>
+                                {% for i in cart_items %}
+                                <div class="row g-0">
+                                    <div class="col-xl-2 col-md-4 mb-4 d-flex justify-content-center">
+                                        <div class="bg-image hover-zoom ripple rounded ripple-surface me-md-3 mb-3 mb-md-0 d-flex justify-content-center">
+                                            <img src="/{{i.product.product_img}}" class="w-50" />
+                                            <a href="#!">
+                                                <div class="hover-overlay">
+                                                    <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-7 col-md-5 col-sm-7 mb-2">
+                                        <h5>{{i.product.product_name}}</h5>
+                                        <!-- <div class="d-flex flex-row">
+                                            <div class="text-warning mb-1 me-2">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                                <span class="ms-1">
+                                                    4.5
+                                                </span>
+                                            </div>
+                                            <span class="text-muted">154 orders</span>
+                                        </div> -->
+                                        <p class="text mb-4 mb-md-0">
+                                            <b>Peoduct Expirydate : </b>{{i.product.product_expirydate}}.
+                                        </p>
+                                        {% if i.product.product_prescription_status == 0 %}
+                                            <p class="text mb-4 mb-md-0">
+                                                <b>Prescription Is Required.</b>
+                                            </p>
+                                        {% else %}
+                                            <p class="text mb-4 mb-md-0">
+                                                <b>Prescription Is Not Required.</b>
+                                            </p>
+                                        {% endif %}
+                                        <p class="text mb-4 mb-md-0">
+                                            <b>Company Name : </b>{{i.product.company.company_name}}.
+                                        </p>
+                                        <p class="text mb-4 mb-md-0 text-truncate" style="max-lines: 3;">
+                                            <b>Product Description : </b>{{i.product.product_description}}
+                                        </p>
+                                    </div>
+                                    <div class="col-xl-3 col-md-3 col-sm-5 mb-2 d-flex justify-content-center">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="d-flex flex-row align-items-center mb-1">
+                                                    <h4 class="mb-1 me-1">₹{{i.product.product_discount_price}}</h4>
+                                                    <span class="text-danger"><s>₹{{i.product.product_price}}</s></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-flex flex-row align-items-center mb-1">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="mb-1 me-1"><b>Qty : </b>{{i.cart_quantity}}</p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <span class="mb-1 me-1"><b>Total Price : </b>₹{{i.cart_total_price}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+</script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    var options = {
+        "key": "rzp_test_7Gqc9PAXuAY2r8", // Enter the Key ID generated from the Dashboard
+        "amount": "1000"*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Prit",
+        "description": "Test Transaction",
+        "image": "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg",
+        
+        "handler": function (response){
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature);
+        },
+        
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp = new Razorpay(options);
+    rzp.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp.open();
+        e.preventDefault();
+    }
+    </script>
+
+{% endblock  %}

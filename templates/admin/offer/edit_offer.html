@@ -1,0 +1,59 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div id="success"></div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <ul class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Category</li>
+                    <li class="breadcrumb-item active">Edit Offer</li>
+                </ul>
+                <form method="POST" enctype="multipart/form-data" id="edit_offer" action="{% url 'update_offer' %}">
+                    {% csrf_token %}
+                    <img id="prev" class="mb-2" name="prev" src="/{{offer.offer_img}}" height="200" width="150" alt="" />
+                    <input type="text" class="form-control d-none" id="prev_img" name="prev_img" value="{{offer.offer_img}}" disabled>
+                    <div class="mb-3">
+                        <label for="offer_id" class="form-label">Offer Id :- </label>
+                        <input type="text" class="form-control" id="offer_id" name="offer_id" value="{{offer.offer_id}}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="offer_code" class="form-label">Offer Code :- </label>
+                        <input type="text" class="form-control" id="offer_code" name="offer_code" value="{{offer.offer_code}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="offer_rate" class="form-label">Offer Rate :- </label>
+                        <input type="text" class="form-control" id="offer_rate" name="offer_rate" value="{{offer.offer_rate}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="offer_description" class="form-label">Offer Description :- </label>
+                        <input type="text" class="form-control" id="offer_description" name="offer_description" value="{{offer.offer_description}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="offer_image" class="form-label">Offer Image :- </label>
+                        <input type="file" class="form-control" id="offer_image" name="offer_image" onchange="readURL(this);">
+                    </div>
+                    <div class="d-grid">
+                        <input type="submit" class="btn btn-primary submit" value="Update Offer" name="add_offer"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#prev').attr('src', e.target.result).width(150).height(200);
+            };
+            reader.readAsDataURL(input.files[0]);
+            $(window).scrollTop(0);
+        }
+    }
+</script>
+{% endblock  %}

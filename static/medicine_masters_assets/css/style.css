@@ -1,0 +1,206 @@
+.icon-hover:hover {
+  border-color: #3b71ca !important;
+  background-color: white !important;
+}
+
+.icon-hover:hover i {
+  color: #3b71ca !important;
+}
+
+#modallong .modal-dialog {
+  max-width: 750px;
+}
+
+#modallong .mini-cart-item .quantity-price {
+  flex-wrap: wrap;
+}
+
+#modallong .quantity-price .price-code {
+  width: 100%;
+}
+
+#modallong .product-header h4.product-title {
+  font-size: 1.2em !important;
+}
+
+
+/* .track-order-card{
+  margin: auto;
+  width: 38%;
+  max-width:600px;
+  padding: 4vh 0;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-top: 3px solid rgb(252, 103, 49);
+  border-bottom: 3px solid rgb(252, 103, 49);
+  border-left: none;
+  border-right: none;
+}
+@media(max-width:768px){
+  .track-order-card{
+      width: 90%;
+  }
+}
+.track-order-title{
+  color: rgb(252, 103, 49);
+  font-weight: 600;
+  margin-bottom: 2vh;
+  padding: 0 8%;
+  font-size: initial;
+}
+#track-order-details{
+  font-weight: 400;
+}
+.track-order-info{
+  padding: 5% 8%;
+}
+.track-order-info .col-5{
+  padding: 0;
+}
+#track-order-heading{
+  color: grey;
+  line-height: 6vh;
+}
+.track-order-pricing{
+  background-color: #ddd3;
+  padding: 2vh 8%;
+  font-weight: 400;
+  line-height: 2.5;
+}
+.track-order-pricing .col-3{
+  padding: 0;
+}
+.track-order-total{
+  padding: 2vh 8%;
+  color: rgb(252, 103, 49);
+  font-weight: bold;
+}
+.track-order-total .col-3{
+  padding: 0;
+}
+.track-order-footer{
+  padding: 0 8%;
+  font-size: x-small;
+  color: black;
+}
+.track-order-footer img{
+  height: 5vh;
+  opacity: 0.2;
+}
+.track-order-footer a{
+  color: rgb(252, 103, 49);
+}
+.track-order-footer .col-10, .col-2{
+  display: flex;
+  padding: 3vh 0 0;
+  align-items: center;
+}
+.track-order-footer .row{
+  margin: 0;
+}
+#track-order-progressbar {
+  margin-bottom: 3vh;
+  overflow: hidden;
+  color: rgb(252, 103, 49);
+  padding-left: 0px;
+  margin-top: 3vh
+}
+
+#track-order-progressbar li {
+  list-style-type: none;
+  font-size: x-small;
+  width: 25%;
+  float: left;
+  position: relative;
+  font-weight: 400;
+  color: rgb(160, 159, 159);
+}
+
+#track-order-progressbar #step1:before {
+  content: "";
+  color: rgb(252, 103, 49);
+  width: 5px;
+  height: 5px;
+  margin-left: 0px !important;
+  padding-left: 11px !important
+}
+
+#track-order-progressbar #step2:before {
+  content: "";
+  color: #fff;
+  width: 5px;
+  height: 5px;
+  margin-left: 32%;
+}
+
+#track-order-progressbar #step3:before {
+  content: "";
+  color: #fff;
+  width: 5px;
+  height: 5px;
+  margin-right: 32% ; 
+  padding-right: 11px !important
+}
+
+#track-order-progressbar #step4:before {
+  content: "";
+  color: #fff;
+  width: 5px;
+  height: 5px;
+  margin-right: 0px !important;
+  padding-right: 11px !important
+}
+
+#track-order-progressbar li:before {
+  line-height: 29px;
+  display: block;
+  font-size: 12px;
+  background: #ddd;
+  border-radius: 50%;
+  margin: auto;
+  z-index: -1;
+  margin-bottom: 1vh;
+}
+
+#track-order-progressbar li:after {
+  content: '';
+  height: 2px;
+  background: #ddd;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  margin-bottom: 2vh;
+  top: 1px;
+  z-index: 1;
+}
+.progress-track{
+  padding: 0 8%;
+}
+#track-order-progressbar li:nth-child(2):after {
+  margin-right: auto;
+}
+
+#track-order-progressbar li:nth-child(1):after {
+  margin: auto;
+}
+
+#track-order-progressbar li:nth-child(3):after {
+  float: left;
+  width: 68%;
+}
+#track-order-progressbar li:nth-child(4):after {
+  margin-left: auto;
+  width: 132%;
+}
+
+#track-order-progressbar  li.active{
+  color: black;
+}
+
+#track-order-progressbar li.active:before,
+#track-order-progressbar li.active:after {
+  background: rgb(252, 103, 49);
+} */
+
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+.track-order-card{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-orient: vertical;-webkit-box-direction: normal;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 0.10rem}.track-order-card-header:first-child{border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0}.track-order-card-header{padding: 0.75rem 1.25rem;margin-bottom: 0;background-color: #fff;border-bottom: 1px solid rgba(0, 0, 0, 0.1)}.track-order-track{position: relative;background-color: #ddd;height: 7px;display: -webkit-box;display: -ms-flexbox;display: flex;margin-bottom: 60px;margin-top: 50px}.track-order-track .track-order-step{-webkit-box-flex: 1;-ms-flex-positive: 1;flex-grow: 1;width: 25%;margin-top: -18px;text-align: center;position: relative}.track-order-track .track-order-step.active:before{background: #FF5722}.track-order-track .track-order-step::before{height: 7px;position: absolute;content: "";width: 100%;left: 0;top: 18px}.track-order-track .track-order-step.active .icon{background: #ee5435;color: #fff}.track-order-track .icon{display: inline-block;width: 40px;height: 40px;line-height: 40px;position: relative;border-radius: 100%;background: #ddd}.track-order-track .track-order-step.active .text{font-weight: 400;color: #000}.track-order-track .text{display: block;margin-top: 7px}ul.row, ul.row-sm{list-style: none;padding: 0}p{margin-top: 0;margin-bottom: 1rem}.btn-warning{color: #ffffff;background-color: #ee5435;border-color: #ee5435;border-radius: 1px}.btn-warning:hover{color: #ffffff;background-color: #ff2b00;border-color: #ff2b00;border-radius: 1px}

@@ -1,0 +1,40 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div id="success"></div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <ul class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Category</li>
+                    <li class="breadcrumb-item active">Add Offer</li>
+                </ul>
+                <form method="POST" enctype="multipart/form-data" id="add_offer" action="{% url 'add_offer' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="offer_code" class="form-label">Offer Code :- </label>
+                        <input type="text" class="form-control" id="offer_code" name="offer_code">
+                    </div>
+                    <div class="mb-3">
+                        <label for="offer_rate" class="form-label">Offer Rate :- </label>
+                        <input type="text" class="form-control" id="offer_rate" name="offer_rate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="offer_description" class="form-label">Offer Description :- </label>
+                        <input type="text" class="form-control" id="offer_description" name="offer_description" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="offer_image" class="form-label">Offer Image :- </label>
+                        <input type="file" class="form-control" id="offer_image" name="offer_image">
+                    </div>
+                    <div class="d-grid">
+                        <input type="submit" class="btn btn-primary submit" value="Add Offer" name="add_offer"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock  %}

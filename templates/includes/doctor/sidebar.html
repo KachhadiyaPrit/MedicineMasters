@@ -1,0 +1,35 @@
+{% load static %}
+{% load active_link_tags %}
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'doctor_home' %}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+        <hr>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'view_all_prescription' %}" href="{% url 'view_all_prescription' %}">
+                <i class="bi bi-person"></i>
+                <span>View All Prescription</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'view_got_prescriptions' %}" href="{% url 'view_got_prescriptions' %}">
+                <i class="bi bi-person"></i>
+                <span>View Got Prescription</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'dologout' %}">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Log Out</span>
+            </a>
+        </li><!-- End Login Page Nav -->
+    </ul>
+</aside><!-- End Sidebar-->

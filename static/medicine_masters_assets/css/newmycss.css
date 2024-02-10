@@ -1,0 +1,33 @@
+.qty-minus {
+    height: 38px;
+    width: 38px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 17px;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-size: 17px;
+    text-align: center;
+    color: #6f7284;
+    padding: 0;
+}
+
+.qty-count {
+    margin: 10px;
+}
+
+.qty-plus {
+    height: 39px;
+    width: 39px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 17px;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-size: 17px;
+    text-align: center;
+    color: #6f7284;
+    padding: 0;
+}

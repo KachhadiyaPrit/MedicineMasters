@@ -1,0 +1,43 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div id="success"></div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <ul class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Category</li>
+                    <li class="breadcrumb-item active">Add Sub Category</li>
+                </ul>
+                <form method="POST" enctype="multipart/form-data" id="add_subcategory" action="{% url 'add_subcategory' %}">
+                    {% csrf_token %}
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label">Select Categoer :- </label>
+                            <select class="form-control mb-3" name="category_id" id="category_id" required>
+                                <option disabled selected>Select Category</option>
+                                {% for c in category %}
+                                <option value="{{c.category_id}}">{{c.category_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subcategory_name" class="form-label">Sub Category Name :- </label>
+                        <input type="text" class="form-control" id="subcategory_name" name="subcategory_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="subcategory_image" class="form-label">Sub Category Image :- </label>
+                        <input type="file" class="form-control" id="subcategory_image" name="subcategory_image">
+                    </div>
+                    <div class="d-grid">
+                        <input type="submit" class="btn btn-primary" value="Add Sub Category" name="add_subcategory">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock  %}

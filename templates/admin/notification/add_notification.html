@@ -1,0 +1,39 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div id="success"></div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <ul class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Notification</li>
+                    <li class="breadcrumb-item active">Add Notification</li>
+                </ul>
+                <form method="POST" enctype="multipart/form-data" action="{% url 'add_notification' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="notification_message" class="form-label">Notification Message :- </label>
+                        <input type="text" class="form-control" id="notification_message" name="notification_message">
+                    </div>
+                    <div class="mb-3">
+                        <label for="send_to" class="form-label">Send To :- </label>
+                        <select class="form-control mb-3" name="user_id" id="user_id" required>
+                            <option disabled selected>Select User Name</option>
+                            {% for i in user %}
+                                {% if i.user_type != 1 %}
+                                    <option value="{{i.user_id}}">{{i.username}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <input type="submit" id="add_notification" class="btn btn-primary" value="Add Notification">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock  %}

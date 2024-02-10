@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+   {% load static %}
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+      <title>Medicine Masters</title>
+      {% comment %} 
+      <link rel="shortcut icon" href="{% static 'assets/img/favicon.png' %}">
+      {% endcomment %}
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap">
+      <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/css/fontawesome.min.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/css/all.min.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.css">
+      <link rel="stylesheet" href="{% static 'assets/css/mycss.css' %}">
+   </head>
+   <body>
+      <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark shadow">
+        <div class="container">
+          <span class="navbar-brand webname">Medicine Masters</span>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarScroll">
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success homesearch" type="submit">Search</button>
+            </form>
+            <!-- Cart with number system -->
+            <div class="d-flex justify-content-center">
+              <button type="button" class="btn btn-secondary position-relative shopping">
+                <i class="fa fa-shopping-cart"></i>
+                <span class="position-absolute top-0 start-1 translate-middle badge rounded-pill bg-danger">
+                  1+
+                </span>
+              </button>
+              <!-- Notification with number system -->
+              <button type="button" class="btn btn-secondary position-relative bell">
+                <i class="fa fa-bell"></i>
+                <span class="position-absolute top-0 start-1 translate-middle badge rounded-pill bg-danger">
+                  99+
+                </span>
+              </button>
+              <!-- User Profile -->
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="{% static 'assets/image/user.jpg' %}" alt="User Name" width="25px" class="rounded">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                  <li><a class="dropdown-item" href="#">Log Out</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <!-- Main Content -->
+      <div class="container">
+         <h1 class="display-3 text-center fw-bold"><span>Most Sell In This Year</span></h1>
+         <div class="row" style="justify-content: center;">
+          <div class="card shadow" style="width:320px;margin-right:8px;">
+            <img class="card-img-top shadow rounded" style="margin-top:8px;background:#f6f6f6;" src="{% static 'assets/image/img1.png' %}" alt="Card image">
+            <div class="card-body">
+              <h4 class="card-title">John Doe</h4>
+              <p class="card-text">Some example text.</p>
+              <a href="#" class="btn btn-primary">See Profile</a>
+            </div>
+          </div>
+          <div class="card shadow" style="width:320px;margin-right:8px;">
+            <img class="card-img-top shadow rounded" style="margin-top:8px;background:#f6f6f6;" src="{% static 'assets/image/img1.png' %}" alt="Card image">
+            <div class="card-body">
+              <h4 class="card-title">John Doe</h4>
+              <p class="card-text">Some example text.</p>
+              <a href="#" class="btn btn-primary">See Profile</a>
+            </div>
+          </div>
+          <div class="card shadow" style="width:320px;margin-right:8px;">
+            <img class="card-img-top shadow rounded" style="margin-top:8px;background:#f6f6f6;" src="{% static 'assets/image/img1.png' %}" alt="Card image">
+            <div class="card-body">
+              <h4 class="card-title">John Doe</h4>
+              <p class="card-text">Some example text.</p>
+              <a href="#" class="btn btn-primary">See Profile</a>
+            </div>
+          </div>
+         </div>
+      </div>
+      <!-- Content -->
+      <!-- Content -->
+      <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+      <script src="{% static 'assets/js/popper.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap.js' %}"></script>
+   </body>
+</html>

@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+.track2 {
+    position: relative;
+    height: 7px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 110px;
+    margin-top: 80px;
+}
+
+.track {
+    position: relative;
+    height: 7px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 25px;
+    margin-top: 80px;
+}
+
+.track .step {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    width: 25%;
+    margin-top: -135px;
+    text-align: center;
+    position: relative
+}
+
+.track2 .step.active:before {
+    background: #05a134
+}
+
+.track .step::before {
+    height: 7px;
+    position: absolute;
+    content: "";
+    width: 100%;
+    left: 0;
+    top: 18px
+}
+
+.track .step.active .icon {
+    background: #3b71ca;
+    color: #fff
+}
+
+.track .icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    border-radius: 100%;
+    background: #ddd;
+}
+
+.track .step.active .text {
+    font-weight: 400;
+    color: #000
+}
+
+.track .text {
+    display: block;
+    margin-top: 7px
+}
+</style>
+<section style="background-color: #eee;">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 shadow">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'users_home' %}">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="{% url 'users_profile' %}">User Profile</a></li>
+                        <li class="breadcrumb-item active"><a href="{% url 'track_order' %}">Track Order</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Track Order Detail</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="row align-items-center">
+            <!-- cart -->
+            <div class="col-lg-12" >
+                <div class="card border shadow-0">
+                    <div class="m-4">
+                        <h4 class="card-title mb-4">Your Order Detail</h4>
+                        <hr>
+                        <div class="container track-order-container">
+                            <article class="card track-order-card rounded-3 shadow">
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col"></div>
+                                </div>
+                                <header class="card-header track-order-card-header">
+                                    <div class="row">
+                                        <div class="col"> My Orders / Tracking </div>
+                                        <div class="col d-flex justify-content-end">
+                                            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
+                                                <i class="fas fa-light fa-download"></i> Download Invoice
+                                            </button>
+                                        </div>
+                                    </div></header>
+                                <div class="card-body">
+                                    <h6><b>Order Tracking ID : <span class="text-success">{{order.order_tracking_id}}</span></h6>
+                                    <article class="card track-order-card">
+                                        <div class="card-body row">
+                                            <div class="col"> <strong>Estimated Delivery time : </strong> <br>{{order.order_date|date:'d/m/Y'}} </div>
+                                            <div class="col"> <strong>Shipping BY : </strong> <br> BLUEDART, | <i class="fa fa-phone"></i> +1598675986 </div>
+                                            <div class="col"> <strong>Status : </strong> <br> <span id="status"></span> </div>
+                                            <div class="col"> <strong>Tracking Id : </strong> <br> {{order.order_tracking_id}} </div>
+                                        </div>
+                                    </article>
+                                    <div class="progress track2 step rounded-3" style="height: 7px;">
+                                        <div class="progress-bar rounded" role="progressbar" style="width: 20%; height: 7px;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="track">
+                                        <div id="OrderConfirmed" class="step active"> <span class="icon"> <i style="padding-top:3px; margin-left: 9px; padding-right:25px;" class="fas fa-light fa-shop"></i> </span> <span class="text">Order Confirmed</span> </div>
+                                        <div id="PickedByCourier" class="step active"> <span class="icon"> <i style="padding-top:3px; margin-left: 10px; padding-right:25px;" class="fas fa-light fa-people-carry-box"></i> </span> <span class="text">Picked By Courier</span> </div>
+                                        <div id="OnTheWay" class="step active"> <span class="icon"> <i style="padding-top:3px; margin-left: 10px; padding-right:25px;" class="fas fa-light fa-truck-fast"></i> </span> <span class="text">On The Way</span> </div>
+                                        <div id="ReadyForPickup" class="step active"> <span class="icon"> <i style="padding-top:3px; margin-left: 10px; padding-right:25px;" class="fas fa-light fa-truck-ramp-box"></i> </span> <span class="text">Ready For Pickup</span> </div>
+                                        <div id="OrderReceived" class="step active"> <span class="icon"> <i style="padding-top:3px; margin-left: 13px; padding-right:25px;" class="fas fa-light fa-clipboard-checkfas fa-light fa-clipboard-check"></i> </span> <span class="text">Order Received</span> </div>
+                                    </div>
+                                    <!-- <div class="progress mt-3 mb-2 rounded-3" style="height: 25px;"> -->
+                                        <!-- <div class="progress-bar rounded" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div> -->
+                                    <!--</div>
+                                    <div class="progress rounded-3" style="height: 50px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 20%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" ><i class="fas fa-light fa-shop fa-2x"></i></div>
+                                        <div class="progress-bar bg-dark" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" ><i class="fas fa-light fa-people-carry-box fa-2x"></i></div>
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" ><i class="fas fa-light fa-truck-fast fa-2x"></i></i></div>
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" ><i class="fas fa-light fa-truck-ramp-box fa-2x"></i></div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 20%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" ><i class="fas fa-light fa-clipboard-check fa-2x"></i></div>
+                                    </div> -->
+                                    <hr>
+                                    <h4>Product Details</h4>
+                                    <hr>
+                                    {% for i in order_detail %}
+                                    <div class="row gy-3 mb-4 align-items-center">
+                                        <div class="col-lg-5">
+                                            <div class="me-lg-5">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="/{{i.product.product_img}}" class="border rounded me-3" style="width: 95px; height: 95px; padding: 5px;;" />
+                                                    <div class="">
+                                                        <a href="#" class="nav-link text-dark" style="cursor: text;">{{i.product_name}}</a>
+                                                        <span class="text-muted">{{i.product.subcategory.subcategory_name}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="me-lg-5">
+                                                <div class="d-flex">
+                                                    <div class="row text-center">
+                                                        <span href="#" class="text-dark">Product Quantity</span>
+                                                        <span class="text-muted">{{i.product_quantity}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="me-lg-5">
+                                                <div class="d-flex">
+                                                    <div class="row text-center">
+                                                        <span href="#" class="text-dark">Product Price</span>
+                                                        <span class="text-muted">{{i.product.product_discount_price}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <hr>
+                                    <a href="#" id="go-back" class="btn btn-warning rounded-3" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to orders</a>
+                                </div>
+                            </article>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var order_tracking_id = '{{order.order_tracking_id}}'
+
+    let socket = new WebSocket('ws://localhost:8000/ws/track_order_detail/' + order_tracking_id)
+
+    function increaseProgress(order_status, progress){
+        var order_progress = document.querySelector('.progress-bar')
+        var status = document.querySelector('#status')
+
+        status.innerHTML = order_status
+        order_progress.style.width = progress + '%'
+    }
+
+    socket.onopen = function(e){
+        console.log("Connection established")
+    }
+
+    socket.onmessage = function(e){
+        var data = JSON.parse(e.data)
+        increaseProgress(data.payload.order_status , data.payload.progress)
+    }
+
+    socket.onclose = function(e){
+
+    }
+</script>
+
+{% endblock%}

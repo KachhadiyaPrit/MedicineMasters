@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="position-fixed top-5 end-0 p-3" id="myAlert" style="z-index: 11;">
+</div>
+<section style="background-color: #eee;">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 shadow">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'users_home' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'users_profile' %}">User Profile</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Track Order</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row align-items-center" id="order_content">
+            <!-- cart -->
+            <div class="col-lg-12" >
+                <div class="card border shadow-0">
+                    <div class="m-4">
+                        <h4 class="card-title mb-4">Your All Orders</h4>
+                        <hr>
+                        {% for i in order %}
+                        <div class="row gy-3">
+                            <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                <div class="">
+                                    <div class="d-flex text-center">
+                                        <div class="row">
+                                            <span class="text-dark"><b>Your Tracking Id</b></span>
+                                            <span class="text-dark">{{i.order_tracking_id}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                <div class="">
+                                    <div class="d-flex text-center">
+                                        <div class="row">
+                                            <span class="text-dark"><b>Your Order Date</b></span>
+                                            <span class="text-dark">{{i.order_date}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                <div class="">
+                                    <div class="d-flex text-center">
+                                        <div class="row">
+                                            <span class="text-dark"><b>Your Order Pay Amount</b></span>
+                                            <span class="text-dark">₹ {{i.order_total_amount}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                <div class="">
+                                    <div class="d-flex text-center">
+                                        <div class="row">
+                                            <span class="text-dark"><b>You Have Save</b></span>
+                                            <span class="text-dark">₹ {{i.order_discount_price}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex justify-content-center align-items-center">
+                                <div class="">
+                                    <div class="d-flex text-center">
+                                        <div class="row">
+                                            <span class="text-dark"><b>Your Order Status</b></span>
+                                            {% if i.order_status == "Order Confirmed" %}
+                                                <span class="text-primary">{{i.order_status}}</span>
+                                            {% elif i.order_status == "Picked By Courier" %}
+                                                <span class="text-dark">{{i.order_status}}</span>
+                                            {% elif i.order_status == "On The Way" %}
+                                                <span class="text-warning">{{i.order_status}}</span>
+                                            {% elif i.order_status == "Ready For Pickup" %}
+                                                <span class="text-info">{{i.order_status}}</span>
+                                            {% else %}
+                                                <span class="text-success">{{i.order_status}}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center justify-content-center">
+                                <div class="float-md-end">
+                                    <a href="{% url 'track_order_detail' i.order_tracking_id i.order_id %}" class="btn btn-outline-success" style="color: #12a44d;" data-mdb-ripple-init data-mdb-ripple-color="dark">View</a>
+                                </div>
+                                <div class="float-md-end ms-2">
+                                    <a id="cancle_order" data-item-id="{{i.order_id}}" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-ripple-color="dark">Cancle</a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <script>
+                            var order_tracking_id = '{{i.order_tracking_id}}'
+                        
+                            let socket = new WebSocket('ws://localhost:8000/ws/track_order_detail/' + order_tracking_id)
+                        
+                            function increaseStatus(order_status){
+                                var order_progress = document.querySelector('.progress-bar')
+                                var status = document.querySelector('#status')
+                        
+                                status.innerHTML = order_status
+                                order_progress.style.width = progress + '%'
+                        
+                                if (progress == 20){
+                                    order_progress.classList.remove('bg-dark')
+                                    order_progress.classList.remove('bg-warning')
+                                    order_progress.classList.remove('bg-info')
+                                    order_progress.classList.remove('bg-success')
+                        
+                                    order_progress.classList.add('bg-primary')
+                                    order_progress.innerHTML = order_status
+                                }else if (progress == 40){
+                                    order_progress.classList.remove('bg-primary')
+                                    order_progress.classList.remove('bg-warning')
+                                    order_progress.classList.remove('bg-info')
+                                    order_progress.classList.remove('bg-success')
+                        
+                                    order_progress.classList.add('bg-dark')
+                                    order_progress.innerHTML = order_status
+                                }else if (progress == 60){
+                                    order_progress.classList.remove('bg-primary')
+                                    order_progress.classList.remove('bg-dark')
+                                    order_progress.classList.remove('bg-info')
+                                    order_progress.classList.remove('bg-success')
+                        
+                                    order_progress.classList.add('bg-warning')
+                                    order_progress.innerHTML = order_status
+                                }else if (progress == 80){
+                                    order_progress.classList.remove('bg-primary')
+                                    order_progress.classList.remove('bg-dark')
+                                    order_progress.classList.remove('bg-warning')
+                                    order_progress.classList.remove('bg-success')
+                        
+                                    order_progress.classList.add('bg-info')
+                                    order_progress.innerHTML = order_status
+                                }else if (progress == 100){
+                                    order_progress.classList.remove('bg-primary')
+                                    order_progress.classList.remove('bg-dark')
+                                    order_progress.classList.remove('bg-warning')
+                                    order_progress.classList.remove('bg-info')
+                        
+                                    order_progress.classList.add('bg-success')
+                                    order_progress.innerHTML = order_status
+                                }
+                            }
+                        
+                            socket.onopen = function(e){
+                                console.log("Connection established")
+                            }
+                        
+                            socket.onmessage = function(e){
+                                var data = JSON.parse(e.data)
+                                increaseProgress(data.payload.order_status , data.payload.progress)
+                                increaseStatus(data.payload.order_status)
+                            }
+                        
+                            socket.onclose = function(e){
+                        
+                            }
+                        </script>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}

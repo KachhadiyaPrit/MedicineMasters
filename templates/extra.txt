@@ -1,0 +1,192 @@
+{% comment %} Most sell in year item view {% endcomment %}
+<section class="featured-section">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="con col-lg-4 col-12 mb-4 mb-lg-0">
+                <div class="custom-block bg-white shadow-lg">
+                    <div>
+                        
+                        <div class="d-flex">
+                            <div>
+                                <h5 class="mb-2">CLORASH GM</h5>
+                                <img src="{% static 'assets/images/img1.png' %}" class="image custom-block-image img-fluid" alt="">
+                                <span style="font-size: 25px;"><b>Price : </b> 45 RS.</p>
+                                <p><span style="font-size: 25px;"><b>Use : </b></span>A Powerful Anti- fungal, Anti - Bacterial & Anti-Pruritic</p>
+                            </div>
+                        </div>
+                        <div class="over">
+                            {% comment %} <div class="text">Hello World</div> {% endcomment %}
+                            <a href="#"><span class="badge bg-light visit">View Item</span></a>
+                            <span class="badge bg-light cart"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a></span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="con col-lg-4 col-12 mb-4 mb-lg-0">
+                <div class="custom-block bg-white shadow-lg">
+                    <div>
+                        
+                        <div class="d-flex">
+                            <div>
+                                <h5 class="mb-2">CLORASH GM LOTION</h5>
+                                <img src="{% static 'assets/images/img2.png' %}" class="image custom-block-image img-fluid" alt="">
+                                <span style="font-size: 25px;"><b>Price : </b> 99 RS.</p>
+                                <p><span style="font-size: 25px;"><b>Use : </b></span>A Powerful Anti - fungal, Anti - Bacterial & Anti-Pruritic</p>
+                            </div>
+                        </div>
+                        <div class="over">
+                            {% comment %} <div class="text">Hello World</div> {% endcomment %}
+                            <a href="#"><span class="badge bg-light visit">View Item</span></a>
+                            <span class="badge bg-light cart"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a></span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="con col-lg-4 col-12 mb-4 mb-lg-0">
+                <div class="custom-block bg-white shadow-lg">
+                    <div>
+                        
+                        <div class="d-flex">
+                            <div>
+                                <h5 class="mb-2">CLORASH GM</h5>
+                                <img src="{% static 'assets/images/img1.png' %}" class="image custom-block-image img-fluid" alt="">
+                                <span style="font-size: 25px;"><b>Price : </b> 45 RS.</p>
+                                <p><span style="font-size: 25px;"><b>Use : </b></span>A Powerful Anti- fungal, Anti - Bacterial & Anti-Pruritic</p>
+                            </div>
+                        </div>
+                        <div class="over">
+                            {% comment %} <div class="text">Hello World</div> {% endcomment %}
+                            <a href="#"><span class="badge bg-light visit">View Item</span></a>
+                            <span class="badge bg-light cart"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a></span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            {% comment %} <div class="col-lg-6 col-12">
+                <div class="custom-block custom-block-overlay">
+                    <div class="d-flex flex-column h-100">
+                        <img src="{% static 'assets/images/img1.png' %}" class="custom-block-image img-fluid" alt="">
+
+                        <div class="custom-block-overlay-text d-flex">
+                            <div>
+                                <h5 class="text-white mb-2">Finance</h5>
+
+                                <p class="text-white">Topic Listing Template includes homepage, listing page, detail page, and contact page. You can feel free to edit and adapt for your CMS requirements.</p>
+
+                                <a href="topics-detail.html" class="btn custom-btn mt-2 mt-lg-3">Learn More</a>
+                            </div>
+
+                            <span class="badge bg-finance rounded-pill ms-auto">25</span>
+                        </div>
+
+                        <div class="social-share d-flex">
+                            <p class="text-white me-4">Share:</p>
+
+                            <ul class="social-icon">
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-twitter"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-facebook"></a>
+                                </li>Designms-auto"></a>
+                        </div>
+
+                        <div class="section-overlay"></div>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="modallong" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+		  		<h5 class="modal-title" id="exampleModalLabel">Cart</h5>
+		  		<button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% for i in carts %}
+				<div class="card mb-3">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<img src="images/dabur_shilajit_gold_capsule_20s.jpg" style="margin-left: 50px;" height="100" width="100" class="img-fluid" alt="single-product-item">
+							</div>
+							<div class="col">
+								<h4 class="product-title fs-6 me-5">prit</h4>
+								<div class="input-group mt-4" style="width: 170px;">
+									<button class="btn btn-white border border-secondary px-3" type="button" id="button-addon1" data-mdb-ripple-color="dark">
+									  <i class="fas fa-minus"></i>
+									</button>
+									<input type="text" class="form-control text-center border border-secondary" placeholder="14" aria-label="Example text with button addon" aria-describedby="button-addon1" />
+									<button class="btn btn-white border border-secondary px-3" type="button" id="button-addon2" data-mdb-ripple-color="dark">
+									  <i class="fas fa-plus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="col">
+								<div class="row">
+									<div class="col">
+										<button type="button" style="margin-left: 150px;" class="quantity-left-minus btn btn-light rounded-0 rounded-start btn-number" data-type="minus">
+											<label style="font-size: 1rem;">
+												<b>X</b>
+											</label>
+										</button>
+									</div>
+									<div class="col mt-3">
+										<span class="product-price fs-6" style="margin-left: 120px;">Price : ₹99</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="modal-footer">
+				<div class="row d-flex justify-content-center">
+					<div class="col-12">
+						<div class="justify-content-center">
+							<span class="">Total :</span>
+							<span class="special-price-code">
+							  <span class="price-amount amount" style="opacity: 1;">
+								<bdi>
+								  <span class="price-currency-symbol">₹</span>198.00 </bdi>
+							  </span>
+							</span>
+						</div>
+					</div>
+					<div class="col-12 mt-2">
+						<div class="justify-content-center">
+							<a href="{% url 'cart_view' %}"><button type="button" class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark">View Cart</button></a>
+							<button type="button" class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Checkout</button>
+						</div>
+					</div>
+				</div>
+			</div>
+	 	</div>
+	</div>
+</div>
+
+<script>
+            const alertBox = document.getElementById('alert-box');
+            setTimeout(() => {
+              alertBox.classList.add('show');
+              alertBox.classList.add('toast-placeholder');
+            });
+            setTimeout(() => {
+              alertBox.classList.remove('show');
+              alertBox.classList.remove('toast-placeholder');
+            }, 5000);
+        </script>

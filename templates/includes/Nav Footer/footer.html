@@ -1,0 +1,91 @@
+{% load static %}
+<!-- Footer -->
+<footer class="text-center text-lg-start text-muted mt-5" style="background-color: #f5f5f5;">
+	<!-- Section: Links  -->
+	<section class="">
+	  <div class="container text-center text-md-start pt-4 pb-4">
+		<!-- Grid row -->
+		<div class="row mt-3">
+		  <!-- Grid column -->
+		  <div class="col-12 col-lg-4 col-sm-12">
+			<!-- Content -->
+			<div class="col d-flex justify-content-center">
+				<a>
+					<h3 style="color: #3B71CA;">Medicine Masters</h3>
+				</a>
+			</div>
+			<div class="col">
+				<form id="feedback" method="POST">
+					{% csrf_token %}
+					<!-- Name input -->
+					<div data-mdb-input-init class="form-outline mb-4">
+					  <input type="text" id="name" name="name" class="form-control" required/>
+					  <label class="form-label" for="name">Name</label>
+					</div>
+				  
+					<!-- Email input -->
+					<div data-mdb-input-init class="form-outline mb-4">
+					  <input type="email" id="email" name="email" class="form-control" required/>
+					  <label class="form-label" for="email">Email address</label>
+					</div>
+				  
+					<!-- Message input -->
+					<div data-mdb-input-init class="form-outline mb-4">
+					  <textarea class="form-control" id="feedback_message" name="feedback_message" rows="4" required></textarea>
+					  <label class="form-label" for="feedback_message">Message</label>
+					</div>
+				  
+					<!-- Submit button -->
+					<button data-mdb-ripple-init id="feedback_btn" type="submit" class="btn btn-primary btn-block mb-4">Send</button>
+				</form>
+			</div>
+		  </div>
+		  <!-- Grid column -->
+  
+		  <!-- Grid column -->
+		  <div class="col-12 col-sm-12 col-lg-4 text-center">
+			<!-- Links -->
+			<h4 class="text-uppercase text-dark fw-bold mb-4">
+			  Contact Us
+			</h4>
+			<div class="col">
+				<h6 class="mb-0" style="color: black;"><b>Email</b></h6>
+			</div>
+			<div class="col">
+				<p style="color: gray;" class="mb-3">medicinemasters23@gmail.com</p>
+			</div>
+			
+			<div class="col">
+				<h6 class="mb-0"><b>Phone</b></h6>
+			</div>
+			<div class="col">
+				<p class="text-muted mb-3">+91 9510862562</p>
+			</div>
+			
+			<div class="col">
+				<h6 class="mb-0"><b>Address</b></h6>
+			</div>
+			<div class="col">
+				<p class="text-muted mb-0">G-501 Daksh Recidency Near Indraprasth Soc. Oop Parimal Tenament, Ahmedabad, Gujrat - 382350</p>
+			</div>
+		  </div>
+		  <!-- Grid column -->
+  
+		  <!-- Grid column -->
+		  <div class="col-12 col-sm-12 col-lg-4 text-center">
+			<h4 class="text-uppercase text-dark fw-bold mb-4">
+				Pages
+			</h4>
+			<a class="nav-link" href="{% url 'all_category' %}">All Category</a>
+			<a class="nav-link" href="{% url 'all_product' %}">All Products</a>
+			<a class="nav-link" href="#example-1">Offers / Promo Code</a>
+			<a class="nav-link" href="#example-1">Help</a>
+		  </div>
+		  <!-- Grid column -->
+		</div>
+		<!-- Grid row -->
+	  </div>
+	</section>
+	<!-- Section: Links  -->
+</footer>
+<!-- Footer -->

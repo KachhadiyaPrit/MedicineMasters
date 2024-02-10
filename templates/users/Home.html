@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart %}
+{% block content %}
+<!-- Carousel wrapper -->
+<div class="position-fixed top-5 end-0 p-3" id="myAlert" style="z-index: 11;">
+</div>
+<div id="carouselBasicExample" class="carousel slide carousel-fade" data-mdb-ride="carousel" data-mdb-carousel-init>
+  <!-- Indicators -->
+  <div class="carousel-indicators">
+    <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" ></button>
+    <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="1" aria-label="Slide 2" ></button>
+    <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="2" aria-label="Slide 3" ></button>
+  </div>
+  <!-- Inner -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'medicine_masters_assets/images/img1.jpg' %}" class="d-block w-100" height="400" alt="Sunset Over the City"/>
+      <div class="carousel-caption d-none d-md-block">
+        <!-- <h5>First slide label</h5>
+        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> -->
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'medicine_masters_assets/images/img-3.jpg' %}" class="d-block w-100" height="400" alt="Canyon at Nigh"/>
+      <div class="carousel-caption d-none d-md-block">
+        <!-- <h5>Second slide label</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'medicine_masters_assets/images/img-4.jpg' %}" class="d-block w-100" height="400" alt="Cliff Above a Stormy Sea"/>
+      <div class="carousel-caption d-none d-md-block">
+        <!-- <h5>Third slide label</h5>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
+      </div>
+    </div>
+  </div>
+  <!-- Controls -->
+  <button class="carousel-control-prev" type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<!-- Carousel wrapper -->
+
+<!-- Products -->
+<section class="shadow" style="background-color: #f5f5f5;">
+  <div class="container mt-3 mb-5 py-4">
+    <div class="row">
+      <div class="col">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 shadow">
+              <ol class="breadcrumb mb-0">
+                <div class="col-6 d-flex align-items-center">
+                  <div class="d-flex align-items-center rounded-3" style="font-size: 1.75rem;">
+                    <b>Most Recommended</b>
+                  </div>
+                </div>
+                {% if product_count > 4 %}
+                  <div class="col-6 d-flex justify-content-end align-items-center" >
+                    <a href="{% url 'all_product' %}" class="rounded-3 p-3">View All >></a>
+                  </div>
+                {% endif %}
+              </ol>
+          </nav>
+      </div>
+    </div>
+    <div class="row cart_detail" id="my_cart">
+    {% for i in product|slice:":4" %}
+      <div class="col-lg-3 col-md-6 col-sm-6 d-flex mb-5">
+        <div class="card w-100 h-100 my-2 shadow-2-strong">
+          <a href="{% url 'product_detail' i.product_id %}">
+            <img src="/{{i.product_img}}" class="card-img-top p-5" style="aspect-ratio: 1 / 1" />
+          </a>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{i.product_name}}</h5>
+            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
+              {% if user.is_authenticated %}
+                {% if i|is_in_cart:cart %}
+                <div class="input-group">
+                  <div class="row">
+                    <div class="col">
+                      <button data-item-id="{{ i.product_id }}" class="btn btn-white border border-secondary px-3 ms-2" style="height: 35px;" id="cart_item_minus" data-mdb-ripple-color="dark">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                    </div>
+                    
+                    <div class="col" id="cart_qty_value">
+                      <input id="cart_qty" type="text" class="form-control text-center border border-secondary rounded" value="{{i|cart_qty:cart}}" aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                    </div>
+
+                    <div class="col">
+                      <button data-item-id="{{ i.product_id }}" class="btn btn-white border border-secondary px-3 ms-2" style="height: 35px;" id="cart_item_plus" data-mdb-ripple-color="dark">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                {% else %}
+                <form action="{% url 'add_to_cart' %}" method="POST" enctype="multipart/form-data" id="add_to_cart">
+                  {% csrf_token %}
+                  <button data-item-id="{{i.product_id}}" class="btn btn-primary shadow me-1" type="submit" value="Add To Cart" id="product_id_cart_item">Add To Cart</button>
+                </form>
+                <a href="{% url 'checkout' i.product_id %}" class="btn btn-primary shadow" type="submit">Buy Now</a>
+                {% endif %}
+              {% else %}
+                <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
+                  Buy Now
+                </button>
+              {% endif %}
+              <!-- <p class="card-text ms-4 mb-1">₹{{i.product_discount_price}}</p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- Products -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">Do You Want To Login ?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Close</button>
+        <a href="{% url 'login_signup' %}" type="button" class="btn btn-primary" data-mdb-ripple-init>Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature -->
+<section class="mt-5 shadow" style="background-color: #f5f5f5;">
+  <div class="container text-dark pt-3">
+    <header class="pt-4 pb-3">
+      <h3>How To Get Prescription ? </h3>
+    </header>
+    <div class="row mb-4">
+      <div class="col-lg-4 col-md-6">
+        <figure class="d-flex align-items-center mb-4">
+          <span class="rounded-circle bg-white p-3 d-flex me-2 mb-2">
+            <i class="fas fa-regular fa-magnifying-glass fa-2x fa-fw text-primary floating"></i>
+          </span>
+          <figcaption class="info">
+            <h6 class="title">Search Medicine</h6>
+            <p>You vist the product page / category page and find your nedded medicine.</p>
+          </figcaption>
+        </figure>
+        <!-- itemside // -->
+      </div>
+      <!-- col // -->
+      <div class="col-lg-4 col-md-6">
+        <figure class="d-flex align-items-center mb-4">
+          <span class="rounded-circle bg-white p-3 d-flex me-2 mb-2">
+            <i class="fas fa-brands fa-readme fa-2x fa-fw text-primary floating"></i>
+          </span>
+          <figcaption class="info">
+            <h6 class="title">Read Product All Details</h6>
+            <p>After choose medicine read all medicine details.</p>
+          </figcaption>
+        </figure>
+        <!-- itemside // -->
+      </div>
+      <!-- col // -->
+      <div class="col-lg-4 col-md-6">
+        <figure class="d-flex align-items-center mb-4">
+          <span class="rounded-circle bg-white p-3 d-flex me-2 mb-2">
+            <i class="fas fa-regular fa-eye fa-2x fa-fw text-primary floating"></i>
+          </span>
+          <figcaption class="info">
+            <h6 class="title">View Prescription Status</h6>
+            <p>After read all details you check to this medicine prescription is required or not. if required so upload valid or matched prescription.</p>
+          </figcaption>
+        </figure>
+        <!-- itemside // -->
+      </div>
+      <!-- col // -->
+      <div class="col-lg-4 col-md-6">
+        <figure class="d-flex align-items-center mb-4">
+          <span class="rounded-circle bg-white p-3 d-flex me-2 mb-2">
+            <i class="fas fa-regular fa-file-excel fa-2x fa-fw text-primary floating"></i>
+          </span>
+          <figcaption class="info">
+            <h6 class="title">You Have Prescription Or Not</h6>
+            <p>If you have not prescription so simple you get a new prescription from doctor.</p>
+          </figcaption>
+        </figure>
+        <!-- itemside // -->
+      </div>
+      <!-- col // -->
+      <div class="col-lg-4 col-md-6">
+        <figure class="d-flex align-items-center mb-4">
+          <span class="rounded-circle bg-white p-3 d-flex me-2 mb-2">
+            <i class="fas fa-solid fa-file-arrow-up fa-2x fa-fw text-primary floating"></i>
+          </span>
+          <figcaption class="info">
+            <h6 class="title">Upload In Future</h6>
+            <p>After you have prescription so you upload in same medicine in future.</p>
+          </figcaption>
+        </figure>
+        <!-- itemside // -->
+      </div>
+      <!-- col // -->
+      <div class="col-lg-4 col-md-6">
+        <figure class="d-flex align-items-center mb-4">
+          <span class="rounded-circle bg-white p-3 d-flex me-2 mb-2">
+            <i class="fas fa-regular fa-face-smile fa-2x fa-fw text-primary floating"></i>
+          </span>
+          <figcaption class="info">
+            <h6 class="title">Happy Customer</h6>
+            <p>Thank You For Your Lot's Of Love.</p>
+          </figcaption>
+        </figure>
+        <!-- itemside // -->
+      </div>
+      <!-- col // -->
+    </div>
+  </div>
+  <!-- container end.// -->
+</section>
+<!-- Feature -->
+
+<!-- Category -->
+<section class="mt-5 shadow" style="background-color: #f5f5f5;">
+  <div class="container text-dark py-4">
+    <div class="row">
+      <div class="col">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 shadow">
+              <ol class="breadcrumb mb-0">
+                <div class="col-6 d-flex align-items-center">
+                  <div class="d-flex align-items-center rounded-3" style="font-size: 1.75rem;">
+                    <b>Category</b>
+                  </div>
+                </div>
+                {% if product_count > 4 %}
+                  <div class="col-6 d-flex justify-content-end align-items-center" >
+                    <a href="{% url 'all_category' %}" class="rounded-3 p-3">View All >></a>
+                  </div>
+                {% endif %}
+              </ol>
+          </nav>
+      </div>
+    </div>
+    <div class="row">
+      {% for i in category|slice:":4" %}
+      <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
+        <article>
+          <a href="{% url 'all_product_by_category' i.subcategory_id %}" class="img-fluid">
+            <img class="rounded w-100" src="/{{i.subcategory_img}}" style="object-fit: cover;" height="160" />
+          </a>
+          <div class="mt-2 text-muted small d-block mb-1 text-center">
+            <a><h6 class="text-dark">{{i.subcategory_name}}</h6></a>
+            <p>{{i.category.category_name}}</p>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- Category -->
+{% endblock  %}

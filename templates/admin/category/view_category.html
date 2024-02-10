@@ -1,0 +1,61 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div id="success"></div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <ul class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Category</li>
+                    <li class="breadcrumb-item active">View Category</li>
+                </ul>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-table">
+                            <div class="card-body">
+                                <div class="table-responsive mt-2">                  
+                                    <table class="table table-hover table-center display mb-0" id="myTable">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Category Name</th>
+                                                <th>Category Image</th>
+                                                <th class="text-right">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+                                            {% for i in category %}
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>{{i.category_name}}</td>
+                                                {% if i.category_img == "" %}
+                                                    <td><img src="{% static 'medicine_masters_assets/images/no-category.jpg' %}" height="60px" width="60px" alt="Category" class="rounded-circle"></td>
+                                                {% else %}
+                                                    <td><img src="/{{i.category_img}}" alt="" height="60px" width="60px" class="rounded-circle"></td>
+                                                {% endif %}
+                                                <td class="text-right">
+                                                    <div class="actions">
+                                                        <a href="{% url 'edit_category' i.category_id %}" class="btn btn-sm bg-success-light mr-2">
+                                                            <i class="fas fa-pen"></i>
+                                                        </a>
+                                                        <a href="{% url 'delete_category' i.category_id %}" class="btn btn-sm bg-danger-light" id="delete_category">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock  %}

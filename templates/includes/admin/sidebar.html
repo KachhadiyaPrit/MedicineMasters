@@ -1,0 +1,168 @@
+{% load static %}
+{% load active_link_tags %}
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_home' %}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        <hr>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'add_category_page' %} {% active_link 'view_category' %} {% active_link 'add_subcategory_page' %} {% active_link 'view_subcategory' %}" data-bs-target="#category-nav" data-bs-toggle="collapse" href="{% url 'admin_home' %}">
+              <i class="bi bi-journal-text"></i><span>Category</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="category-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+              <li>
+                <a href="{% url 'add_category_page' %}">
+                  <i class="bi bi-circle"></i><span>Add Category</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'view_category' %}">
+                  <i class="bi bi-circle"></i><span>View Category</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'add_subcategory_page' %}">
+                  <i class="bi bi-circle"></i><span>Add Sub Category</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'view_subcategory' %}">
+                  <i class="bi bi-circle"></i><span>View Sub Category</span>
+                </a>
+              </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'add_company_page' %} {% active_link 'view_company' %}" data-bs-target="#company-nav" data-bs-toggle="collapse" href="{% url 'admin_home' %}">
+              <i class="bi bi-journal-text"></i><span>Company</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="company-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+              <li>
+                <a href="{% url 'add_company_page' %}">
+                  <i class="bi bi-circle"></i><span>Add Company</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'view_company' %}">
+                  <i class="bi bi-circle"></i><span>View Company</span>
+                </a>
+              </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed {% active_link 'add_product_page' %} {% active_link 'view_product' %}" data-bs-target="#product-nav" data-bs-toggle="collapse" href="{% url 'admin_home' %}">
+            <i class="bi bi-journal-text"></i><span>Product</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="product-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'add_product_page' %}">
+                <i class="bi bi-circle"></i><span>Add Product</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'view_product' %}">
+                <i class="bi bi-circle"></i><span>View Products</span>
+              </a>
+            </li>
+          </ul>
+      </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'add_offer_page' %} {% active_link 'view_offer' %}" data-bs-target="#offer-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-journal-text"></i><span>Offer</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="offer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <li>
+                <a href="{% url 'add_offer_page' %}">
+                  <i class="bi bi-circle"></i><span>Add Offer</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'view_offer' %}">
+                  <i class="bi bi-circle"></i><span>View Offers</span>
+                </a>
+              </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'add_doctor_page' %} {% active_link 'view_company' %}" data-bs-target="#doctor-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-journal-text"></i><span>Doctor</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="doctor-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <li>
+                <a href="{% url 'add_doctor_page' %}">
+                  <i class="bi bi-circle"></i><span>Add Doctor</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="bi bi-circle"></i><span>View Doctors</span>
+                </a>
+              </li>
+            </ul>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'add_notification_page' %} {% active_link 'view_company' %}" data-bs-target="#notification-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-journal-text"></i><span>Notification</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="notification-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <li>
+                <a href="{% url 'add_notification_page' %}">
+                  <i class="bi bi-circle"></i><span>Add Notification</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="bi bi-circle"></i><span>View Notification</span>
+                </a>
+              </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'view_user' %}" href="{% url 'view_user' %}">
+                <i class="bi bi-person"></i>
+                <span>View Users</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'order_history' %}" href="{% url 'order_history' %}">
+                <i class="bi bi-person"></i>
+                <span>View Order History</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'view_user' %}" href="#">
+                <i class="bi bi-person"></i>
+                <span>Payment Records</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed {% active_link 'admin_profile' %}" href="{% url 'admin_profile' %}">
+                <i class="bi bi-person"></i>
+                <span>Profile</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'dologout' %}">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Log Out</span>
+            </a>
+        </li><!-- End Login Page Nav -->
+    </ul>
+</aside><!-- End Sidebar-->

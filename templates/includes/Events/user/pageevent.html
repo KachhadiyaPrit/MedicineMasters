@@ -1,0 +1,779 @@
+<!-- Update profile without page reload -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#profile_update').submit(function(e){
+            e.preventDefault();
+
+            var user_name = $('#user_name').val();
+            var first_name = $('#first_name').val();
+            var last_name = $('#last_name').val();
+            var email = $('#email').val();
+            var phone = $('#phone').val();
+            var gender = $('#gender').val();
+            var bod = $('#bod').val();
+            var address = $('#address').val();
+            var pincode = $('#pincode').val();
+            var prev_img = $('#prev_img').val();
+
+            var form_data = new FormData();
+
+            form_data.append('profile_pic', $('#profile_pic')[0].files[0]);
+            form_data.append('user_name', user_name);
+            form_data.append('first_name', first_name);
+            form_data.append('last_name', last_name);
+            form_data.append('email', email);
+            form_data.append('phone', phone);
+            form_data.append('gender', gender);
+            form_data.append('bod', bod);
+            form_data.append('address', address);
+            form_data.append('pincode', pincode);
+            form_data.append('prev_img', prev_img);
+
+            $.ajax({
+                url: "{% url 'profile_update' %}",
+                type: "POST",
+                mimeType: "multipart/form-data",
+                contentType: false,
+                processData: false,
+                data: form_data,
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                success: () => {
+                    $("#user_detail").load(location.href + " #user_detail>*", "");
+                    $("#img_div").load(location.href + " #img_div>*", "");
+                    $("#header_profile_pic").load(location.href + " #header_pr ofile_pic>*", "");
+                    $(window).scrollTop(0);
+                    $("#success").html(
+                        `
+                        <div class="alert alert-success" roal="success">
+                            Your Profile Is Update...
+                        </div>
+                        `
+                    )
+                    setInterval(function(){
+                        $('.alert').fadeOut();
+                    }, 3000)
+                }
+            });
+        });
+    });
+</script>
+
+<!-- edit delivery address without page reload -->
+<script>
+    $(document).on('submit', '#edit_address', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "edit_address" %}',
+            data: {
+                delivery_address: $('#delivery_address').val(),
+                delivery_address_pincode: $('#delivery_address_pincode').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $("#display_delivery_address").load(location.href + " #display_delivery_address>*", "");
+                $(window).scrollTop(0);
+                $("#success").html(
+                    `
+                    <div class="alert alert-success" roal="success">
+                        Your delivery address are successfully update...
+                    </div>
+                    `
+                )
+                setInterval(function(){
+                    $('.alert').fadeOut();
+                }, 3000)
+            }
+        });
+    })
+</script>
+
+<!-- add to cart without page reload -->
+<script>
+    $(document).on('click', '#product_id_cart_item', function(e){
+        e.preventDefault();
+
+        var product_id_cart_item = $(this).data('item-id');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "add_to_cart" %}',
+            data: {
+                product_id_cart_item: product_id_cart_item,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $(".cart_detail").load(location.href + " .cart_detail>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Is Added In Your Cart...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- add to cart all product without page reload -->
+<script>
+    $(document).on('click', '#all_product_id_cart_item', function(e){
+        e.preventDefault();
+
+        var all_product_id_cart_item = $(this).data('item-id');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "add_to_cart_all_product" %}',
+            data: {
+                all_product_id_cart_item: all_product_id_cart_item,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $(".cart_detail").load(location.href + " .cart_detail>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Is Added In Your Cart...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- add to cart All Product without page reload -->
+<script>
+    $(document).on('click', '#product_by_category_id_cart_item', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            type: 'POST',
+            url: 'add_to_cart_all_product_by_category/' + product_id ,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $(".cart_detail").load(location.href + " .cart_detail>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Is Added In Your Cart...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+<!-- plus qty in product_detauil -->
+<script>
+    $(document).on('click', '.product_detail_cart_qty_plus', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $('.product_detail_cart_qty_plus').attr('href'),
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#profile_detail_cart").load(location.href + " #profile_detail_cart>*", "");
+                // $(window).scrollTop(0);
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Plus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- minus qty in product_detauil -->
+<script>
+    $(document).on('click', '.product_detail_cart_qty_minus', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $('.product_detail_cart_qty_minus').attr('href'),
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#profile_detail_cart").load(location.href + " #profile_detail_cart>*", "");
+                // $(window).scrollTop(0);
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Minus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- Add crt in product_detauil -->
+<script>
+    $(document).on('click', '.add_cart_product_detail', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $('.add_cart_product_detail').attr('href'),
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#profile_detail_cart").load(location.href + " #profile_detail_cart>*", "");
+                // $(window).scrollTop(0);
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Is Added In Your Cart...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- cart checkout to order without page reload -->
+<script>
+    $(document).on('click', '#rzp-button1', function(e){
+        e.preventDefault();
+
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var email = $('#email').val();
+        var phone = $('#phone').val();
+        var address = $('#address').val();
+        var pincode = $('#pincode').val();
+        var order_total_amount = $('#order_total_amount').val();
+        var order_amount = $('#order_amount').val();
+        var order_discount = $('#order_discount').val();
+        var shipping_price = $('#shipping_price').val();
+
+        var form_data = new FormData();
+
+        form_data.append('first_name', first_name);
+        form_data.append('last_name', last_name);
+        form_data.append('email', email);
+        form_data.append('phone', phone);
+        form_data.append('address', address);
+        form_data.append('pincode', pincode);
+        form_data.append('order_total_amount', order_total_amount);
+        form_data.append('order_amount', order_amount);
+        form_data.append('order_discount', order_discount);
+        form_data.append('shipping_price', shipping_price);
+
+        $.ajax({
+            url: "{% url 'cart_checkout_order' %}",
+            type: "POST",
+            mimeType: "multipart/form-data",
+            contentType: false,
+            processData: false,
+            data: form_data,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your order Is Confirmed...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- checkout to order without page reload -->
+<script>
+    $(document).on('click', '#continue_checkout', function(e){
+        e.preventDefault();
+
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var email = $('#email').val();
+        var phone = $('#phone').val();
+        var address = $('#address').val();
+        var pincode = $('#pincode').val();
+        var order_total_amount = $('#order_total_amount').val();
+        var order_amount = $('#order_amount').val();
+        var order_discount = $('#order_discount').val();
+
+        var form_data = new FormData();
+
+        form_data.append('first_name', first_name);
+        form_data.append('last_name', last_name);
+        form_data.append('email', email);
+        form_data.append('phone', phone);
+        form_data.append('address', address);
+        form_data.append('pincode', pincode);
+        form_data.append('order_total_amount', order_total_amount);
+        form_data.append('order_amount', order_amount);
+        form_data.append('order_discount', order_discount);
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'checkout_order/' + product_id ,
+            type: "POST",
+            mimeType: "multipart/form-data",
+            contentType: false,
+            processData: false,
+            data: form_data,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your order Is Confirmed...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }          
+        });
+    })
+</script>
+
+<!-- Home page cart qty plus Without page reload -->
+<script>
+    $(document).on('click', '#cart_item_plus', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'user/plus_qty/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Plus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- Home page cart qty minus Without page reload -->
+<script>
+    $(document).on('click', '#cart_item_minus', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'user/minus_qty/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Minus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- All Product cart qty plus Without page reload -->
+<script>
+    $(document).on('click', '#all_product_plus_qty', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'all_product_plus_qty/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Plus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- All Product cart qty minus Without page reload -->
+<script>
+    $(document).on('click', '#all_product_minus_qty', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'all_product_minus_qty/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Minus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- Cart qty plus Without page reload -->
+<script>
+    $(document).on('click', '#cart_qty_plus', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'cart_qty_plus/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $("#my_cart_detail").load(location.href + " #my_cart_detail>*", "");
+                $("#cart_price").load(location.href + " #cart_price>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Plus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- Cart qty minus Without page reload -->
+<script>
+    $(document).on('click', '#cart_qty_minus', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'cart_qty_minus/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: () => {
+                $("#my_cart_detail").load(location.href + " #my_cart_detail>*", "");
+                $("#cart_price").load(location.href + " #cart_price>*", "");
+                $("#btncheck").load(location.href + " #btncheck>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Minus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- All Product By Caegory cart qty plus Without page reload -->
+<script>
+    $(document).on('click', '#all_product_by_category_plus_qty', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'all_product_by_category_plus_qty/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Plus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- All Product By Category cart qty minus Without page reload -->
+<script>
+    $(document).on('click', '#all_product_by_category_minus_qty', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'all_product_by_category_minus_qty/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Minus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- Delete cart item Without page reload -->
+<script>
+    $(document).on('click', '#cart_item_delete', function(e){
+        e.preventDefault();
+
+        var cart_detail_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'delete_cart_item/' + cart_detail_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#my_cart_detail").load(location.href + " #my_cart_detail>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Deleted...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- cancle order Without page reload -->
+<script>
+    $(document).on('click', '#cancle_order', function(e){
+        e.preventDefault();
+
+        var order_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'track_order/cancle_order/' + order_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#order_content").load(location.href + " #order_content>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-warning border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Order Is Cancle...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- Feedback form Without page reload -->
+<script>
+    $(document).on('submit', '#feedback', function(e){
+        e.preventDefault();
+
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var feedback_message = $('#feedback_message').val();
+        
+        var form_data = new FormData();
+
+        form_data.append('name', name);
+        form_data.append('email', email);
+        form_data.append('feedback_message', feedback_message);
+
+        $.ajax({
+            url: "{% url 'feedback' %}",
+            type: "POST",
+            mimeType: "multipart/form-data",
+            contentType: false,
+            processData: false,
+            data: form_data,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#feedback").load(location.href + " #feedback>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Feedback Is Submited...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>

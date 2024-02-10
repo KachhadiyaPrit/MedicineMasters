@@ -1,0 +1,66 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block content %}
+<div class="main" id="main">
+    <div id="success"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="breadcrumb mt-3">
+                        <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item">Category</li>
+                        <li class="breadcrumb-item active">Edit Sub Category</li>
+                    </ul>
+                    <form method="POST" enctype="multipart/form-data" id="edit_subcategory" action="{% url 'update_subcategory' %}">
+                        {% csrf_token %}
+                        {% if subcategory.subcategory_img == '' %}
+                        <img id="prev" class="mb-2" name="prev" src="{% static 'medicine_masters_assets/images/no-category.jpg' %}" height="200" width="150" alt="" />
+                        {% else %}
+                        <img id="prev" class="mb-2" name="prev" src="/{{subcategory.subcategory_img}}" height="200" width="150" alt="" />
+                        {% endif %}
+                        <input type="text" class="form-control d-none" id="prev_img" name="prev_img" value="{{subcategory.subcategory_img}}" disabled>
+                        <div class="mb-3">
+                            <label for="subcategory_id" class="form-label">Sub Category Id :- </label>
+                            <input type="text" class="form-control" id="subcategory_id" name="subcategory_id" value="{{subcategory.subcategory_id}}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subcategory_name" class="form-label">Sub Category Name :- </label>
+                            <input type="text" class="form-control" id="subcategory_name" name="subcategory_name" value="{{subcategory.subcategory_name}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="subcategory_image" class="form-label">Sub Category Image :- </label>
+                            <input type="file" class="form-control" id="subcategory_image" name="subcategory_image" onchange="readURL(this);">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Select Categoer :- </label>
+                            <select class="form-control mb-3" name="category_id" id="category_id" required>
+                                <option disabled selected>Select Category</option>
+                                {% for c in category %}
+                                    <option value="{{c.category_id}}" {% if c.category_id == subcategory.category_id %} selected {% endif %}>{{c.category_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" name="edit_subcategory">Update Sub Category</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+            $('#prev').attr('src', e.target.result).width(150).height(200);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+{% endblock %}

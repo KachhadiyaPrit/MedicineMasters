@@ -1,0 +1,53 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div id="success"></div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <ul class="breadcrumb mt-3">
+                    <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Doctor</li>
+                    <li class="breadcrumb-item active">Add Doctor</li>
+                </ul>
+                <form method="POST" enctype="multipart/form-data" id="add_doctor" action="{% url 'add_doctor' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Doctor Username :- </label>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="doctor_first_name" class="form-label">Doctor Firstname :- </label>
+                        <input type="text" class="form-control" id="doctor_first_name" name="doctor_first_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="doctor_last_name" class="form-label">Doctor Lastname :- </label>
+                        <input type="text" class="form-control" id="doctor_last_name" name="doctor_last_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="doctor_email" class="form-label">Doctor Email :- </label>
+                        <input type="text" class="form-control" id="doctor_email" name="doctor_email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="doctor_gender" class="form-label">Doctor Gender :- </label>
+                        <select class="form-control mb-3" name="doctor_gender" id="doctor_gender">
+                            <option disabled selected>Select Gender</option>
+                            <option value="Male" {% if user.gender == "Male" %} selected {% endif %}>Male</option>
+                            <option value="Female" {% if user.gender == "Female" %} selected {% endif %}>Female</option>
+                            <option value="Other" {% if user.gender == "Other" %} selected {% endif %}>Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="doctor_password" class="form-label">Doctor Password :- </label>
+                        <input type="text" class="form-control" id="doctor_password" name="doctor_password">
+                    </div>
+                    <div class="d-grid">
+                        <input type="submit" class="btn btn-primary" value="Add Doctor" name="add_doctor">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock  %}

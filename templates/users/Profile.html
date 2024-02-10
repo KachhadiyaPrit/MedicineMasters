@@ -1,0 +1,436 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section style="background-color: #eee;" id="main">
+    <div class="container py-4">
+        <div id="success"></div>
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 shadow">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'users_home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+  
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <div id="img_div">
+                            {% if user.profile_pic == "" %}
+                            <img src="{% static 'medicine_masters_assets/images/user.png' %}" style="width: 150px;" alt="Profile" class="rounded-circle">
+                            {% else %}
+                            <img src="/{{user.profile_pic}}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px; height: 150px;">
+                            {% endif %}
+                            <h5 class="my-3">{{user.username}}</h5>
+                            <p class="text-muted mb-1">{{user.email}}</p>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a id="edit_profile_btn" class="btn btn-outline-primary ms-1">
+                                Edit Profile
+                            </a>
+                            <a id="go-back" class="btn btn-outline-primary ms-1">
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4 mb-lg-0">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush rounded-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fas fa-regular fa-address-card"></i>
+                                <a id="profiletxt" style="text-decoration: none;color: black;cursor: pointer;">Profile Details <i class="fas fa-regular fa-angles-right"></i></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fas fa-light fa-location-dot"></i>
+                                <a id="addresstxt" style="text-decoration: none;color: black;cursor: pointer;">Delivery Address <i class="fas fa-regular fa-angles-right"></i></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fas fa-regular fa-truck"></i>
+                                <a href="{% url 'track_order' %}" id="track_order_txt" style="text-decoration: none;color: black;cursor: pointer;">Track Your Orders <i class="fas fa-regular fa-angles-right"></i></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fas fa-solid fa-file-arrow-down"></i>
+                                <a id="get_prescription_txt" style="text-decoration: none;color: black;cursor: pointer;">Get Prescription <i class="fas fa-regular fa-angles-right"></i></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fas fa-light fa-gift"></i>
+                                <a id="view_all_offers_txt" style="text-decoration: none;color: black;cursor: pointer;">View All Offers <i class="fas fa-regular fa-angles-right"></i></a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8" id="profile_detail_card">
+                <div class="card mb-4 d-block" id="user_detail">
+                    <div class="card-body">
+                        <h5 class="card-title">User Profile Details</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">User Name : </p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.username}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">First Name : </p>
+                            </div>
+                            {% if user.first_name == "" %}
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">None</p>
+                            </div>
+                            {% else %}
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.first_name}}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Last Name : </p>
+                            </div>
+                            {% if user.last_name == "" %}
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">None</p>
+                            </div>
+                            {% else %}
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.last_name}}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email : </p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.email}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Phone : </p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.phone}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Gender : </p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.gender}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Birth Of Date : </p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.bod}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Address </p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{user.address}} , {{user.pincode}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4 d-none" id="edit_user_detail">
+                    <div class="card-body">
+                        <h5 class="card-title">Edit User Profile Details</h5>
+                        <hr>
+                        <form method="POST" enctype="multipart/form-data" id="profile_update" action="{% url 'profile_update' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">Profile Pic : </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="file" id="profile_pic" name="profile_pic" class="form-control"/>
+                                    <input type="text" id="prev_img" name="prev_img" class="form-control" value="{{user.profile_pic}}" hidden/>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">User Name : </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" id="user_name" name="user_name" class="form-control" value="{{user.username}}" disabled/>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">First Name : </p>
+                                </div>
+                                {% if user.first_name == "" %}
+                                <div class="col-sm-9">
+                                    <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Enter Your First Name"/>
+                                </div>
+                                {% else %}
+                                <div class="col-sm-9">
+                                    <input type="text" id="first_name" name="first_name" class="form-control" value="{{user.first_name}}"/>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">Last Name : </p>
+                                </div>
+                                {% if user.last_name == "" %}
+                                <div class="col-sm-9">
+                                    <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Enter Your Last Name"/>
+                                </div>
+                                {% else %}
+                                <div class="col-sm-9">
+                                    <input type="text" id="last_name" name="last_name" class="form-control" value="{{user.last_name}}"/>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">Email : </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="email" id="email" name="email" class="form-control" value="{{user.email}}" placeholder="Enter Your Email" disabled/>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">Phone : </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" id="phone" name="phone" class="form-control" value="{{user.phone}}" placeholder="Enter Your Phone Number"/>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">Gender : </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-9">
+                                        <select class="form-control mb-3" name="gender" id="gender">
+                                            <option disabled selected>Select Gender</option>
+                                            <option value="Male" {% if user.gender == "Male" %} selected {% endif %}>Male</option>
+                                            <option value="Female" {% if user.gender == "Female" %} selected {% endif %}>Female</option>
+                                            <option value="Other" {% if user.gender == "Other" %} selected {% endif %}>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">Birth Of Date : </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-9">
+                                        <input type="date" id="bod" name="bod" class="form-control" value="{{user.bod|date:'Y-m-d'}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">Address : </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-9">
+                                        <input type="text" id="address" name="address" class="form-control" value="{{user.address}}" placeholder="Enter Your Address"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 mt-1">Pincode :  </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-9">
+                                        <input type="text" id="pincode" name="pincode" class="form-control" value="{{user.pincode}}" placeholder="Enter Your Area Pincode"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="div mt-4">
+                                <div class="text-center">
+                                    <input type="submit" value="Edit Profile" class="btn btn-primary" name="update_profile"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mb-4 d-none" id="delivery_address_card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col"><h5 class="card-title">User Delivery Address</h5></div>
+                            <div class="col">
+                                <div class="div">
+                                    <div class="text-center">
+                                        <a style="text-decoration: none;color: rgb(63, 79, 230);cursor: pointer;" id="edit_delivery_address">Edit Delivery Address</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col d-block" id="display_delivery_address">
+                            <p class="text-muted mb-0" >
+                                {% if address.delivery_address != "" %}
+                                    <i class="fa-solid fa-circle-check" style="color: #1f6718;"></i>
+                                    {{address.delivery_address}}<br>{{address.delivery_address_pincode}}<br>
+                                    <span class="badge" style="background-color: #125608bf">Primary Address</span>
+                                {% else %}
+                                    <h3>Add Delivery Address</h3>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <form method="post" class="d-none" id="edit_address">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <label for="delivery_address" class="col-md-4 col-lg-3 col-form-label">Delivery Address :-</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input name="delivery_address" type="text" class="form-control" id="delivery_address" value="{{address.delivery_address}}">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="delivery_address_pincode" class="col-md-4 col-lg-3 col-form-label">Pincode :-</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input name="delivery_address_pincode" type="text" class="form-control" id="delivery_address_pincode" value="{{address.delivery_address_pincode}}">
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary" id="address_edit" name="address_edit">Edit Delivery Address</button>
+                            </div>
+                        </form>
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="card mb-4 d-none" id="all_offer_card">
+                    <div class="card-body">
+                        <div class="col"><h5 class="card-title">View All Offers</h5></div>
+                        <hr>
+                        <div class="col d-block" id="display_delivery_address">
+                            {% for i in offer %}
+                            <div class="row">
+                                <div class="col-2"><span>{{i.offer_code}}</span></div>
+                                <div class="col-10"><p>{{i.offer_description}}</p></div>
+                            </div>
+                            <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4 d-none" id="get_prescription">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col"><h5 class="card-title">Get Prescription?</h5></div>
+                        </div>
+                        <hr>
+                        <form method="post" class="d-block" id="edit_address">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <label for="delivery_address" class="col-md-4 col-lg-3 col-form-label">Name Of The Disease :-</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <textarea class="form-control"  name="prescription_message" id="prescription_message" rows="5" placeholder="Enter The Disease Name"></textarea>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary" id="get_prescription_btn" name="get_prescription_btn">Get Prescription</button>
+                            </div>
+                        </form>
+                        <hr>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4 mb-md-0">
+                            <div class="card-body">
+                                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status</p>
+                                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                <div class="progress rounded" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                                <div class="progress rounded" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                                <div class="progress rounded" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
+                                <div class="progress rounded" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                                <div class="progress rounded mb-2" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-4 mb-md-0">
+                            <div class="card-body">
+                                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status</p>
+                                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                <div class="progress rounded" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                                <div class="progress rounded" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                                <div class="progress rounded" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
+                                <div class="progress rounded" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                                <div class="progress rounded mb-2" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}
