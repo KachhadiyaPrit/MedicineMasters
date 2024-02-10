@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from medicine_masters.models import Users,DeliveryAddress,Prescription,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification
+from medicine_masters.models import Users,DeliveryAddress,Prescription,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Prescription
 from django.core.mail import send_mail
 
 # Doctor
@@ -23,4 +23,16 @@ def view_prescription_details(request, prescription_id):
 
 # Manage got prescription
 def view_got_prescriptions(request):
-    return render(request, 'doctor/prescription/view_got_prescriptions.html')
+    prescription = Prescription.objects.filter(prescription_status = 'Pending')
+    context = {
+        'prescription' : prescription
+    }
+    return render(request, 'doctor/prescription/view_got_prescriptions.html', context)
+
+# Generate prescription page
+def generate_prescription_page(request, prescription_id):
+    prescription = Prescription.objects.get(prescription_id = prescription_id)
+    context = {
+        'prescription' : prescription
+    }
+    return render(request, 'doctor/prescription/generate_prescription.html', context)

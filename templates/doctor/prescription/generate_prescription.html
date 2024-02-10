@@ -1,0 +1,143 @@
+{% extends 'doctor-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <ul class="breadcrumb mt-3">
+            <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item">Generate Prescription</li>
+        </ul>
+    </div><!-- End Page Title -->
+    <div id="success"></div>
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-3">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-header">User Detail / Prescription Disease</div>
+                            <div class="card-body profile-card pt-1 d-flex flex-column align-items-left" id="profile">
+                                <h3 class="mt-2"><b>User Name : </b>{{prescription.user}}</h3>
+                                <h3 class="mt-2"><b>Disease : </b>{{prescription.prescription_message}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" id="status_card">
+                        <div class="card shadow">
+                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center" id="profile">
+                                <h3 class="mt-2">Prescription Status : <span class="text-success">Is {{prescription.prescription_status}}</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-9">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body pt-3">
+                                <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="profile_link">
+                                    <li class="nav-item col">
+                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Generate Prescription</button>
+                                    </li>
+                                </ul>
+        
+                                <div class="tab-content pt-2 d-block" id="profilecard">
+                                    <div class="tab-pane fade-out show active profile-overview" id="profile-overview">
+                                        <form action="" method="POST" id="product_form">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-lg-8 col-md-4 label">
+                                                    <div class="row">
+                                                        <div class="col-4 mt-1">
+                                                            <label for="category_name" class="form-label">Product Name :- </label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" class="form-control" id="category_name" name="category_name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-8 label">
+                                                    <div class="row">
+                                                        <div class="col mt-1">
+                                                            <label for="category_name" class="form-label">Quantity :- </label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" class="form-control" id="category_name" name="category_name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="form_wrapper"></div>
+                                        </form>
+                                        <div class="col-12 text-end">
+                                            <button class="btn btn-secondary" name="add_new" id="add_new">Add New</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <dic class="card-footer">
+                                <div class="col-12 text-center">
+                                    <input type="submit" class="btn btn-primary" value="Generate" name="generate"/>
+                                </div>
+                            </dic>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var x = 0;
+        $('#add_new').click(function(e){
+            e.preventDefault();
+            console.log('btn clicked');
+            appendRow();
+            x++;
+        })
+
+        $('#form_wrapper').on('click', 'cross', function(e){
+            e.preventDefault();
+            alert('x');
+            var id = e.currentTarget.id;
+            $('div[id='+id+']').remove();
+            x--;
+        });
+
+        function appendRow(){
+            $('#form_wrapper').append(
+                `<div id="'+x+'" class="row">
+                    <div class="col-lg-7 col-md-4 label">
+                        <div class="row">
+                            <div class="col-4 mt-1">
+                                <label for="category_name" class="form-label">Product Name :- </label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="category_name" name="category_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-8 label">
+                        <div class="row">
+                            <div class="col mt-1">
+                                <label for="category_name" class="form-label">Quantity :- </label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="category_name" name="category_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 label mt-2">
+                        <button class="btn btn-secondary cross">X</button>
+                    </div>
+                </div>`
+            );
+        }
+    });
+</script>
+
+{% endblock  %}
