@@ -188,4 +188,5 @@ class Prescription(models.Model):
     prescription_message = models.CharField(max_length=150, null=True, blank=True)
     prescription_img = models.ImageField(upload_to='media/prescription_img',null=True, blank=True)
     prescription_status = models.CharField(max_length=100, default="Pending")
+    quantity = models.IntegerField(null=True, blank=True)
     user = models.ForeignKey(Users, on_delete=models.CASCADE,null=True)

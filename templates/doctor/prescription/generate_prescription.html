@@ -42,44 +42,63 @@
                                         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Generate Prescription</button>
                                     </li>
                                 </ul>
-        
-                                <div class="tab-content pt-2 d-block" id="profilecard">
-                                    <div class="tab-pane fade-out show active profile-overview" id="profile-overview">
-                                        <form action="" method="POST" id="product_form">
-                                            {% csrf_token %}
-                                            <div class="row">
-                                                <div class="col-lg-8 col-md-4 label">
+                            </div>
+                            <div id="medicines-container"></div>
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var x = 0;
+                                    function appendMedicineRow() {
+                                        var newRow = `
+                                        <form id="prescription-form" class="card-body pt-3" method="POST">
+                                            <input type="hidden" id="x-field" name="x" value="0">
+                                            <div id="medicine-row-${x}" class="row mb-3 ms-2 me-2">
+                                                <div class="col-lg-7 col-md-4 label">
                                                     <div class="row">
                                                         <div class="col-4 mt-1">
-                                                            <label for="category_name" class="form-label">Product Name :- </label>
+                                                            <label for="medicine_name_${x}" class="form-label">Medicine Name :- </label>
                                                         </div>
                                                         <div class="col">
-                                                            <input type="text" class="form-control" id="category_name" name="category_name">
+                                                            <input type="text" class="form-control" id="medicine_name_${x}" name="medicine_name_${x}">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-8 label">
                                                     <div class="row">
                                                         <div class="col mt-1">
-                                                            <label for="category_name" class="form-label">Quantity :- </label>
+                                                            <label for="medicine_quantity_${x}" class="form-label">Quantity :- </label>
                                                         </div>
                                                         <div class="col">
-                                                            <input type="text" class="form-control" id="category_name" name="category_name">
+                                                            <input type="text" class="form-control" id="medicine_quantity_${x}" name="medicine_quantity_${x}">
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-1 label">
+                                                    <button class="btn btn-secondary cross">X</button>
+                                                </div>
                                             </div>
-                                            <div id="form_wrapper"></div>
                                         </form>
-                                        <div class="col-12 text-end">
-                                            <button class="btn btn-secondary" name="add_new" id="add_new">Add New</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                        `;
+                                        $('#medicines-container').append(newRow);
+                                        x++;
+                                    }
+                            
+                                    $('#add_new_medicine').click(function(e) {
+                                        e.preventDefault();
+                                        appendMedicineRow();
+                                    });
+                            
+                                    $('#medicines-container').on('click', '.cross', function(e) {
+                                        e.preventDefault();
+                                        var rowId = $(this).closest('.row').attr('id');
+                                        $('#' + rowId).remove();
+                                        x--;
+                                    });
+                                });
+                            </script>
+                            <button type="button" class="btn btn-secondary ms-2 me-2" id="add_new_medicine">Add New Medicine</button>
                             <dic class="card-footer">
                                 <div class="col-12 text-center">
-                                    <input type="submit" class="btn btn-primary" value="Generate" name="generate"/>
+                                    <button type="submit" class="btn btn-primary" id="generate-prescription">Generate</button>
                                 </div>
                             </dic>
                         </div>
@@ -89,8 +108,38 @@
         </div>
     </section>
 </main>
-
-<script type="text/javascript">
+<script>
+    $(document).ready(function() {
+        $('#generate-prescription').click(function(e) {
+            e.preventDefault();
+            var formData = $('#prescription-form').serializeArray();
+            var medicinesData = {};
+            formData.forEach(function(field) {
+                if (field.name.startsWith('medicine_name_')) {
+                    medicinesData[field.name] = field.value;
+                }
+                if (field.name.startsWith('medicine_quantity_')) {
+                    medicinesData[field.name] = field.value;
+                }
+            });
+            console.log(medicinesData);
+            $.ajax({
+                type: 'POST',
+                url: '{% url "generate" %}', // replace with your server URL
+                data: medicinesData,
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                success: function() {
+                    console.log('Prescription generated successfully:');
+                },
+                error: function() {
+                    console.error('Error generating prescription:');
+                }
+            });
+            x++;
+        });    
+    });
+</script>
+<!-- <script type="text/javascript">
     $(document).ready(function(){
         var x = 0;
         $('#add_new').click(function(e){
@@ -138,6 +187,6 @@
             );
         }
     });
-</script>
+</script> -->
 
 {% endblock  %}
