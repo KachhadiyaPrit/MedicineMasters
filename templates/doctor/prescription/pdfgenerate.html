@@ -1,0 +1,108 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'medicine_masters_assets/admin assets/css/style.css' %}" rel="stylesheet">
+
+    <title>Prescription</title>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Prescription</h3>
+      <hr>
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Name : </th>
+              </tr>
+
+              <tr>
+                <th scope="col">Age : </th>
+              </tr>
+
+              <tr>
+                <th scope="col">Gender : </th>
+              </tr>
+
+              <tr>
+                <th scope="col">Date : </th>
+              </tr>
+            </thead>
+
+            <tbody>      
+              <tr>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Product Quantity</th>
+                <th scope="col">Product Tack Time</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td><b>{{ medicine1_name }}</b></td>
+                <td>{{ medicine1_quantity }}</td>
+                <td>{{ medicine1_time }}</td>
+              </tr>
+
+              <tr>
+                <td><b>{{ medicine2_name }}</b></td>
+                <td>{{ medicine2_quantity }}</td>
+                <td>{{ medicine2_time }}</td>
+              </tr>
+
+              <tr>
+                <td><b>{{ medicine3_name }}</b></td>
+                <td>{{ medicine3_quantity }}</td>
+                <td>{{ medicine3_time }}</td>
+              </tr>
+
+              <tr>
+                <td><b>{{ medicine4_name }}</b></td>
+                <td>{{ medicine4_quantity }}</td>
+                <td>{{ medicine4_time }}</td>
+              </tr>
+              
+              <tr>
+                <td><b>{{ medicine5_name }}</b></td>
+                <td>{{ medicine5_quantity }}</td>
+                <td>{{ medicine5_time }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'medicine_masters_assets/admin assets/js/main.js' %}"></script>
+  </body>
+</html>

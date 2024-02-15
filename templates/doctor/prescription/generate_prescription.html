@@ -42,65 +42,184 @@
                                         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Generate Prescription</button>
                                     </li>
                                 </ul>
-                            </div>
-                            <div id="medicines-container"></div>
-                            <script type="text/javascript">
-                                $(document).ready(function() {
-                                    var x = 0;
-                                    function appendMedicineRow() {
-                                        var newRow = `
-                                        <form id="prescription-form" class="card-body pt-3" method="POST">
-                                            <input type="hidden" id="x-field" name="x" value="0">
-                                            <div id="medicine-row-${x}" class="row mb-3 ms-2 me-2">
-                                                <div class="col-lg-7 col-md-4 label">
-                                                    <div class="row">
-                                                        <div class="col-4 mt-1">
-                                                            <label for="medicine_name_${x}" class="form-label">Medicine Name :- </label>
-                                                        </div>
-                                                        <div class="col">
-                                                            <input type="text" class="form-control" id="medicine_name_${x}" name="medicine_name_${x}">
-                                                        </div>
-                                                    </div>
+                                <form id="prescription_form" class="card-body pt-3" method="POST">
+                                    {% csrf_token %}
+                                    <hr><h5>Medicine 1</h5><hr>
+                                    <div class="row mb-2">
+                                        <div class="col-lg-4 col-md-3 label">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label for="medicine1_name" class="form-label">Medicine Name :- </label>
                                                 </div>
-                                                <div class="col-lg-4 col-md-8 label">
-                                                    <div class="row">
-                                                        <div class="col mt-1">
-                                                            <label for="medicine_quantity_${x}" class="form-label">Quantity :- </label>
-                                                        </div>
-                                                        <div class="col">
-                                                            <input type="text" class="form-control" id="medicine_quantity_${x}" name="medicine_quantity_${x}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-1 label">
-                                                    <button class="btn btn-secondary cross">X</button>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine1_name" name="medicine1_name">
                                                 </div>
                                             </div>
-                                        </form>
-                                        `;
-                                        $('#medicines-container').append(newRow);
-                                        x++;
-                                    }
-                            
-                                    $('#add_new_medicine').click(function(e) {
-                                        e.preventDefault();
-                                        appendMedicineRow();
-                                    });
-                            
-                                    $('#medicines-container').on('click', '.cross', function(e) {
-                                        e.preventDefault();
-                                        var rowId = $(this).closest('.row').attr('id');
-                                        $('#' + rowId).remove();
-                                        x--;
-                                    });
-                                });
-                            </script>
-                            <button type="button" class="btn btn-secondary ms-2 me-2" id="add_new_medicine">Add New Medicine</button>
-                            <dic class="card-footer">
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-primary" id="generate-prescription">Generate</button>
-                                </div>
-                            </dic>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine1_quantity" class="form-label">Quantity :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine1_quantity" name="medicine1_quantity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine1_time" class="form-label">Time :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine1_time" name="medicine1_time">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr><h5>Medicine 2</h5><hr>
+                                    <div class="row mb-2">
+                                        <div class="col-lg-4 col-md-3 label">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label for="medicine2_name" class="form-label">Medicine Name :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine2_name" name="medicine2_name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine2_quantity" class="form-label">Quantity :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine2_quantity" name="medicine2_quantity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine2_time" class="form-label">Time :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine2_time" name="medicine2_time">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr><h5>Medicine 3</h5><hr>
+                                    <div class="row mb-2">
+                                        <div class="col-lg-4 col-md-3 label">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label for="medicine3_name" class="form-label">Medicine Name :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine3_name" name="medicine3_name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine3_quantity" class="form-label">Quantity :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine3_quantity" name="medicine3_quantity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine3_time" class="form-label">Time :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine3_time" name="medicine3_time">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr><h5>Medicine 4</h5><hr>
+                                    <div class="row mb-2">
+                                        <div class="col-lg-4 col-md-3 label">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label for="medicine4_name" class="form-label">Medicine Name :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine4_name" name="medicine4_name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine4_quantity" class="form-label">Quantity :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine4_quantity" name="medicine4_quantity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine4_time" class="form-label">Time :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine4_time" name="medicine4_time">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr><h5>Medicine 5</h5><hr>
+                                    <div class="row mb-2">
+                                        <div class="col-lg-4 col-md-3 label">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label for="medicine5_name" class="form-label">Medicine Name :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine5_name" name="medicine5_name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine5_quantity" class="form-label">Quantity :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine5_quantity" name="medicine5_quantity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-8 label">
+                                            <div class="row">
+                                                <div class="col mt-2">
+                                                    <label for="medicine5_time" class="form-label">Time :- </label>
+                                                </div>
+                                                <div class="col mt-1">
+                                                    <input type="text" class="form-control" id="medicine5_time" name="medicine5_time">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 text-end">
+                                        <button type="submit" class="btn btn-primary" id="generate-prescription">Generate</button>
+                                    </div>
+                                    <hr>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,85 +227,4 @@
         </div>
     </section>
 </main>
-<script>
-    $(document).ready(function() {
-        $('#generate-prescription').click(function(e) {
-            e.preventDefault();
-            var formData = $('#prescription-form').serializeArray();
-            var medicinesData = {};
-            formData.forEach(function(field) {
-                if (field.name.startsWith('medicine_name_')) {
-                    medicinesData[field.name] = field.value;
-                }
-                if (field.name.startsWith('medicine_quantity_')) {
-                    medicinesData[field.name] = field.value;
-                }
-            });
-            console.log(medicinesData);
-            $.ajax({
-                type: 'POST',
-                url: '{% url "generate" %}', // replace with your server URL
-                data: medicinesData,
-                headers: {'X-CSRFToken': '{{ csrf_token }}'},
-                success: function() {
-                    console.log('Prescription generated successfully:');
-                },
-                error: function() {
-                    console.error('Error generating prescription:');
-                }
-            });
-            x++;
-        });    
-    });
-</script>
-<!-- <script type="text/javascript">
-    $(document).ready(function(){
-        var x = 0;
-        $('#add_new').click(function(e){
-            e.preventDefault();
-            console.log('btn clicked');
-            appendRow();
-            x++;
-        })
-
-        $('#form_wrapper').on('click', 'cross', function(e){
-            e.preventDefault();
-            alert('x');
-            var id = e.currentTarget.id;
-            $('div[id='+id+']').remove();
-            x--;
-        });
-
-        function appendRow(){
-            $('#form_wrapper').append(
-                `<div id="'+x+'" class="row">
-                    <div class="col-lg-7 col-md-4 label">
-                        <div class="row">
-                            <div class="col-4 mt-1">
-                                <label for="category_name" class="form-label">Product Name :- </label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" id="category_name" name="category_name">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-8 label">
-                        <div class="row">
-                            <div class="col mt-1">
-                                <label for="category_name" class="form-label">Quantity :- </label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" id="category_name" name="category_name">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-1 label mt-2">
-                        <button class="btn btn-secondary cross">X</button>
-                    </div>
-                </div>`
-            );
-        }
-    });
-</script> -->
-
 {% endblock  %}

@@ -972,3 +972,5 @@ def get_prescription(request):
         )
         prescription.save()
         return redirect('users_profile')
+
+#  Serarch
