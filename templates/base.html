@@ -51,19 +51,28 @@
                         })
                     })
 			    },
+                getResultValue: result => result.name,
                 renderResult : (result, props) => {
                     let group = ''
-                    if(result.index % 3 == 0){
+                    if(result.index < 1){
                         group = `<li class = "group">Group</li>`
                     }
                     return `
                         ${group}
                         <li ${props}>
                             <div class="wiki-title">
-                                ${result.product_name}
+                                ${result.name}
                             </div>
                         </li>
                     `
+                },
+                onSubmit: result => {
+                    if(result.product){
+                        window.location.href = `/user/product_detail/${result.id}`    
+                    }
+                    else {
+                        window.location.href = `/user/all_product_by_category/${result.id}`
+                    }
                 }
 		    })
         </script>

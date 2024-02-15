@@ -978,15 +978,28 @@ def get_prescription(request):
 def get_search(request):
     search = request.GET.get('search')
     payload = []
+    payload1 = []
+
     if search:
-        objs = Product.objects.filter(product_name__startswith = search)
-        for obj in objs:
-            payload.append({
-                'product_name' : obj.product_name
-            })
+        products = Product.objects.filter(product_name__startswith = search)
+        categories = Sub_Category.objects.filter(subcategory_name__startswith = search)
+        if products:
+            for product in products:
+                payload.append({
+                    'name' : product.product_name,
+                    'id' : product.product_id,
+                    'product' : True
+                })
+        else:
+            for category in categories:
+                payload.append({
+                    'name' : category.subcategory_name,
+                    'id' : category.subcategory_id,
+                    'category' : True
+                })
 
     return JsonResponse({
         'status' : True,
-        'payload' : payload
+        'payload' : payload,
     })
     
