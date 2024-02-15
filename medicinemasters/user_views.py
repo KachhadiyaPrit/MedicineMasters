@@ -1002,4 +1002,3 @@ def get_search(request):
         'status' : True,
         'payload' : payload,
     })
-    
