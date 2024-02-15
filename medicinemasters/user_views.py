@@ -988,13 +988,16 @@ def get_search(request):
                 payload.append({
                     'name' : product.product_name,
                     'id' : product.product_id,
+                    'snippet' : product.product_description,
                     'product' : True
                 })
-        else:
+
+        if categories:
             for category in categories:
                 payload.append({
                     'name' : category.subcategory_name,
                     'id' : category.subcategory_id,
+                    'snippet' : category.category.category_name,
                     'category' : True
                 })
 

@@ -19,6 +19,29 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
         <link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"/>
+
+        <style>
+            #autocomplete {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .autocomplete-result {
+                border-top: 1px solid #eee;
+                padding: 16px;
+                background: transparent;
+            }
+
+            .wiki-title {
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+
+            .wiki-snippet {
+                font-size: 13px;
+                color: rgba(0, 0, 0, 0.54);
+            }
+        </style>
     </head>
 
     <body>
@@ -51,7 +74,7 @@
                         })
                     })
 			    },
-                
+
                 getResultValue: result => result.name,
                 renderResult : (result, props) => {
                     let group = ''
@@ -61,8 +84,11 @@
                     return `
                         ${group}
                         <li ${props}>
-                            <div class="wiki-title">
+                            <div class="wiki-title text-truncate">
                                 ${result.name}
+                            </div>
+                            <div class="wiki-snippet text-truncate">
+                                ${result.snippet}
                             </div>
                         </li>
                     `
@@ -71,7 +97,7 @@
                     if(result.product){
                         window.location.href = `/user/product_detail/${result.id}`    
                     }
-                    else {
+                    if(result.category){
                         window.location.href = `/user/all_product_by_category/${result.id}`
                     }
                 }

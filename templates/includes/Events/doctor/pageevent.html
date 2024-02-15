@@ -1,53 +1,18 @@
-<!-- Generate Prescription -->
+<!-- Send Prescription -->
 <script type="text/javascript">
     $(document).ready(function(){
         $('#prescription_form').submit(function(e){
             e.preventDefault();
 
-            var medicine1_name = $('#medicine1_name').val();
-            var medicine1_quantity = $('#medicine1_quantity').val();
-            var medicine1_time = $('#medicine1_time').val();
+            var prescription_id = $('#prescription_id').val();
 
-            var medicine2_name = $('#medicine2_name').val();
-            var medicine2_quantity = $('#medicine2_quantity').val();
-            var medicine2_time = $('#medicine2_time').val();
-
-            var medicine3_name = $('#medicine3_name').val();
-            var medicine3_quantity = $('#medicine3_quantity').val();
-            var medicine3_time = $('#medicine3_time').val();
-
-            var medicine4_name = $('#medicine4_name').val();
-            var medicine4_quantity = $('#medicine4_quantity').val();
-            var medicine4_time = $('#medicine4_time').val();
-
-            var medicine5_name = $('#medicine5_name').val();
-            var medicine5_quantity = $('#medicine5_quantity').val();
-            var medicine5_time = $('#medicine5_time').val();
-            
             var form_data = new FormData();
 
-            form_data.append('medicine1_name', medicine1_name);
-            form_data.append('medicine1_quantity', medicine1_quantity);
-            form_data.append('medicine1_time', medicine1_time);
+            form_data.append('prescription_id', prescription_id);
+            form_data.append('prescription_img', $('#prescription_img')[0].files[0]);
 
-            form_data.append('medicine2_name', medicine2_name);
-            form_data.append('medicine2_quantity', medicine2_quantity);
-            form_data.append('medicine2_time', medicine2_time);
-
-            form_data.append('medicine3_name', medicine3_name);
-            form_data.append('medicine3_quantity', medicine3_quantity);
-            form_data.append('medicine3_time', medicine3_time);
-
-            form_data.append('medicine4_name', medicine4_name);
-            form_data.append('medicine4_quantity', medicine4_quantity);
-            form_data.append('medicine4_time', medicine4_time);
-
-            form_data.append('medicine5_name', medicine5_name);
-            form_data.append('medicine5_quantity', medicine5_quantity);
-            form_data.append('medicine5_time', medicine5_time);
-            
             $.ajax({
-                url: "{% url 'generate' %}",
+                url: "{% url 'send_prescription' %}",
                 type: "POST",
                 mimeType: "multipart/form-data",
                 contentType: false,
@@ -60,7 +25,7 @@
                     $("#success").html(
                         `
                         <div class="alert alert-success" roal="success">
-                            Prescription Is Generated...
+                            Your Offer Is Added...
                         </div>
                         `
                     )

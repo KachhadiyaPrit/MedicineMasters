@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from medicine_masters.models import Users,DeliveryAddress,Prescription,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Prescription
 from django.core.mail import send_mail
-from django.template.loader import get_template
-from xhtml2pdf import pisa
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
 
 # Doctor
 # Doctor Home Page
@@ -37,4 +38,30 @@ def generate_prescription_page(request, prescription_id):
     context = {
         'prescription' : prescription,
     }
+    return render(request, 'doctor/prescription/generate_prescription.html', context)
+
+# Send Prescription
+def send_prescription(request):
+    if request.method == "POST":
+        prescription_id = request.POST.get('prescription_id')
+        prescription_img = request.FILES.get('prescription_img')
+
+        prescription = Prescription.objects.get(prescription_id = prescription_id)
+
+        prescription.prescription_img = prescription_img
+        prescription.prescription_status = "Send Successfully"
+        prescription.save()
+
+        email = EmailMultiAlternatives(
+            "Message To Medicine Masters",
+            "Hello Dear " + prescription.user.username +" I am Send To Prescription As Per Your Request, Check And Submit To Your Order According..."
+            'medicinemasters23@gmail.com',
+            [prescription.user.email] 
+        )
+        email.attach(prescription_img, "image/png")
+        email.send()
+
+        context = {
+            'prescription' : prescription,
+        }
     return render(request, 'doctor/prescription/generate_prescription.html', context)
