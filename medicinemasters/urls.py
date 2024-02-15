@@ -140,4 +140,5 @@ urlpatterns = [
     path('generateinvoice/<int:order_id>/', user_views.GenerateInvoice.as_view(), name = 'generateinvoice'),
     path('user/profile/get_prescription', user_views.get_prescription, name = 'get_prescription'),
     path('feedback', user_views.feedback, name = 'feedback'),
+    path('get-search/', user_views.get_search, name = 'get-search'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,6 +9,7 @@ from medicine_masters import helpers
 from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback,Prescription
 import razorpay
 from django.conf import settings
+from django.http import JsonResponse
 
 # Users Home Page
 def users_home(request):
@@ -974,3 +975,18 @@ def get_prescription(request):
         return redirect('users_profile')
 
 #  Serarch
+def get_search(request):
+    search = request.GET.get('search')
+    payload = []
+    if search:
+        objs = Product.objects.filter(product_name__startswith = search)
+        for obj in objs:
+            payload.append({
+                'product_name' : obj.product_name
+            })
+
+    return JsonResponse({
+        'status' : True,
+        'payload' : payload
+    })
+    

@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="{% static 'medicine_masters_assets/css/style.css' %}" />
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"/>
     </head>
 
     <body>
@@ -36,6 +38,34 @@
             document.getElementById("go-back").addEventListener("click", () => {
                 history.back();
             });
+        </script>
+        <script>
+            new Autocomplete('#autocomplete', {
+			    search : input => {
+                    const url = `/get-search/?search=${input}`
+                    return new Promise(resolve => {
+                        fetch(url)
+                        .then(response=>response.json())
+                        .then(data => {
+                            resolve(data.payload)
+                        })
+                    })
+			    },
+                renderResult : (result, props) => {
+                    let group = ''
+                    if(result.index % 3 == 0){
+                        group = `<li class = "group">Group</li>`
+                    }
+                    return `
+                        ${group}
+                        <li ${props}>
+                            <div class="wiki-title">
+                                ${result.product_name}
+                            </div>
+                        </li>
+                    `
+                }
+		    })
         </script>
     </body>
 </html>

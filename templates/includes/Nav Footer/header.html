@@ -17,11 +17,10 @@
 			</div>
 			<div class="col">
 				<div class="col-lg-6 col-md-12 col-12">
-					<div class="input-group">
-						<form class="d-flex input-group">
-							<input style="background-color: #e3f2fd;" type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
-							<button id="search-btn" class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark" type="submit">Search</button>
-						</form>
+					<div class="autocomplete" id="autocomplete">
+						<input style="background-color: #e3f2fd;" class="form-control rounded autocomplete-input" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+						<!-- <button id="search-btn" class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark" type="submit">Search</button> -->
+						<ul class="autocomplete-result-list"></ul>
 					</div>
 				</div>
 			</div>
@@ -122,4 +121,8 @@
 	<!-- Container wrapper -->
 </nav>
 <!-- Navbar -->
+
+<script>
+	new Autocomplete('')
+</script>
 {% endif %}
