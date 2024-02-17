@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
+from io import BytesIO
 
 # Doctor
 # Doctor Home Page
@@ -49,8 +50,10 @@ def send_prescription(request):
         prescription = Prescription.objects.get(prescription_id = prescription_id)
 
         prescription.prescription_img = prescription_img
-        prescription.prescription_status = "Send Successfully"
+        prescription.prescription_status = "Pending"
         prescription.save()
+
+        img_data = BytesIO(prescription_img.read())
 
         email = EmailMultiAlternatives(
             "Message To Medicine Masters",
@@ -58,7 +61,7 @@ def send_prescription(request):
             'medicinemasters23@gmail.com',
             [prescription.user.email] 
         )
-        email.attach(prescription_img, "image/png")
+        html_content = render_to_string('doctor/prescription/email_template.html', {'prescription': prescription})
         email.send()
 
         context = {

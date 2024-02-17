@@ -189,6 +189,7 @@
         });
     })
 </script>
+
 <!-- plus qty in product_detauil -->
 <script>
     $(document).on('click', '.product_detail_cart_qty_plus', function(e){
@@ -805,6 +806,102 @@
 	                    <div class="d-flex">
 		                    <div class="toast-body">
 		                        Your Get Prescription Request Is Submited...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- add to cart All Product without page reload -->
+<script>
+    $(document).on('click', '#product_by_company_id_cart_item', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            type: 'POST',
+            url: 'add_to_cart_all_product_by_company/' + product_id ,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $(".cart_detail").load(location.href + " .cart_detail>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Is Added In Your Cart...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- All Product By Caegory cart qty plus Without page reload -->
+<script>
+    $(document).on('click', '#all_product_by_company_plus_qty', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'all_product_by_company_plus_qty/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Plus...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
+<!-- All Product By Category cart qty minus Without page reload -->
+<script>
+    $(document).on('click', '#all_product_by_company_minus_qty', function(e){
+        e.preventDefault();
+
+        var product_id = $(this).data('item-id');
+
+        $.ajax({
+            url: 'all_product_by_company_minus_qty/' + product_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Item Quantity Minus...
 		                    </div>
 	                    </div>
 	                </div>

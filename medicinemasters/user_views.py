@@ -136,7 +136,10 @@ def all_category(request):
 # Users Product Detail
 def product_detail(request, product_id):
     product = Product.objects.get(product_id = product_id)
-    cart = Cart_Detail.objects.filter(user_id = request.user.user_id)
+    if request.user.is_authenticated:
+        cart = Cart_Detail.objects.filter(user_id = request.user.user_id)
+    else:
+        cart = Cart_Detail.objects.all()
     product_detail = product.product_description
     save = int(product.product_price) - int(product.product_discount_price)
     similar_product = Product.objects.filter(subcategory_id = product.subcategory.subcategory_id)
@@ -893,7 +896,10 @@ def track_order_detail(request, order_tracking_id, order_id):
 def all_product_by_category(request, category_id):
     product = Product.objects.filter(subcategory_id = category_id)
     category_name = Sub_Category.objects.get(subcategory_id = category_id)
-    cart = Cart_Detail.objects.filter(user_id = request.user.user_id)
+    if request.user.is_authenticated:
+        cart = Cart_Detail.objects.filter(user_id = request.user.user_id)
+    else:
+        cart = Cart_Detail.objects.all()
     context = {
         'product' : product,
         'category_name' : category_name,
@@ -983,11 +989,11 @@ def get_prescription(request):
 def get_search(request):
     search = request.GET.get('search')
     payload = []
-    payload1 = []
 
     if search:
         products = Product.objects.filter(product_name__startswith = search)
         categories = Sub_Category.objects.filter(subcategory_name__startswith = search)
+        company = Company.objects.filter(company_name__startswith = search)
         if products:
             for product in products:
                 payload.append({
@@ -1006,7 +1012,158 @@ def get_search(request):
                     'category' : True
                 })
 
+        if company:
+            for company in company:
+                payload.append({
+                    'name' : company.company_name,
+                    'id' : company.company_id,
+                    'snippet' : company.company_owner_email,
+                    'company' : True
+                })
+
     return JsonResponse({
         'status' : True,
         'payload' : payload,
     })
+
+# All product by company
+def all_product_by_company(request, company_id):
+    product = Product.objects.filter(company_id = company_id)
+    company_name = Company.objects.get(company_id = company_id)
+    if request.user.is_authenticated:
+        cart = Cart_Detail.objects.filter(user_id = request.user.user_id)
+    else:
+        cart = Cart_Detail.objects.all()
+    context = {
+        'product' : product,
+        'company_name' : company_name,
+        'cart' : cart,
+        'company_id' : company_id,
+    }
+    return render(request, 'users/All_Product_By_Company.html', context)
+
+# Add cart in all product by company
+def add_to_cart_all_product_by_company(request , product_id):
+    if request.method == "POST":
+        products = Product.objects.get(product_id = product_id)
+        cart_item = Cart.objects.get(user_id=request.user.user_id)
+        cart_item_detail = Cart_Detail.objects.filter(cart_id = cart_item.cart_id,product_id = product_id)
+        cart_details = Cart_Detail.objects.filter(product_id = product_id)
+        cart = Cart_Detail.objects.all()
+
+        if not cart_item:
+            cart = Cart(
+                user_id = request.user.user_id,
+            )
+            cart.save()
+
+            cart_detail = Cart_Detail(
+                cart_quantity = 1,
+                cart_product_price = products.product_discount_price,
+                cart_id = cart_item.cart_id,
+                product_id = products.product_id,
+                user_id = request.user.user_id,
+            )
+            cart_detail.save()
+
+            cart_detail.cart_total_price = cart_detail.cart_quantity * products.product_discount_price
+            cart_detail.save()
+
+            messages.success(request, "Item added to your cart.")
+
+        else:
+            if not cart_item_detail:
+                cart_detail = Cart_Detail(
+                    cart_quantity = 1,
+                    cart_product_price = products.product_discount_price,
+                    cart_id = cart_item.cart_id,
+                    product_id = products.product_id,
+                    user_id = request.user.user_id,
+                )
+                cart_detail.save()
+
+                cart_detail.cart_total_price = cart_detail.cart_quantity * products.product_discount_price
+                cart_detail.save()
+
+                messages.success(request, "Item added to your cart.")
+
+            else:
+                for i in cart_details:
+                    if i.product_id == products.product_id:
+                        i.cart_quantity += 1
+                        i.save()
+
+                        i.cart_total_price = int(i.cart_quantity) * int(products.product_discount_price)
+                        i.save()
+
+                    else:
+                        cart_detail = Cart_Detail(
+                            cart_quantity = 1,
+                            cart_product_price = products.product_discount_price,
+                            cart_id = cart_item.cart_id,
+                            product_id = products.product_id,
+                            user_id = request.user.user_id,
+                        )
+                        cart_detail.save()
+
+                        cart_detail.cart_total_price = int(cart_detail.cart_quantity) * int(products.product_discount_price)
+                        cart_detail.save()
+
+                        messages.success(request, "Item added to your cart.")
+
+    return render(request, 'users/All_Product_By_Company.html')
+
+#all product qty plus
+def all_product_by_company_plus_qty(request, product_id):
+    if request.method == "POST":
+        product = Product.objects.all()
+        cart = Cart_Detail.objects.all()
+        product_count = Product.objects.all().count()
+        category = Sub_Category.objects.all()
+        category_count = Sub_Category.objects.all().count()
+    
+        cart_detail = Cart_Detail.objects.get(product_id = product_id, user_id = request.user.user_id)
+        cart_qty = cart_detail.cart_quantity
+
+        if cart_detail:
+            cart_detail.cart_quantity = cart_qty+1
+            cart_detail.cart_total_price = int(cart_detail.cart_quantity) * int(cart_detail.product.product_discount_price)
+            cart_detail.save()
+
+        context = {
+            'product' : product,
+            'product_count' : product_count,
+            'category' : category,
+            'category_count' : category_count,
+            'cart' : cart
+        }
+
+    return render(request, 'users/All_Product_By_Company.html', context)
+
+#all product qty minus
+def all_product_by_company_minus_qty(request, product_id):
+    product = Product.objects.all()
+    cart = Cart_Detail.objects.all()
+    product_count = Product.objects.all().count()
+    category = Sub_Category.objects.all()
+    category_count = Sub_Category.objects.all().count()
+    
+    cart_detail = Cart_Detail.objects.get(product_id = product_id, user_id = request.user.user_id)
+
+    if cart_detail:
+        if cart_detail.cart_quantity == 1 :
+            cart_detail.delete()
+        else:
+            cart_detail.cart_quantity = cart_detail.cart_quantity-1
+            cart_detail.cart_total_price = int(cart_detail.cart_quantity) * int(cart_detail.product.product_discount_price)
+            cart_detail.save()
+
+    context = {
+        'product' : product,
+        'product_count' : product_count,
+        'category' : category,
+        'category_count' : category_count,
+        'cart' : cart
+    }
+
+    return render(request, 'users/All_Product_By_Company.html', context)
