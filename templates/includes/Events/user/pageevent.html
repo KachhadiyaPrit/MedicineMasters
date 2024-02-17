@@ -308,6 +308,7 @@
         form_data.append('order_amount', order_amount);
         form_data.append('order_discount', order_discount);
         form_data.append('shipping_price', shipping_price);
+        form_data.append('prescription_img', $('#prescription_img')[0].files[0]);
 
         $.ajax({
             url: "{% url 'cart_checkout_order' %}",

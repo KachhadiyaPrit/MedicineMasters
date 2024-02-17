@@ -71,6 +71,17 @@
                                         <label class="form-label" for="pincode">Delivery Address Pincode</label>
                                     </div>
                                 </div>
+
+                                {% if prescription_status > 0 %}
+                                <hr>
+                                <h5 class="card-title mb-3">Prescription Image</h5>
+                                <hr>
+                                <div class="col-sm-12">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="file" id="prescription_img" name="prescription_img" class="form-control" required/>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -114,7 +125,7 @@
                     
                                 <div class="d-flex justify-content-center">
                                     <button id="go-back" class="btn btn-light border me-1">Cancel</button>
-                                    <button class="btn btn-success shadow-0 border ms-1" id="rzp-button1"><i class="fas fa-money-bill"></i> Continue</button>
+                                    <button class="btn btn-success shadow-0 border ms-1" id="rzp-button1"><i class="fas fa-money-bill"></i> Order Now</button>
                                 </div>
                             </div>
                         </div>

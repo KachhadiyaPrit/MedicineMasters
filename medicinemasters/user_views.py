@@ -189,6 +189,7 @@ def add_to_cart(request):
                 cart_product_price = products.product_discount_price,
                 cart_id = cart_item.cart_id,
                 product_id = products.product_id,
+                prescription_status = products.product_prescription_status,
                 user_id = request.user.user_id,
             )
             cart_detail.save()
@@ -202,6 +203,7 @@ def add_to_cart(request):
                     cart_product_price = products.product_discount_price,
                     cart_id = cart_item.cart_id,
                     product_id = products.product_id,
+                    prescription_status = products.product_prescription_status,
                     user_id = request.user.user_id,
                 )
                 cart_detail.save()
@@ -221,6 +223,7 @@ def add_to_cart(request):
                             cart_product_price = products.product_discount_price,
                             cart_id = cart_item.cart_id,
                             product_id = products.product_id,
+                            prescription_status = products.product_prescription_status,
                             user_id = request.user.user_id,
                         )
                         cart_detail.save()
@@ -266,6 +269,7 @@ def add_to_cart_all_product(request):
                 cart_product_price = products.product_discount_price,
                 cart_id = cart_item.cart_id,
                 product_id = products.product_id,
+                prescription_status = products.product_prescription_status,
                 user_id = request.user.user_id,
             )
             cart_detail.save()
@@ -279,6 +283,7 @@ def add_to_cart_all_product(request):
                     cart_product_price = products.product_discount_price,
                     cart_id = cart_item.cart_id,
                     product_id = products.product_id,
+                    prescription_status = products.product_prescription_status,
                     user_id = request.user.user_id,
                 )
                 cart_detail.save()
@@ -298,6 +303,7 @@ def add_to_cart_all_product(request):
                             cart_product_price = products.product_discount_price,
                             cart_id = cart_item.cart_id,
                             product_id = products.product_id,
+                            prescription_status = products.product_prescription_status,
                             user_id = request.user.user_id,
                         )
                         cart_detail.save()
@@ -618,6 +624,7 @@ def add_to_cart_product_detail(request , product_id):
                 cart_product_price = product.product_discount_price,
                 cart_id = cart_item.cart_id,
                 product_id = product.product_id,
+                prescription_status = products.product_prescription_status,
                 user_id = request.user.user_id,
             )
             cart_detail.save()
@@ -634,6 +641,7 @@ def add_to_cart_product_detail(request , product_id):
                     cart_product_price = product.product_discount_price,
                     cart_id = cart_item.cart_id,
                     product_id = product.product_id,
+                    prescription_status = product.product_prescription_status,
                     user_id = request.user.user_id,
                 )
                 cart_detail.save()
@@ -658,6 +666,7 @@ def add_to_cart_product_detail(request , product_id):
                             cart_product_price = product.product_discount_price,
                             cart_id = cart_item.cart_id,
                             product_id = product.product_id,
+                            prescription_status = products.product_prescription_status,
                             user_id = request.user.user_id,
                         )
                         cart_detail.save()
@@ -689,6 +698,7 @@ def add_to_cart_all_product_by_category(request , product_id):
                 cart_product_price = products.product_discount_price,
                 cart_id = cart_item.cart_id,
                 product_id = products.product_id,
+                prescription_status = products.product_prescription_status,
                 user_id = request.user.user_id,
             )
             cart_detail.save()
@@ -705,6 +715,7 @@ def add_to_cart_all_product_by_category(request , product_id):
                     cart_product_price = products.product_discount_price,
                     cart_id = cart_item.cart_id,
                     product_id = products.product_id,
+                    prescription_status = products.product_prescription_status,
                     user_id = request.user.user_id,
                 )
                 cart_detail.save()
@@ -729,6 +740,7 @@ def add_to_cart_all_product_by_category(request , product_id):
                             cart_product_price = products.product_discount_price,
                             cart_id = cart_item.cart_id,
                             product_id = products.product_id,
+                            prescription_status = products.product_prescription_status,
                             user_id = request.user.user_id,
                         )
                         cart_detail.save()
@@ -767,6 +779,7 @@ def checkout(request, product_id):
 # Cart Checkout view
 def cart_checkout(request, cart_id):
     cart_items = Cart_Detail.objects.filter(cart_id = cart_id)
+    prescription_status = Cart_Detail.objects.filter(cart_id = cart_id, prescription_status = 0).count()
     address = DeliveryAddress.objects.get(user_id = request.user.user_id)
     offer_code = request.POST.get('offer_code')
     offer_detail = Offer.objects.filter(offer_code = offer_code)
@@ -793,7 +806,8 @@ def cart_checkout(request, cart_id):
         'discount' : discount,
         'after_discount_value':after_discount_value,
         'shipping_cost':shipping_cost,
-        'payment':payment
+        'payment':payment,
+        'prescription_status':prescription_status
     }
     
     return render(request, 'users/Cart_Checkout.html', context)
@@ -811,9 +825,10 @@ def cart_checkout_order(request):
         order_amount = request.POST.get('order_amount')
         order_discount = request.POST.get('order_discount')
         shipping_price = request.POST.get('shipping_price')
+        prescription_img = request.FILES.get('prescription_img')
+
         cart_user = Cart.objects.get(user_id=request.user.user_id)
         cart_items = Cart_Detail.objects.filter(cart_id = cart_user.cart_id)
-
         
         order = Order(
             order_total_amount = order_total_amount,
@@ -833,6 +848,14 @@ def cart_checkout_order(request):
                 user_id = request.user.user_id
             )
             order_detail.save()
+        
+            if i.product.product_prescription_status == 0:
+                prescription = Prescription(
+                    prescription_img = prescription_img,
+                    user_id = request.user.user_id,
+                    order_detail_id = order_detail.order_detail_id
+                )
+            prescription.save()
             
     return render(request, 'users/Cart_Checkout.html')
 
@@ -1062,6 +1085,7 @@ def add_to_cart_all_product_by_company(request , product_id):
                 cart_product_price = products.product_discount_price,
                 cart_id = cart_item.cart_id,
                 product_id = products.product_id,
+                prescription_status = products.product_prescription_status,
                 user_id = request.user.user_id,
             )
             cart_detail.save()
@@ -1078,6 +1102,7 @@ def add_to_cart_all_product_by_company(request , product_id):
                     cart_product_price = products.product_discount_price,
                     cart_id = cart_item.cart_id,
                     product_id = products.product_id,
+                    prescription_status = products.product_prescription_status,
                     user_id = request.user.user_id,
                 )
                 cart_detail.save()
@@ -1102,6 +1127,7 @@ def add_to_cart_all_product_by_company(request , product_id):
                             cart_product_price = products.product_discount_price,
                             cart_id = cart_item.cart_id,
                             product_id = products.product_id,
+                            prescription_status = products.product_prescription_status,
                             user_id = request.user.user_id,
                         )
                         cart_detail.save()

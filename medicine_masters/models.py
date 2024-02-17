@@ -168,6 +168,7 @@ class Cart_Detail(models.Model):
     cart_total_price = models.IntegerField(null=True,blank=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE,null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
+    prescription_status = models.IntegerField(null=False)
     user = models.ForeignKey(Users, on_delete=models.CASCADE,null=True)
 
 class Notification(models.Model):
@@ -188,5 +189,5 @@ class Prescription(models.Model):
     prescription_message = models.CharField(max_length=150, null=True, blank=True)
     prescription_img = models.ImageField(upload_to='media/prescription_img',null=True, blank=True)
     prescription_status = models.CharField(max_length=100, default="Pending")
-    quantity = models.IntegerField(null=True, blank=True)
     user = models.ForeignKey(Users, on_delete=models.CASCADE,null=True)
+    order_detail = models.ForeignKey(Order_Detail, on_delete=models.CASCADE,null=True, blank=True)
