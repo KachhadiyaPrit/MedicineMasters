@@ -13,27 +13,32 @@ from django.http import JsonResponse
 
 # Users Home Page
 def users_home(request):
-    product = Product.objects.all()
-    if request.user.is_authenticated:
-        cart_object = Cart.objects.get(user_id = request.user.user_id)
-        cart = Cart_Detail.objects.filter(cart_id = cart_object.cart_id)
-    else:
-        cart = Cart_Detail.objects.all()
-    product_count = Product.objects.all().count()
-    category = Sub_Category.objects.all()
-    category_count = Sub_Category.objects.all().count()
-
-    context = {
-        'product' : product,
-        'product_count' : product_count,
-        'category' : category,
-        'category_count' : category_count,
-        'cart' : cart
-    }
     if request.user.is_authenticated and request.user.user_type == 1:
-        return render(request, 'admin/dashboard & profile/admin-home.html')
+            return redirect('admin_home')
+    elif request.user.is_authenticated and request.user.user_type == 3:
+        return redirect('doctor_home')
     else:
-        return render(request, 'users/Home.html', context)
+        if request.user.is_authenticated:
+            cart_object = Cart.objects.get(user_id = request.user.user_id)
+            cart = Cart_Detail.objects.filter(cart_id = cart_object.cart_id)
+        else:
+            cart = Cart_Detail.objects.all()
+        product = Product.objects.all()
+        product_count = Product.objects.all().count()
+        category = Sub_Category.objects.all()
+        category_count = Sub_Category.objects.all().count()
+
+        context = {
+            'product' : product,
+            'product_count' : product_count,
+            'category' : category,
+            'category_count' : category_count,
+            'cart' : cart
+        }
+        if request.user.is_authenticated and request.user.user_type == 1:
+            return render(request, 'admin/dashboard & profile/admin-home.html')
+        else:
+            return render(request, 'users/Home.html', context)
 
 # Users Profile
 def users_profile(request):
