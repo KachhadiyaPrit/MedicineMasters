@@ -21,7 +21,7 @@
                                     <img src="{% static 'medicine_masters_assets/images/user.png' %}" alt="Profile" class="rounded-circle">
                                 {% else %}
                                     <img src="/{{prescription_detail.user.profile_pic}}" alt="Profile" height="120px" width="120px" class="rounded-circle">
-                                    <img src="{% static 'medicine_masters_assets/images/user.png' %}" alt="Profile" class="rounded-circle" data-bs-toggle="modal" data-bs-target="#profileModal">
+                                    
                                 {% endif %}
                                 <h3 class="mt-2">{{user.username}}</h3>
                                 <h6>{{user.email}}</h6>
