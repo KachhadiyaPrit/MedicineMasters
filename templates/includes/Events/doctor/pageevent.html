@@ -38,3 +38,61 @@
         });
     });
 </script>
+
+<!-- Give permission without page reload -->
+<script>
+    $(document).on('click', '#approve_btn', function(e){
+        e.preventDefault();
+
+        var prescription_id = $(this).data('item-id');
+
+        $.ajax({
+            url: '../approve_prescription/' + prescription_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $(window).scrollTop(0);
+                $("#status_card").load(location.href + " #status_card>*", "");
+                $("#success").html(
+                    `
+                    <div class="alert alert-success" roal="success">
+                        Your Prescription Status Is Updated...
+                    </div>
+                    `
+                )
+                setInterval(function(){
+                    $('.alert').fadeOut();
+                }, 3000)
+            }
+        });
+    })
+</script>
+
+<!-- Give permission without page reload -->
+<script>
+    $(document).on('click', '#reject_btn', function(e){
+        e.preventDefault();
+
+        var prescription_id = $(this).data('item-id');
+
+        $.ajax({
+            url: '../reject_prescription/' + prescription_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $(window).scrollTop(0);
+                $("#status_card").load(location.href + " #status_card>*", "");
+                $("#success").html(
+                    `
+                    <div class="alert alert-success" roal="success">
+                        Your Prescription Status Is Updated...
+                    </div>
+                    `
+                )
+                setInterval(function(){
+                    $('.alert').fadeOut();
+                }, 3000)
+            }
+        });
+    })
+</script>

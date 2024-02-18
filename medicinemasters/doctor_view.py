@@ -11,9 +11,11 @@ from django.utils.html import strip_tags
 def doctor_home(request):
     prescription = Prescription.objects.all().count()
     send_prscription_count = Prescription.objects.filter(prescription_status = 'Sending Successfully').count()
+    approve_prscription_count = Prescription.objects.filter(prescription_status = 'Approve').count()
     context = {
         'prescription' : prescription,
-        'send_prscription_count' : send_prscription_count
+        'send_prscription_count' : send_prscription_count,
+        'approve_prscription_count' : approve_prscription_count
     }
     return render(request, 'doctor/dashboard/doctor-home.html', context)
 
@@ -77,3 +79,41 @@ def send_prescription(request):
             'prescription' : prescription,
         }
     return render(request, 'doctor/prescription/generate_prescription.html', context)
+
+# Approve Prescription
+def approve_prescription(request, prescription_id):
+    prescription_detail = Prescription.objects.get(prescription_id = prescription_id)
+    prescription_detail.prescription_status = 'Approve'
+    prescription_detail.save()
+
+    send_mail(
+        'Message To Medicine Masters',
+        'Hello '+prescription_detail.user.username+' Your order is confirm by your upload priscriptin is approved, your medicine is deliverd in your address in 2 to 3 hour.',
+        'medicinemasters23@gmail.com',
+        [prescription_detail.user.email],
+        fail_silently=False,
+    )
+
+    context = {
+        'prescription_detail' : prescription_detail
+    }
+    return render(request, 'doctor/prescription/view_prescription_details.html', context)
+
+# Reject Prescription
+def reject_prescription(request, prescription_id):
+    prescription_detail = Prescription.objects.get(prescription_id = prescription_id)
+    prescription_detail.prescription_status = 'Reject'
+    prescription_detail.save()
+
+    send_mail(
+        'Message To Medicine Masters',
+        'Hello '+prescription_detail.user.username+' Your order is cancle by your upload priscriptin is reject because your upload prescription is not matched by medicine , upload again and confirm order.',
+        'medicinemasters23@gmail.com',
+        [prescription_detail.user.email],
+        fail_silently=False,
+    )
+
+    context = {
+        'prescription_detail' : prescription_detail
+    }
+    return render(request, 'doctor/prescription/view_prescription_details.html', context)
