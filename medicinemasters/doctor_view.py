@@ -28,7 +28,11 @@ def view_all_prescription(request):
 
 # View prescription detail
 def view_prescription_details(request, prescription_id):
-    return render(request, 'doctor/prescription/view_prescription_details.html')
+    prescription_detail = Prescription.objects.get(prescription_id = prescription_id)
+    context = {
+        'prescription_detail' : prescription_detail
+    }
+    return render(request, 'doctor/prescription/view_prescription_details.html', context)
 
 # Manage got prescription
 def view_got_prescriptions(request):

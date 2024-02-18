@@ -32,7 +32,7 @@
                                                 <td>{{i.prescription_status}}</td>
                                                 <td class="text-right">
                                                     <div class="actions">
-                                                        <a href="#" class="btn btn-sm bg-success-light mr-2">
+                                                        <a href="{% url 'view_prescription_details' i.prescription_id %}" class="btn btn-sm bg-success-light mr-2">
                                                             <i class="fas fa-light fa-eye"></i>
                                                         </a>
                                                         <a href="#" class="btn btn-sm bg-danger-light" id="delete_category">

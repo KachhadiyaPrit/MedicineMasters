@@ -1,0 +1,139 @@
+{% extends 'doctor-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <ul class="breadcrumb mt-3">
+            <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'view_all_prescription' %}">View All Prescription</a></li>
+            <li class="breadcrumb-item active">Prescription Details</li>
+        </ul>
+    </div><!-- End Page Title -->
+    <div id="success"></div>
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center" id="profile">
+                                {% if prescription_detail.user.profile_pic == "" %}
+                                    <img src="{% static 'medicine_masters_assets/images/user.png' %}" alt="Profile" class="rounded-circle">
+                                {% else %}
+                                    <img src="/{{prescription_detail.user.profile_pic}}" alt="Profile" height="120px" width="120px" class="rounded-circle">
+                                    <img src="{% static 'medicine_masters_assets/images/user.png' %}" alt="Profile" class="rounded-circle" data-bs-toggle="modal" data-bs-target="#profileModal">
+                                {% endif %}
+                                <h3 class="mt-2">{{user.username}}</h3>
+                                <h6>{{user.email}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" id="status_card">
+                        <div class="card shadow">
+                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center" id="profile">
+                                <h3 class="mt-2">User Status : {% if user.is_active == 1 %} <span class="text-success">Is Active</span>{% else %}<span class="text-danger">Is Blocked</span>{% endif %}</h3>
+                                {% if user.is_active == 1 %}
+                                    <h3 class="mt-2" style="font-size: 17px;">If you are blocked <b>{{user.first_name}} {{user.last_name}}</b><a href="{% url 'change_status' user.user_id %}" id="status_change"> click!</a></h3>
+                                {% else %}
+                                    <h3 class="mt-2" style="font-size: 17px;">If you are unblocked <b>{{user.first_name}} {{user.last_name}}</b><a href="{% url 'change_status' user.user_id %}" id="status_change"> click!</a></h3>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body pt-3">
+                                    <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="profile_link">
+                                        <li class="nav-item col">
+                                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">User Details</button>
+                                        </li>
+                                    </ul>
+        
+                                    <div class="tab-content pt-2 d-block" id="profilecard">
+                                        <div class="tab-pane fade-out show active profile-overview" id="profile-overview">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label ">Username :-</div>
+                                                <div class="col-lg-9 col-md-8">{{user.username}}</div>
+                                            </div>
+        
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label ">Full Name :-</div>
+                                                <div class="col-lg-9 col-md-8">{{user.first_name}} {{user.last_name}}</div>
+                                            </div>
+        
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Email :-</div>
+                                                <div class="col-lg-9 col-md-8">{{user.email}}</div>
+                                            </div>
+        
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Gender :-</div>
+                                                <div class="col-lg-9 col-md-8">{{user.gender}}</div>
+                                            </div>
+        
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Phone :-</div>
+                                                <div class="col-lg-9 col-md-8">{{user.phone}}</div>
+                                            </div>
+        
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Birth Of Date :-</div>
+                                                <div class="col-lg-9 col-md-8">{{user.bod|date:'d-m-Y'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body pt-3">
+                                    <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="profile_link">
+                                        <li class="nav-item col">
+                                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">User Order / Payment Detail</button>
+                                        </li>
+                                    </ul>
+        
+                                    <div class="tab-content pt-2 d-block" id="profilecard">
+                                        <div class="tab-pane fade-out show active profile-overview" id="profile-overview">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label ">Total Order :-</div>
+                                                <div class="col-lg-9 col-md-8">{{order_count}}</div>
+                                            </div>
+        
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label ">Total Payments :-</div>
+                                                <div class="col-lg-9 col-md-8">{{total_payment}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Profile Picture</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="{% static 'medicine_masters_assets/images/user.png' %}" alt="Profile" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock  %}
