@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from medicine_masters.models import Users,DeliveryAddress,Prescription,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Prescription
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 from io import BytesIO
 
@@ -53,15 +52,13 @@ def send_prescription(request):
         prescription.prescription_status = "Pending"
         prescription.save()
 
-        img_data = BytesIO(prescription_img.read())
 
-        email = EmailMultiAlternatives(
+        email = EmailMessage(
             "Message To Medicine Masters",
             "Hello Dear " + prescription.user.username +" I am Send To Prescription As Per Your Request, Check And Submit To Your Order According..."
             'medicinemasters23@gmail.com',
             [prescription.user.email] 
         )
-        html_content = render_to_string('doctor/prescription/email_template.html', {'prescription': prescription})
         email.send()
 
         context = {
