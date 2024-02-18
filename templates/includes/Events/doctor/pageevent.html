@@ -22,6 +22,7 @@
                 success: () => {
                     $(window).scrollTop(0);
                     $("#prescription_form").load(location.href + " #prescription_form>*", "");
+                    $("#status_card").load(location.href + " #status_card>*", "");
                     $("#success").html(
                         `
                         <div class="alert alert-success" roal="success">

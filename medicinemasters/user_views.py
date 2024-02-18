@@ -757,6 +757,7 @@ def checkout(request, product_id):
     checkout_product = Product.objects.get(product_id = product_id)
     checkout_price = Product.objects.filter(product_id = product_id)
     address = DeliveryAddress.objects.get(user_id = request.user.user_id)
+    prescription_status = Cart_Detail.objects.filter(product_id = product_id ,prescription_status = 0).count()
     discount = 0
     total = 0
 
@@ -772,7 +773,8 @@ def checkout(request, product_id):
         'checkout_product':checkout_product,
         'address':address,
         'discount':discount,
-        'after_discount_value':after_discount_value
+        'after_discount_value':after_discount_value,
+        'prescription_status':prescription_status
     }
     return render(request, 'users/Checkout.html', context)
 
@@ -855,7 +857,7 @@ def cart_checkout_order(request):
                     user_id = request.user.user_id,
                     order_detail_id = order_detail.order_detail_id
                 )
-            prescription.save()
+                prescription.save()
             
     return render(request, 'users/Cart_Checkout.html')
 
@@ -871,6 +873,7 @@ def checkout_order(request, product_id):
         order_total_amount = request.POST.get('order_total_amount')
         order_amount = request.POST.get('order_amount')
         order_discount = request.POST.get('order_discount')
+        prescription_img = request.FILES.get('prescription_img')
         cart_user = Cart.objects.get(user_id=request.user.user_id)
         
         product = Product.objects.get(product_id = product_id)
@@ -892,6 +895,13 @@ def checkout_order(request, product_id):
             user_id = request.user.user_id
         )
         order_detail.save()
+
+        prescription = Prescription(
+            prescription_img = prescription_img,
+            user_id = request.user.user_id,
+            order_detail_id = order_detail.order_detail_id
+        )
+        prescription.save()
 
     return render(request, 'users/Checkout.html')
 

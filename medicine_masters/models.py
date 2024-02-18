@@ -188,6 +188,6 @@ class Prescription(models.Model):
     prescription_id = models.BigAutoField(auto_created=True, primary_key=True)
     prescription_message = models.CharField(max_length=150, null=True, blank=True)
     prescription_img = models.ImageField(upload_to='media/prescription_img',null=True, blank=True)
-    prescription_status = models.CharField(max_length=100, default="Pending")
+    prescription_status = models.CharField(max_length=100, default="Pending For Approve")
     user = models.ForeignKey(Users, on_delete=models.CASCADE,null=True)
     order_detail = models.ForeignKey(Order_Detail, on_delete=models.CASCADE,null=True, blank=True)

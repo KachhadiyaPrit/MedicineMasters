@@ -71,6 +71,17 @@
                                         <label class="form-label" for="pincode">Delivery Address Pincode</label>
                                     </div>
                                 </div>
+
+                                {% if prescription_status > 0 %}
+                                <hr>
+                                <h5 class="card-title mb-3">Prescription Image</h5>
+                                <hr>
+                                <div class="col-sm-12">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="file" id="prescription_img" name="prescription_img" class="form-control" required/>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
