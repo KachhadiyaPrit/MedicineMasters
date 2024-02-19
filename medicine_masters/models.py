@@ -186,10 +186,10 @@ class Feedback(models.Model):
 
 class Prescription(models.Model):
     prescription_id = models.BigAutoField(auto_created=True, primary_key=True)
-    prescription_img = models.ImageField(upload_to='media/prescription_img',null=True, blank=True)
+    prescription_img = models.ImageField(upload_to='media/prescription_img',null=True)
     user = models.ForeignKey(Users, on_delete=models.CASCADE,null=True)
 
-class Pre_Details:
+class Prescription_Detail(models.Model):
     prescription_detail_id = models.BigAutoField(auto_created=True, primary_key=True)
     prescription_message = models.CharField(max_length=150, null=True, blank=True)
     prescription_status = models.CharField(max_length=100, default="Pending For Approve")

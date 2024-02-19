@@ -105,8 +105,8 @@ urlpatterns = [
     path('doctor/view_got_prescriptions', doctor_view.view_got_prescriptions, name='view_got_prescriptions'),
     path('doctor/view_got_prescriptions/generate_prescription_page/<int:prescription_id>', doctor_view.generate_prescription_page, name='generate_prescription_page'),
     path('doctor/view_got_prescriptions/generate_prescription_page/send_prescription', doctor_view.send_prescription, name='send_prescription'),
-    path('doctor/approve_prescription/<int:prescription_id>', doctor_view.approve_prescription, name='approve_prescription'),
-    path('doctor/reject_prescription/<int:prescription_id>', doctor_view.reject_prescription, name='reject_prescription'),
+    path('doctor/approve_prescription/<int:prescription_id>/<int:prescription_detail_id>', doctor_view.approve_prescription, name='approve_prescription'),
+    path('doctor/reject_prescription/<int:prescription_id>/<int:prescription_detail_id>', doctor_view.reject_prescription, name='reject_prescription'),
 
     # User Home Page Url, Profile / Profile Update Url, Add / Edit Address Url
     path('', user_views.users_home, name='users_home'),    

@@ -6,7 +6,7 @@ import json
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from medicine_masters import helpers
-from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback,Prescription
+from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback,Prescription,Prescription_Detail
 import razorpay
 from django.conf import settings
 from django.http import JsonResponse
@@ -841,6 +841,12 @@ def cart_checkout_order(request):
         )
         order.save()
 
+        prescription = Prescription(
+            prescription_img = prescription_img,
+            user_id = request.user.user_id,
+        )
+        prescription.save()
+
         for i in cart_items:
             order_detail = Order_Detail( 
                 product_name = i.product.product_name,
@@ -853,12 +859,12 @@ def cart_checkout_order(request):
             order_detail.save()
         
             if i.product.product_prescription_status == 0:
-                prescription = Prescription(
-                    prescription_img = prescription_img,
-                    user_id = request.user.user_id,
-                    order_detail_id = order_detail.order_detail_id
+                prescription_detail = Prescription_Detail(
+                    order_detail_id = order_detail.order_detail_id,
+                    prescription_id = prescription.prescription_id,
+                    user_id = request.user.user_id
                 )
-                prescription.save()
+                prescription_detail.save()
             
     return render(request, 'users/Cart_Checkout.html')
 
@@ -900,9 +906,15 @@ def checkout_order(request, product_id):
         prescription = Prescription(
             prescription_img = prescription_img,
             user_id = request.user.user_id,
-            order_detail_id = order_detail.order_detail_id
         )
         prescription.save()
+
+        prescription_detail = Prescription_Detail(
+            order_detail_id = order_detail.order_detail_id,
+            prescription_id = prescription.prescription_id,
+            user_id = request.user.user_id
+        )
+        prescription_detail.save()
 
     return render(request, 'users/Checkout.html')
 

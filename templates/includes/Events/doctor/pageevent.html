@@ -44,10 +44,11 @@
     $(document).on('click', '#approve_btn', function(e){
         e.preventDefault();
 
-        var prescription_id = $(this).data('item-id');
+        var prescription_detail_id = $(this).data('item-id');
+        var prescription_id = $(this).data('item-id2');
 
         $.ajax({
-            url: '../approve_prescription/' + prescription_id ,
+            url: '../approve_prescription/' + prescription_id +'/'+prescription_detail_id ,
             method: 'POST',
             headers: {'X-CSRFToken': '{{ csrf_token }}'},
             success: () => {
@@ -73,10 +74,11 @@
     $(document).on('click', '#reject_btn', function(e){
         e.preventDefault();
 
-        var prescription_id = $(this).data('item-id');
+        var prescription_detail_id = $(this).data('item-id');
+        var prescription_id = $(this).data('item-id2');
 
         $.ajax({
-            url: '../reject_prescription/' + prescription_id ,
+            url: '../reject_prescription/' + prescription_id +'/'+prescription_detail_id ,
             method: 'POST',
             headers: {'X-CSRFToken': '{{ csrf_token }}'},
             success: () => {

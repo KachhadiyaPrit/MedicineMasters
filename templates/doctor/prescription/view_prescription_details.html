@@ -17,40 +17,30 @@
                     <div class="col-12">
                         <div class="card shadow">
                             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center" id="profile">
-                                {% if prescription_detail.user.profile_pic == "" %}
+                                {% if prescription.user.profile_pic == "" %}
                                     <img src="{% static 'medicine_masters_assets/images/user.png' %}" alt="Profile" class="rounded-circle">
                                 {% else %}
-                                    <img src="/{{prescription_detail.user.profile_pic}}" id="fullscreen-btn" alt="Profile" height="120px" width="120px" class="rounded-circle">
+                                    <img src="/{{prescription.user.profile_pic}}" id="fullscreen-btn" alt="Profile" height="120px" width="120px" class="rounded-circle">
                                 {% endif %}
-                                <h3 class="mt-2">{{prescription_detail.user.username}}</h3>
-                                <h6>{{prescription_detail.user.email}}</h6>
+                                <h3 class="mt-2">{{prescription.user.username}}</h3>
+                                <h6>{{prescription.user.email}}</h6>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12" id="status_card">
+                    <div class="col-12">
                         <div class="card shadow">
-                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                                <h3>
-                                    <b>Prescription Is : </b>
-                                    {% if prescription_detail.prescription_status == 'Pending For Approve' %}
-                                        <span class="text-primary">{{prescription_detail.prescription_status}}</span>
-                                    {% elif prescription_detail.prescription_status == 'Approve' %}
-                                        <span class="text-success">{{prescription_detail.prescription_status}}</span>
-                                    {% else %}
-                                        <span class="text-danger">{{prescription_detail.prescription_status}}</span>
-                                    {% endif %} <hr>
-                                </h3>
-                                <div class="row">
-                                    {% if prescription_detail.prescription_status == 'Pending For Approve' %}
-                                        <div class="col"><button type="button" class="btn btn-primary" data-item-id="{{prescription_detail.prescription_id}}" id="approve_btn">Approved</button></div>
-                                        <div class="col"><button type="button" class="btn btn-danger" data-item-id="{{prescription_detail.prescription_id}}" id="reject_btn">Reject</button></div>
-                                    {% elif prescription_detail.prescription_status == 'Approve' %}
-                                        <div class="col"><button type="button" class="btn btn-primary" disabled>Approved</button></div>
-                                        <div class="col"><button type="button" class="btn btn-danger" data-item-id="{{prescription_detail.prescription_id}}" id="reject_btn">Reject</button></div>
-                                    {% else %}
-                                        <div class="col"><button type="button" class="btn btn-primary" disabled x>Approved</button></div>
-                                        <div class="col"><button type="button" class="btn btn-danger" disabled>Reject</button></div>
-                                    {% endif %}
+                            <div class="card-body profile-card d-flex flex-column align-items-center">
+                                <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="prescription_link">
+                                    <li class="nav-item col">
+                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Prescription Image</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content pt-2 d-block" id="prescription_img_card">
+                                    <div class="tab-pane fade-out show active profile-overview" id="profile-overview">
+                                        <a href="/{{prescription.prescription_img}}" data-toggle="lightbox">
+                                            <img src="/{{prescription.prescription_img}}" class="w-50">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -68,38 +58,32 @@
                                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Prescription Medicine Detail</button>
                                         </li>
                                     </ul>
-        
-                                    <div class="tab-content pt-2 d-block" id="profilecard">
-                                        <div class="tab-pane fade-out show active profile-overview" id="profile-overview">
+                                    
+                                    <div class="tab-content pt-2 d-block" id="status_card">
+                                        <div class="tab-pane fade-out show active profile-overview">
+                                            {% for i in prescription_detail %}
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label ">Product Name :-</div>
-                                                <div class="col-lg-9 col-md-8">{{prescription_detail.order_detail.product.product_name}}</div>
+                                                <div class="col-lg-9 col-md-8">{{i.order_detail.product.product_name}}</div>
                                             </div>
-        
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label ">Product Quantity :-</div>
-                                                <div class="col-lg-9 col-md-8">{{prescription_detail.order_detail.product_quantity}}</div>
+                                                <div class="col-lg-9 col-md-8">{{i.order_detail.product_quantity}}</div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card shadow">
-                            <div class="card-body pt-3">
-                                    <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="profile_link">
-                                        <li class="nav-item col">
-                                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Prescription Image</button>
-                                        </li>
-                                    </ul>
-        
-                                    <div class="tab-content pt-2 d-block" id="profilecard">
-                                        <div class="tab-pane fade-out show active profile-overview" id="profile-overview">
-                                            <a href="/{{prescription_detail.prescription_img}}" data-toggle="lightbox">
-                                                <img src="/{{prescription_detail.prescription_img}}" class="w-50">
-                                            </a>
+                                            <div class="row">
+                                                {% if i.prescription_status == 'Pending For Approve' %}
+                                                    <div class="col text-end"><button type="button" class="btn btn-primary" data-item-id="{{i.prescription_detail_id}}" data-item-id2="{{prescription.prescription_id}}" id="approve_btn">Approved</button></div>
+                                                    <div class="col"><button type="button" class="btn btn-danger" data-item-id="{{i.prescription_detail_id}}" data-item-id2="{{prescription.prescription_id}}" id="reject_btn">Reject</button></div>
+                                                {% elif i.prescription_status == 'Approve' %}
+                                                    <div class="col text-end"><button type="button" class="btn btn-primary" disabled>Approved</button></div>
+                                                    <div class="col"><button type="button" class="btn btn-danger" data-item-id="{{i.prescription_detail_id}}" data-item-id2="{{prescription.prescription_id}}" id="reject_btn">Reject</button></div>
+                                                {% else %}
+                                                    <div class="col text-end"><button type="button" class="btn btn-primary" disabled x>Approved</button></div>
+                                                    <div class="col"><button type="button" class="btn btn-danger" disabled>Reject</button></div>
+                                                {% endif %}
+                                            </div>
+                                            <hr>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>

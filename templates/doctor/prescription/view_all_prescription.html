@@ -20,7 +20,6 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Usre Name</th>
-                                                <th>Status</th>
                                                 <th class="text-right">Action</th>
                                             </tr>
                                         </thead>
@@ -29,7 +28,6 @@
                                             <tr>
                                                 <td>{{forloop.counter}}</td>
                                                 <td>{{i.user.username}}</td>
-                                                <td>{{i.prescription_status}}</td>
                                                 <td class="text-right">
                                                     <div class="actions">
                                                         <a href="{% url 'view_prescription_details' i.prescription_id %}" class="btn btn-sm bg-success-light mr-2">

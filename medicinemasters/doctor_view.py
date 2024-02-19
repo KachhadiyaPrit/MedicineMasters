@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from medicine_masters.models import Users,DeliveryAddress,Prescription,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Prescription
+from medicine_masters.models import Users,DeliveryAddress,Prescription,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Prescription_Detail
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -10,8 +10,8 @@ from django.utils.html import strip_tags
 # Doctor Home Page
 def doctor_home(request):
     prescription = Prescription.objects.all().count()
-    send_prscription_count = Prescription.objects.filter(prescription_status = 'Sending Successfully').count()
-    approve_prscription_count = Prescription.objects.filter(prescription_status = 'Approve').count()
+    send_prscription_count = Prescription_Detail.objects.filter(prescription_status = 'Sending Successfully').count()
+    approve_prscription_count = Prescription_Detail.objects.filter(prescription_status = 'Approve').count()
     context = {
         'prescription' : prescription,
         'send_prscription_count' : send_prscription_count,
@@ -21,7 +21,7 @@ def doctor_home(request):
 
 # View all prescription
 def view_all_prescription(request):
-    prescription = Prescription.objects.exclude(prescription_status__in = ['Pending', 'Sending Successfully'])
+    prescription = Prescription.objects.all()
 
     context = {
         'prescription' : prescription,
@@ -30,9 +30,11 @@ def view_all_prescription(request):
 
 # View prescription detail
 def view_prescription_details(request, prescription_id):
-    prescription_detail = Prescription.objects.get(prescription_id = prescription_id)
+    prescription = Prescription.objects.get(prescription_id = prescription_id)
+    prescription_detail = Prescription_Detail.objects.filter(prescription_id = prescription_id)
     context = {
-        'prescription_detail' : prescription_detail
+        'prescription_detail' : prescription_detail,
+        'prescription' : prescription
     }
     return render(request, 'doctor/prescription/view_prescription_details.html', context)
 
@@ -81,35 +83,43 @@ def send_prescription(request):
     return render(request, 'doctor/prescription/generate_prescription.html', context)
 
 # Approve Prescription
-def approve_prescription(request, prescription_id):
-    prescription_detail = Prescription.objects.get(prescription_id = prescription_id)
-    prescription_detail.prescription_status = 'Approve'
-    prescription_detail.save()
+def approve_prescription(request, prescription_id ,prescription_detail_id):
+    prescription = Prescription.objects.get(prescription_id = prescription_id)
+    prescription_detail = Prescription_Detail.objects.filter(prescription_id = prescription_id)
+    prescription_detail_approve = Prescription_Detail.objects.get(prescription_detail_id = prescription_detail_id)
+
+    prescription_detail_approve.prescription_status = 'Approve'
+    prescription_detail_approve.save()
 
     send_mail(
         'Message To Medicine Masters',
-        'Hello '+prescription_detail.user.username+' Your order is confirm by your upload priscriptin is approved, your medicine is deliverd in your address in 2 to 3 hour.',
+        'Hello '+prescription_detail_approve.user.username+' Your order is confirm by your upload priscriptin is approved, your medicine is deliverd in your address in 2 to 3 hour.',
         'medicinemasters23@gmail.com',
-        [prescription_detail.user.email],
+        [prescription_detail_approve.user.email],
         fail_silently=False,
     )
 
     context = {
-        'prescription_detail' : prescription_detail
+        'prescription_detail' : prescription_detail,
+        'prescription' : prescription,
     }
+    
     return render(request, 'doctor/prescription/view_prescription_details.html', context)
 
 # Reject Prescription
-def reject_prescription(request, prescription_id):
-    prescription_detail = Prescription.objects.get(prescription_id = prescription_id)
-    prescription_detail.prescription_status = 'Reject'
-    prescription_detail.save()
+def reject_prescription(request, prescription_id, prescription_detail_id):
+    prescription = Prescription.objects.get(prescription_id = prescription_id)
+    prescription_detail = Prescription_Detail.objects.filter(prescription_id = prescription_id)
+    prescription_detail_approve = Prescription_Detail.objects.get(prescription_detail_id = prescription_detail_id)
+
+    prescription_detail_approve.prescription_status = 'Reject'
+    prescription_detail_approve.save()
 
     send_mail(
         'Message To Medicine Masters',
-        'Hello '+prescription_detail.user.username+' Your order is cancle by your upload priscriptin is reject because your upload prescription is not matched by medicine , upload again and confirm order.',
+        'Hello '+prescription_detail_approve.user.username+' Your order is cancle by your upload priscriptin is reject because your upload prescription is not matched by '+prescription_detail_approve.order_detail.product.product_name+' , another order item is as it is on delevery.',
         'medicinemasters23@gmail.com',
-        [prescription_detail.user.email],
+        [prescription_detail_approve.user.email],
         fail_silently=False,
     )
 
