@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification
+from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Cart_Detail
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password, check_password
 
@@ -364,6 +364,11 @@ def update_product(request):
         else:
             product.product_img = product_image
         product.save()
+
+        cart_detail = Cart_Detail.objects.filter(product_id = product_id)
+        for i in cart_detail:
+            i.prescription_status = product_prescription_status
+            i.save()
     
         return redirect('view_product')
     return render(request, 'admin/product/view_product.html')

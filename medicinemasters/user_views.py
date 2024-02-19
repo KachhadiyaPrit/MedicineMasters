@@ -782,6 +782,7 @@ def checkout(request, product_id):
 def cart_checkout(request, cart_id):
     cart_items = Cart_Detail.objects.filter(cart_id = cart_id)
     prescription_status = Cart_Detail.objects.filter(cart_id = cart_id, prescription_status = 0).count()
+    print(prescription_status)
     address = DeliveryAddress.objects.get(user_id = request.user.user_id)
     offer_code = request.POST.get('offer_code')
     offer_detail = Offer.objects.filter(offer_code = offer_code)
