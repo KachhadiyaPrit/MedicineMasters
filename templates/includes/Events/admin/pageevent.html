@@ -609,14 +609,12 @@
         e.preventDefault();
 
         var notification_message = $('#notification_message').val();
-        var user_id = $('#user_id').val();
 
         $.ajax({
             type: 'POST',
             url: "{% url 'add_notification' %}",
             data: {
                 notification_message : notification_message,
-                user_id : user_id,
             },
             headers: {'X-CSRFToken': '{{ csrf_token }}'},
             success: () => {

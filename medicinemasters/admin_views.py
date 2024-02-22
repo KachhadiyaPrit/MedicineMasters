@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Cart_Detail
+from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Cart_Detail,Prescription,Prescription_Detail
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password, check_password
 
@@ -521,12 +521,16 @@ def order_history(request):
 # Order History Detail
 def order_history_detail(request, order_id):
     order_detail = Order_Detail.objects.filter(order_id = order_id)
+
+    for i in order_detail:
+        prescription_status = Prescription_Detail.objects.filter(order_detail_id = i.order_detail_id)
     
     order_tracking_id = Order_Detail.objects.filter(order_id = order_id).first()
     
     context = {
         'order_detail' : order_detail,
         'order_tracking_id' : order_tracking_id,
+        'prescription_status' : prescription_status
     }
     return render(request, 'admin/order history/view_order_detail.html',context)
     
@@ -555,11 +559,10 @@ def add_notification_page(request):
 def add_notification(request):
     if request.method == "POST":
         notification_message = request.POST.get('notification_message')
-        user_id = request.POST.get('user_id')
         
         notification = Notification(
             notification_message = notification_message,
-            user_id = user_id
+            user_id = request.user.user_id
         )
         notification.save()
         return redirect('add_notification_page')

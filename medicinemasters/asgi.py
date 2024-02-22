@@ -12,13 +12,14 @@ from channels.routing import ProtocolTypeRouter,URLRouter
 from channels.auth import AuthMiddlewareStack
 from django.urls import path
 from django.core.asgi import get_asgi_application
-from medicine_masters.consumers import OrderProgress
+from medicine_masters.consumers import OrderProgress,TestConsumer
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'medicinemasters.settings')
 
 application = get_asgi_application()
 
 ws_pattern = [
     path('ws/track_order_detail/<order_tracking_id>', OrderProgress.as_asgi()),
+    path('ws/test/', TestConsumer.as_asgi()),
 ]
 
 application = ProtocolTypeRouter({

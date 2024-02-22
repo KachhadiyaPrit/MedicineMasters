@@ -91,14 +91,6 @@ def approve_prescription(request, prescription_id ,prescription_detail_id):
     prescription_detail_approve.prescription_status = 'Approve'
     prescription_detail_approve.save()
 
-    send_mail(
-        'Message To Medicine Masters',
-        'Hello '+prescription_detail_approve.user.username+' Your order is confirm by your upload priscriptin is approved, your medicine is deliverd in your address in 2 to 3 hour.',
-        'medicinemasters23@gmail.com',
-        [prescription_detail_approve.user.email],
-        fail_silently=False,
-    )
-
     context = {
         'prescription_detail' : prescription_detail,
         'prescription' : prescription,
@@ -114,14 +106,6 @@ def reject_prescription(request, prescription_id, prescription_detail_id):
 
     prescription_detail_approve.prescription_status = 'Reject'
     prescription_detail_approve.save()
-
-    send_mail(
-        'Message To Medicine Masters',
-        'Hello '+prescription_detail_approve.user.username+' Your order is cancle by your upload priscriptin is reject because your upload prescription is not matched by '+prescription_detail_approve.order_detail.product.product_name+' , another order item is as it is on delevery.',
-        'medicinemasters23@gmail.com',
-        [prescription_detail_approve.user.email],
-        fail_silently=False,
-    )
 
     context = {
         'prescription_detail' : prescription_detail
