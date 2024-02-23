@@ -88,6 +88,7 @@ urlpatterns = [
     path('admin/order_history', admin_views.order_history, name="order_history"),
     path('admin/order_history_detail/<str:order_id>', admin_views.order_history_detail, name="order_history_detail"),
     path('admin/update_order_status', admin_views.update_order_status, name="update_order_status"),
+    path('admin/order_history_detail/order_mail/<str:user_email>', admin_views.order_mail, name="order_mail"),
     
     # Admin To Notification
     path('admin/add_notification_page', admin_views.add_notification_page, name='add_notification_page'),

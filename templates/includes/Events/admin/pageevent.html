@@ -683,3 +683,34 @@
         });
     });
 </script>
+
+<!-- Send order releted mail -->
+<script>
+    $(document).on('click', '#send_order_releted_mail', function(e){
+        e.preventDefault();
+
+        var order_releted_mail = $('#order_releted_mail').val();
+        var user_email = $(this).data("user-email");
+        $.ajax({
+            type: 'POST',
+            url: "order_mail/"+ user_email,
+            data: {
+                order_releted_mail : order_releted_mail,
+            },
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $(window).scrollTop(0);
+                $("#success").html(
+                    `
+                    <div class="alert alert-success" roal="success">
+                        Your Mail Is Send To User...
+                    </div>
+                    `
+                )
+                setInterval(function(){
+                    $('.alert').fadeOut();
+                }, 3000)
+            }
+        });
+    })
+</script>

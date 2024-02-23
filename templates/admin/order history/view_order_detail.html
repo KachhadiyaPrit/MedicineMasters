@@ -30,12 +30,12 @@
                                         <div class="col-lg-6">{{order_tracking_id.order.user.username}}</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 label ">Order Username :-</div>
-                                        <div class="col-lg-6">{{order_tracking_id.order.user.username}}</div>
+                                        <div class="col-lg-6 label ">Order Email :-</div>
+                                        <div class="col-lg-6">{{order_tracking_id.order.user.email}}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 label ">Current Order Status :-</div>
-                                        <div class="col-lg-6 mt-2" id="orser_status">{% if order_tracking_id.order.order_status == '' %}Not At{% else %}{{order_tracking_id.order.order_status}}{% endif %}</div>
+                                        <div class="col-lg-6" id="orser_status">{% if order_tracking_id.order.order_status == '' %}Not At{% else %}{{order_tracking_id.order.order_status}}{% endif %}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 label mt-2">Order Status :-</div>
@@ -93,12 +93,39 @@
                 </div>
             </div>
     
-            <div class="col-xl-7">
+            <div class="col-xl-7" id>
                 <div class="px-0 rounded-2 shadow-0">
                     <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Product Detail</h5>
-                            <hr>
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h5 class="card-title">Product Detail</h5>
+                                </div>
+                                <div class="col text-end">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Send Mail
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Order Releted Mail</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <input type="text" id="order_releted_mail" name="order_releted_mail" placeholder="Order Releted Mail" class="form-control">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="send_order_releted_mail" data-user-email="{{order_tracking_id.order.user.email}}" data-bs-dismiss="modal">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-3">
                             {% for i in order_detail %}
                                 <div class="d-flex mb-3">
                                     <a href="" class="me-3">
@@ -109,7 +136,19 @@
                                         <div class="row">
                                             <span class="text-dark">Product Price : <strong>₹ {{i.product.product_discount_price}}</strong></span>
                                             <span class="text">Product Quantity : {{i.product_quantity}} </span>
-                                                <span class="text">Prescription Status : {{j.prescription_status}} </span>
+                                            {% for prescription in prescription_status %}
+                                                {% if prescription.order_detail_id == i.order_detail_id %}
+                                                    <span class="text">Prescription Status : 
+                                                        {% if prescription.prescription_status == 'Approve' %}
+                                                            <span class="text-success">{{ prescription.prescription_status }}</span>
+                                                        {% elif prescription.prescription_status == 'Reject'%}
+                                                            <span class="text-danger">{{ prescription.prescription_status }}</span>
+                                                        {% elif prescription.prescription_status == 'Pending For Approve'%}
+                                                            <span class="text-dark">{{ prescription.prescription_status }}</span>
+                                                        {% endif %}
+                                                    </span>
+                                                {% endif %}
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>

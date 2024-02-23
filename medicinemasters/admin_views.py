@@ -521,10 +521,8 @@ def order_history(request):
 # Order History Detail
 def order_history_detail(request, order_id):
     order_detail = Order_Detail.objects.filter(order_id = order_id)
-
     for i in order_detail:
-        prescription_status = Prescription_Detail.objects.filter(order_detail_id = i.order_detail_id)
-    
+        prescription_status = Prescription_Detail.objects.all()
     order_tracking_id = Order_Detail.objects.filter(order_id = order_id).first()
     
     context = {
@@ -544,6 +542,19 @@ def update_order_status(request):
         order.order_status = order_status
         order.save()
 
+    return render(request, 'admin/order history/view_order_detail.html')
+
+# Send user order releted mail
+def order_mail(request, user_email):
+    order_releted_mail = request.POST.get('order_releted_mail')
+
+    send_mail(
+        'Message To Medicine Masters',
+        order_releted_mail,
+        'medicinemasters23@gmail.com',
+        [user_email],
+        fail_silently=False,
+        )
     return render(request, 'admin/order history/view_order_detail.html')
 
 # Offer
