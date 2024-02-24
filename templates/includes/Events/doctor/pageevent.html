@@ -4,10 +4,12 @@
         $('#prescription_form').submit(function(e){
             e.preventDefault();
 
+            var prescription_detail_id = $('#prescription_detail_id').val();
             var prescription_id = $('#prescription_id').val();
 
             var form_data = new FormData();
 
+            form_data.append('prescription_detail_id', prescription_detail_id);
             form_data.append('prescription_id', prescription_id);
             form_data.append('prescription_img', $('#prescription_img')[0].files[0]);
 

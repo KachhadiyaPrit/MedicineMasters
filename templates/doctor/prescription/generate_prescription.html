@@ -17,7 +17,7 @@
                         <div class="card shadow">
                             <div class="card-header">User Detail / Prescription Disease</div>
                             <div class="card-body profile-card pt-1 d-flex flex-column align-items-left" id="profile">
-                                <h3 class="mt-2"><b>User Name : </b>{{prescription.user}}</h3>
+                                <h3 class="mt-2"><b>User Name : </b>{{prescription.user.username}}</h3>
                                 <h3 class="mt-2"><b>Disease : </b>{{prescription.prescription_message}}</h3>
                             </div>
                         </div>
@@ -53,6 +53,7 @@
                                                 <div class="col">
                                                     <input type="file" class="form-control" id="prescription_img" name="prescription_img">
                                                 </div>
+                                                <input type="hidden" value="{{prescription.prescription_detail_id}}" id="prescription_detail_id" name="prescription_detail_id">
                                                 <input type="hidden" value="{{prescription.prescription_id}}" id="prescription_id" name="prescription_id">
                                             </div>
                                         </div>

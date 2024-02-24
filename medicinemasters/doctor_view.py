@@ -40,15 +40,15 @@ def view_prescription_details(request, prescription_id):
 
 # Manage got prescription
 def view_got_prescriptions(request):
-    prescription = Prescription.objects.filter(prescription_status = 'Pending' , prescription_message__isnull = False)
+    prescription = Prescription_Detail.objects.filter(prescription_status = 'Pending' , prescription_message__isnull = False)
     context = {
         'prescription' : prescription
     }
     return render(request, 'doctor/prescription/view_got_prescriptions.html', context)
 
 # Generate prescription page
-def generate_prescription_page(request, prescription_id):
-    prescription = Prescription.objects.get(prescription_id = prescription_id)
+def generate_prescription_page(request, prescription_detail_id):
+    prescription = Prescription_Detail.objects.get(prescription_detail_id = prescription_detail_id)
     context = {
         'prescription' : prescription,
     }
@@ -57,15 +57,18 @@ def generate_prescription_page(request, prescription_id):
 # Send Prescription
 def send_prescription(request):
     if request.method == "POST":
+        prescription_detail_id = request.POST.get('prescription_detail_id')
         prescription_id = request.POST.get('prescription_id')
         prescription_img = request.FILES.get('prescription_img')
 
+        prescription_detail = Prescription_Detail.objects.get(prescription_detail_id = prescription_detail_id)
         prescription = Prescription.objects.get(prescription_id = prescription_id)
 
         prescription.prescription_img = prescription_img
-        prescription.prescription_status = "Sending Successfully"
         prescription.save()
 
+        prescription_detail.prescription_status = "Sending Successfully"
+        prescription_detail.save()
 
         email = EmailMessage(
             "Message To Medicine Masters",

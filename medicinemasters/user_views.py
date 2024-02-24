@@ -1025,10 +1025,16 @@ def get_prescription(request):
     if request.method == "POST":
         prescription_message = request.POST.get('prescription_message')
         prescription = Prescription(
-            prescription_message = prescription_message,
             user_id = request.user.user_id
         )
         prescription.save()
+        prescription_detail = Prescription_Detail(
+            prescription_message = prescription_message,
+            prescription_status = 'Pending',
+            prescription_id = prescription.prescription_id,
+            user_id = request.user.user_id
+        )
+        prescription_detail.save()
         return redirect('users_profile')
 
 #  Serarch
