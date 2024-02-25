@@ -1,3 +1,4 @@
+from calendar import c
 from django.db import models
 import string
 import json
@@ -176,6 +177,19 @@ class Notification(models.Model):
     notification_message = models.TextField(null=True, blank=True)
     is_seen = models.BooleanField(default=False)
     user = models.ForeignKey(Users, on_delete=models.CASCADE,null=False)
+
+    def save(self, *args, **kwargs):
+        channel_layer = get_channel_layer()
+        notification_objs = Notification.objects.filter(is_seen=False).count()
+        data = {'count' : notification_objs, 'current_notification' : self.notification_message}
+
+        async_to_sync(channel_layer.group_send)(
+            'new_consumer_group',{
+                'type' : 'send_notification',
+                'value' : json.dumps(data)
+            }
+        )
+        super(Notification, self).save(*args,**kwargs) 
 
 class Feedback(models.Model):
     feedback_id = models.BigAutoField(auto_created=True, primary_key=True)

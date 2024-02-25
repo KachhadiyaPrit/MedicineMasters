@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render, redirect, HttpResponse
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
@@ -624,7 +625,7 @@ def add_to_cart_product_detail(request , product_id):
                 cart_product_price = product.product_discount_price,
                 cart_id = cart_item.cart_id,
                 product_id = product.product_id,
-                prescription_status = products.product_prescription_status,
+                prescription_status = product.product_prescription_status,
                 user_id = request.user.user_id,
             )
             cart_detail.save()
@@ -666,7 +667,7 @@ def add_to_cart_product_detail(request , product_id):
                             cart_product_price = product.product_discount_price,
                             cart_id = cart_item.cart_id,
                             product_id = product.product_id,
-                            prescription_status = products.product_prescription_status,
+                            prescription_status = product.product_prescription_status,
                             user_id = request.user.user_id,
                         )
                         cart_detail.save()
@@ -782,7 +783,6 @@ def checkout(request, product_id):
 def cart_checkout(request, cart_id):
     cart_items = Cart_Detail.objects.filter(cart_id = cart_id)
     prescription_status = Cart_Detail.objects.filter(cart_id = cart_id, prescription_status = 0).count()
-    print(prescription_status)
     address = DeliveryAddress.objects.get(user_id = request.user.user_id)
     offer_code = request.POST.get('offer_code')
     offer_detail = Offer.objects.filter(offer_code = offer_code)
@@ -799,8 +799,8 @@ def cart_checkout(request, cart_id):
         
     after_discount_value = total - discount + shipping_cost
 
-    client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
-    payment = client.order.create({'amount':after_discount_value * 100, 'currency':'INR', 'payment_capture':1})
+    client = razorpay.Client(auth=('rzp_test_SXFY1D0zq29TGB', 'js7DS3s7maZsQXyF11Fx4xK3'))
+    payment = client.order.create({'amount':(after_discount_value), 'currency':'INR','payment_capture':1})
 
     context = {
         'cart_items':cart_items,
@@ -954,22 +954,8 @@ def all_product_by_category(request, category_id):
     }
     return render(request, 'users/All_Product_By_Category.html', context)
 
-class GenerateInvoice(APIView):
-    def get(self, request, order_id):
-        order = Order.objects.get(user_id = request.user.user_id, order_id = order_id)
-        params = {
-            'username' : order.user.username,
-            'user_email' : order.user.email,
-            'order_date' : order.order_date,
-            'order_id' : order.order_id,
-            'order_total_amount' : order.order_total_amount,
-            'order' : order
-        }
-        file_name, status = helpers.save_pdf(params)
-        
-        if not status:
-            return HttpResponse({'status' : 400})
-        return HttpResponse({'status' : 200, 'path' : f'/media/invoice/{file_name}.pdf'})
+# def generate_invoice(request, order_id):
+#     pass
     
 def delete_cart_item(request, cart_detail_id):
     cart = Cart.objects.all()

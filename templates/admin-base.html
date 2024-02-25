@@ -69,7 +69,7 @@
         <script src="{% static 'medicine_masters_assets/admin assets/js/main.js' %}"></script>
         <script src="{% static 'medicine_masters_assets/js/myjs.js' %}"></script>
         <script>
-            
+            var socket = new WebSocket('ws://' + window.location.host + '/ws/new/');
         </script>
     </body>
 </html>
