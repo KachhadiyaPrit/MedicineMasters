@@ -137,6 +137,7 @@ def all_category(request):
 # Users Product Detail
 def product_detail(request, product_id):
     product = Product.objects.get(product_id = product_id)
+    prescription_status = Product.objects.filter(product_id = product_id, product_prescription_status = 0).count()
     if request.user.is_authenticated:
         cart = Cart_Detail.objects.filter(user_id = request.user.user_id)
     else:
@@ -150,7 +151,8 @@ def product_detail(request, product_id):
         'save' : save,
         'product_detail' : product_detail,
         'cart' : cart,
-        'similar_product' : similar_product
+        'similar_product' : similar_product,
+        'prescription_status' : prescription_status
     }
     return render(request, 'users/Product_Detail.html', context)
 
@@ -799,8 +801,8 @@ def cart_checkout(request, cart_id):
         
     after_discount_value = total - discount + shipping_cost
 
-    client = razorpay.Client(auth=('rzp_test_SXFY1D0zq29TGB', 'js7DS3s7maZsQXyF11Fx4xK3'))
-    payment = client.order.create({'amount':(after_discount_value), 'currency':'INR','payment_capture':1})
+    # client = razorpay.Client(auth=('rzp_test_SXFY1D0zq29TGB', 'js7DS3s7maZsQXyF11Fx4xK3'))
+    # payment = client.order.create({'amount':(after_discount_value), 'currency':'INR','payment_capture':1})
 
     context = {
         'cart_items':cart_items,
@@ -809,7 +811,6 @@ def cart_checkout(request, cart_id):
         'discount' : discount,
         'after_discount_value':after_discount_value,
         'shipping_cost':shipping_cost,
-        'payment':payment,
         'prescription_status':prescription_status
     }
     
@@ -841,12 +842,6 @@ def cart_checkout_order(request):
         )
         order.save()
 
-        prescription = Prescription(
-            prescription_img = prescription_img,
-            user_id = request.user.user_id,
-        )
-        prescription.save()
-
         for i in cart_items:
             order_detail = Order_Detail( 
                 product_name = i.product.product_name,
@@ -859,6 +854,12 @@ def cart_checkout_order(request):
             order_detail.save()
         
             if i.product.product_prescription_status == 0:
+                prescription = Prescription(
+                    prescription_img = prescription_img,
+                    user_id = request.user.user_id,
+                )   
+                prescription.save()
+
                 prescription_detail = Prescription_Detail(
                     order_detail_id = order_detail.order_detail_id,
                     prescription_id = prescription.prescription_id,

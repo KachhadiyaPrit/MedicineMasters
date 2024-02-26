@@ -63,6 +63,20 @@
               <dt class="col-12" style="font-size: 13px; color: #c4c4c4;">*This product cannot be returned for a refund or exchange.</dt>
               <dt class="col-12" style="font-size: 13px; color: #c4c4c4;">*Delivery charges if applicable will be applied at checkout.</dt>
             </div>
+            {% if prescription_status > 0 %}
+            <div class="row">
+              <div class="col-4 mt-2 d-flex align-items-center">
+                <dt>Upload Prescription</dt>
+              </div>
+              <div class="col">
+                <div data-mdb-input-init class="form-outline mt-2">
+                  <input type="file" id="prescription_img" name="prescription_img" class="form-control" required/>
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <input type="file" id="prescription_img" name="prescription_img" class="form-control" hidden/>
+            {% endif %}
   
             <hr />
   

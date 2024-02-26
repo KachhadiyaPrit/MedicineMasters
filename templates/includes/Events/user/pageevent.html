@@ -295,6 +295,7 @@
         var order_amount = $('#order_amount').val();
         var order_discount = $('#order_discount').val();
         var shipping_price = $('#shipping_price').val();
+        var prescription_img = $('#prescription_img')[0].files[0];
 
         var form_data = new FormData();
 
@@ -308,8 +309,13 @@
         form_data.append('order_amount', order_amount);
         form_data.append('order_discount', order_discount);
         form_data.append('shipping_price', shipping_price);
-        form_data.append('prescription_img', $('#prescription_img')[0].files[0]);
-
+        if(prescription_img == ''){
+            form_data.append('prescription_img', '');
+        }
+        else{
+            form_data.append('prescription_img', prescription_img);
+        }
+        
         $.ajax({
             url: "{% url 'cart_checkout_order' %}",
             type: "POST",
