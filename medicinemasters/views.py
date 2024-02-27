@@ -8,9 +8,11 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 
 # login and signup screen send
-def login_signup(request):
-    return render(request, 'login_signup.html')
+def login_page(request):
+    return render(request, 'login.html')
 
+def signup(request):
+    return render(request, 'signup.html')
 # Login Process
 def dologin(request):
     if request.method == 'POST':
@@ -28,12 +30,12 @@ def dologin(request):
             else:
                 # Message For Not Match User Type...
                 message = 'User are Invalid !!'
-                return render(request, 'login_signup.html',{'error':message})
+                return render(request, 'login.html',{'error':message})
         else:
             # Message For User Is Not Exist...
             message = 'Email and password are Invalid !'
             # Message For User Is Not Exist...
-            return render(request, 'login_signup.html',{'error':message})
+            return render(request, 'login.html',{'error':message})
 
 # Logout Process
 def dologout(request):
@@ -50,21 +52,36 @@ def check_username(request):
             return HttpResponse('<div style="color: green;"><i class="fa-regular fa-circle-check"></i> This username is available for you </div>')
     else:
         return HttpResponse('<div></div>')
-           
+
+# Check email at live time to write user
+def check_email(request):
+    email = request.POST.get('email')
+    if email != "":
+        if get_user_model().objects.filter(email=email).exists():
+            return HttpResponse('<div style="color: red;"><i class="fa-regular fa-circle-xmark"></i> This email already exists </div>')
+        else:
+            return HttpResponse('<div style="color: green;"><i class="fa-regular fa-circle-check"></i> This email is available for you </div>')
+    else:
+        return HttpResponse('<div></div>')
+    
 # Registration Process
 def dosignup(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         passw = request.POST.get('password')
         password = make_password(passw)
 
         if Users.username == username:
             message = 'User are Invalid !!'
-            return render(request, 'login_signup.html',{'error':message})
+            return render(request, 'login.html',{'error':message})
         else:
             signup = Users(
                 username = username,
+                first_name = first_name,
+                last_name = last_name,
                 email = email,
                 password = password,
             )
@@ -78,7 +95,7 @@ def dosignup(request):
 
             send_mail(
                 'Message To Medicine Masters',
-                'Congratulations '+username+' To join Medicine Masters,after login you setup your profile like first name last name etc.',
+                'Congratulations '+first_name+' '+last_name+' To join Medicine Masters,after login you setup your profile like address etc.',
                 'medicinemasters23@gmail.com',
                 [email],
                 fail_silently=False,
@@ -89,5 +106,5 @@ def dosignup(request):
             )
             cart.save()
                 
-            return redirect(login_signup)        
+            return redirect(login_page)        
 

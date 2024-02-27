@@ -22,12 +22,14 @@ from . import views, user_views, admin_views, doctor_view
 
 urlpatterns = [ 
     # Login Or Registration Page Url
-    path('login_signup', views.login_signup, name='login_signup'),
+    path('login_page', views.login_page, name='login_page'),
+    path('signup', views.signup, name='signup'),
     
     # Login Or Signup Process Page Url
     path('dologin', views.dologin, name='dologin'),
     path('dosignup', views.dosignup, name='dosignup'),
     path('check_username', views.check_username, name='check_username'),
+    path('check_email', views.check_email, name='check_email'),
     path('dologout', views.dologout, name='dologout'),
     
     # Admin Home Page Url
@@ -115,6 +117,8 @@ urlpatterns = [
     path('user/profile_update', user_views.profile_update, name='profile_update'),
     path('edit_address', user_views.edit_address, name='edit_address'),
     path('user/all_products', user_views.all_product, name='all_product'),
+    path('user/all_products/filter_category/<int:subcategory_id>', user_views.filter_category, name='filter_category'),
+    path('user/all_products/filter_company/<int:company_id>', user_views.filter_company, name='filter_company'),
     path('user/all_category', user_views.all_category, name='all_category'),
     path('user/add_to_cart', user_views.add_to_cart, name='add_to_cart'),
     path('user/delete_cart_item/<int:cart_detail_id>', user_views.delete_cart_item, name='selete_cart_item'),

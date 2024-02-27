@@ -109,7 +109,7 @@ def all_product(request):
         cart_object = Cart.objects.get(user_id = request.user.user_id)
         cart = Cart_Detail.objects.filter(cart_id = cart_object.cart_id)
     product_count = Product.objects.all().count()
-    category = Sub_Category.objects.all()
+    subcategory = Sub_Category.objects.all()
     company = Company.objects.all()
     main_category = Category.objects.all()
     category_count = Sub_Category.objects.all().count()
@@ -117,7 +117,55 @@ def all_product(request):
     context = {
         'product' : product,
         'product_count' : product_count,
-        'category' : category,
+        'subcategory' : subcategory,
+        'category_count' : category_count,
+        'cart' : cart,
+        'main_category' : main_category,
+        'company' : company,
+    }
+
+    return render(request, 'users/All_Product.html', context)
+
+# Users All Product By Filter Of Category
+def filter_category(request, subcategory_id):
+    product = Product.objects.filter(subcategory_id = subcategory_id)
+    if request.user.is_authenticated:
+        cart_object = Cart.objects.get(user_id = request.user.user_id)
+        cart = Cart_Detail.objects.filter(cart_id = cart_object.cart_id)
+    product_count = Product.objects.filter(subcategory_id = subcategory_id).count()
+    subcategory = Sub_Category.objects.all()
+    company = Company.objects.all()
+    main_category = Category.objects.all()
+    category_count = Sub_Category.objects.all().count()
+
+    context = {
+        'product' : product,
+        'product_count' : product_count,
+        'subcategory' : subcategory,
+        'category_count' : category_count,
+        'cart' : cart,
+        'main_category' : main_category,
+        'company' : company,
+    }
+
+    return render(request, 'users/All_Product.html', context)
+
+# Users All Product By Filter Of Company
+def filter_company(request, company_id):
+    product = Product.objects.filter(company_id = company_id)
+    if request.user.is_authenticated:
+        cart_object = Cart.objects.get(user_id = request.user.user_id)
+        cart = Cart_Detail.objects.filter(cart_id = cart_object.cart_id)
+    product_count = Product.objects.filter(company_id = company_id).count()
+    subcategory = Sub_Category.objects.all()
+    company = Company.objects.all()
+    main_category = Category.objects.all()
+    category_count = Sub_Category.objects.all().count()
+    context = {
+
+        'product' : product,
+        'product_count' : product_count,
+        'subcategory' : subcategory,
         'category_count' : category_count,
         'cart' : cart,
         'main_category' : main_category,

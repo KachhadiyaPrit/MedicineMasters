@@ -922,3 +922,22 @@
         });
     })
 </script>
+
+<!-- All Product By Fulter Category -->
+<!-- <script>
+    $(document).on('click', '#filter_category', function(e){
+        e.preventDefault();
+
+        var subcategory_id = $(this).data('item-id');
+        alert(subcategory_id);
+
+        $.ajax({
+            url: 'all_products/filter_category/' + subcategory_id ,
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#my_cart").load(location.href + " #my_cart>*", "");
+            }
+        });
+    })
+</script> -->
