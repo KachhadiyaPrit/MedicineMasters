@@ -915,6 +915,10 @@ def cart_checkout_order(request):
                 )
                 prescription_detail.save()
             
+            product = i.product
+            product.product_quantity -= i.cart_quantity
+            product.save()
+            
     return render(request, 'users/Cart_Checkout.html')
 
 # Checkout Order view
@@ -952,19 +956,22 @@ def checkout_order(request, product_id):
         )
         order_detail.save()
 
-        prescription = Prescription(
-            prescription_img = prescription_img,
-            user_id = request.user.user_id,
-        )
-        prescription.save()
+        if product.product_prescription_status == 0:
+            prescription = Prescription(
+                prescription_img = prescription_img,
+                user_id = request.user.user_id,
+            )
+            prescription.save()
 
-        prescription_detail = Prescription_Detail(
-            order_detail_id = order_detail.order_detail_id,
-            prescription_id = prescription.prescription_id,
-            user_id = request.user.user_id
-        )
-        prescription_detail.save()
+            prescription_detail = Prescription_Detail(
+                order_detail_id = order_detail.order_detail_id,
+                prescription_id = prescription.prescription_id,
+                user_id = request.user.user_id
+            )
+            prescription_detail.save()
 
+        product.product_quantity -= 1
+        product.save()
     return render(request, 'users/Checkout.html')
 
 # Order View Page
@@ -1029,6 +1036,11 @@ def delete_cart_item(request, cart_detail_id):
 # Delete Company
 def cancle_order(request, order_id):
     order = Order.objects.get(order_id = order_id)
+    order_detail = Order_Detail.objects.filter(order_id = order_id)
+    for i in order_detail:
+        product = i.product
+        product.product_quantity += int(i.product_quantity)
+        product.save()
     order.delete()
     return redirect('track_order')
 
