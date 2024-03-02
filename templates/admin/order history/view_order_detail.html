@@ -47,6 +47,7 @@
                                                 <option value="On The Way" {% if order_tracking_id.order.order_status == 'On The Way' %} selected {% endif %}>On the way</option>
                                                 <option value="Ready For Pickup" {% if order_tracking_id.order.order_status == 'Ready For Pickup' %} selected {% endif %}>Ready for pickup</option>
                                                 <option value="Order Received" {% if order_tracking_id.order.order_status == 'Order Received' %} selected {% endif %}>Order Received</option>
+                                                <option value="Order Cancled" {% if order_tracking_id.order.order_status == 'Order Cancled' %} selected {% endif %}>Order Cancled</option>
                                             </select>
                                         </div>
                                     </div>
