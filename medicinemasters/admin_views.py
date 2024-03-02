@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Cart_Detail,Prescription,Prescription_Detail
+from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Cart_Detail,Prescription,Prescription_Detail,Payment
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password, check_password
 
@@ -615,3 +615,21 @@ def add_doctor(request):
 
         return redirect('add_doctor_page')
     return render(request, 'admin/doctor/add_doctor.html')
+
+# Payment
+# Payment History
+def payment_history(request):
+    payment = Payment.objects.all()
+    context = {
+        'payment' : payment,
+    }
+    return render(request, 'admin/payment history/payment_history.html',context)
+
+# Order History Detail
+# def payment_history_detail(request, payment_id):
+#     payment_detail = Payment.objects.get(payment_id = payment_id)
+    
+#     context = {
+#         'payment_detail' : payment_detail,
+#     }
+#     return render(request, 'admin/payment history/view_payment_detail.html',context)

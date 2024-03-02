@@ -295,6 +295,7 @@
         var order_amount = $('#order_amount').val();
         var order_discount = $('#order_discount').val();
         var shipping_price = $('#shipping_price').val();
+        var payment_method = $('input[name="payment_method"]:checked').val();
         var prescription_img = $('#prescription_img')[0].files[0];
 
         var form_data = new FormData();
@@ -309,6 +310,7 @@
         form_data.append('order_amount', order_amount);
         form_data.append('order_discount', order_discount);
         form_data.append('shipping_price', shipping_price);
+        form_data.append('payment_method', payment_method);
         if(prescription_img == ''){
             form_data.append('prescription_img', '');
         }
@@ -358,6 +360,7 @@
         var order_total_amount = $('#order_total_amount').val();
         var order_amount = $('#order_amount').val();
         var order_discount = $('#order_discount').val();
+        var payment_method = $('input[name="payment_method"]:checked').val();
 
         var form_data = new FormData();
 
@@ -370,6 +373,7 @@
         form_data.append('order_total_amount', order_total_amount);
         form_data.append('order_amount', order_amount);
         form_data.append('order_discount', order_discount);
+        form_data.append('payment_method', payment_method);
         form_data.append('prescription_img', $('#prescription_img')[0].files[0]);
 
         var product_id = $(this).data('item-id');

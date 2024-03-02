@@ -7,7 +7,7 @@ import json
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from medicine_masters import helpers
-from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback,Prescription,Prescription_Detail
+from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback,Prescription,Prescription_Detail,Payment
 import razorpay
 from django.conf import settings
 from django.http import JsonResponse
@@ -877,6 +877,7 @@ def cart_checkout_order(request):
         order_amount = request.POST.get('order_amount')
         order_discount = request.POST.get('order_discount')
         shipping_price = request.POST.get('shipping_price')
+        payment_method = request.POST.get('payment_method')
         prescription_img = request.FILES.get('prescription_img')
 
         cart_user = Cart.objects.get(user_id=request.user.user_id)
@@ -918,7 +919,26 @@ def cart_checkout_order(request):
             product = i.product
             product.product_quantity -= i.cart_quantity
             product.save()
-            
+
+        if payment_method == 'Case On Delivery':
+            payment = Payment(
+                payment_amount = order_total_amount,
+                payment_method = 'Case On Delivery',
+                payment_status = 'Pending',
+                order_id = order.order_id,
+                user_id = request.user.user_id
+            )
+            payment.save()
+        else:
+            payment = Payment(
+                payment_amount = order_total_amount,
+                payment_method = 'Online Payment',
+                payment_status = 'Success',
+                order_id = order.order_id,
+                user_id = request.user.user_id
+            )
+            payment.save()
+
     return render(request, 'users/Cart_Checkout.html')
 
 # Checkout Order view
@@ -934,6 +954,7 @@ def checkout_order(request, product_id):
         order_amount = request.POST.get('order_amount')
         order_discount = request.POST.get('order_discount')
         prescription_img = request.FILES.get('prescription_img')
+        payment_method = request.POST.get('payment_method')
         cart_user = Cart.objects.get(user_id=request.user.user_id)
         
         product = Product.objects.get(product_id = product_id)
@@ -972,6 +993,26 @@ def checkout_order(request, product_id):
 
         product.product_quantity -= 1
         product.save()
+
+        if payment_method == 'Case On Delivery':
+            payment = Payment(
+                payment_amount = order_total_amount,
+                payment_method = 'Case On Delivery',
+                payment_status = 'Pending',
+                order_id = order.order_id,
+                user_id = request.user.user_id
+            )
+            payment.save()
+        else:
+            payment = Payment(
+                payment_amount = order_total_amount,
+                payment_method = 'Online Payment',
+                payment_status = 'Success',
+                order_id = order.order_id,
+                user_id = request.user.user_id
+            )
+            payment.save()
+            
     return render(request, 'users/Checkout.html')
 
 # Order View Page

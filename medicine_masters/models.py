@@ -1,4 +1,5 @@
 from calendar import c
+from turtle import mode
 from django.db import models
 import string
 import json
@@ -214,3 +215,12 @@ class Prescription_Detail(models.Model):
     user = models.ForeignKey(Users, on_delete=models.CASCADE,null=True)
     prescription = models.ForeignKey(Prescription, on_delete=models.CASCADE,null=True, blank=True)
     order_detail = models.ForeignKey(Order_Detail, on_delete=models.CASCADE,null=True, blank=True)
+
+class Payment(models.Model):
+    payment_id = models.BigAutoField(auto_created=True, primary_key=True)
+    payment_date = models.DateField(default=datetime.date.today)
+    payment_amount = models.FloatField(null=False)
+    payment_method = models.CharField(max_length=150, null=False)
+    payment_status = models.CharField(max_length=150, null=False)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE,null=False)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE,null=True)

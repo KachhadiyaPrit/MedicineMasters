@@ -80,7 +80,7 @@
                                             {% elif i.order_status == "Ready For Pickup" %}
                                                 <span class="text-info">{{i.order_status}}</span>
                                             {% else %}
-                                                <span class="text-success">{{i.order_status}}</span>
+                                                <span class="text-danger">{{i.order_status}}</span>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -90,9 +90,11 @@
                                 <div class="float-md-end">
                                     <a href="{% url 'track_order_detail' i.order_tracking_id i.order_id %}" class="btn btn-outline-success" style="color: #12a44d;" data-mdb-ripple-init data-mdb-ripple-color="dark">View</a>
                                 </div>
+                                {% if i.order_status != 'Picked By Courier' and i.order_status != 'On The Way' and i.order_status != 'Ready For Pickup' and i.order_status != 'Order Received'%}
                                 <div class="float-md-end ms-2">
                                     <a id="cancle_order" data-item-id="{{i.order_id}}" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-ripple-color="dark">Cancle</a>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                         <hr>

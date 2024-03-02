@@ -1,0 +1,165 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <ul class="breadcrumb mt-3">
+            <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item">Payment</li>
+            <li class="breadcrumb-item active">View Payment Detail</li>
+        </ul>
+    </div><!-- End Page Title -->
+    <div id="success"></div>
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-5">
+                <div class="mb-0">
+                    <div class="card shadow">
+                        <div class="card-header mt-1">
+                            <span class="card-title">Payment Detail</span>
+                        </div>
+                        <div class="card-body" id="order_detail">
+                            <div class="tab-content pt-2">
+                                <div class="tab-pane fade-out show active profile-overview">
+                                    <div class="row">
+                                        <div class="col-lg-6 label ">Order Tracking Id :-</div>
+                                        <div class="col-lg-6">{{order_tracking_id.order.order_tracking_id}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 label ">Order Username :-</div>
+                                        <div class="col-lg-6">{{order_tracking_id.order.user.username}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 label ">Order Email :-</div>
+                                        <div class="col-lg-6">{{order_tracking_id.order.user.email}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 label ">Current Order Status :-</div>
+                                        <div class="col-lg-6" id="orser_status">{% if order_tracking_id.order.order_status == '' %}Not At{% else %}{{order_tracking_id.order.order_status}}{% endif %}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 label mt-2">Order Status :-</div>
+                                        <div class="col-lg-6">
+                                            <select class="form-control" name="order_status" id="order_status">
+                                                <option disabled selected>Select Order Status</option>
+                                                <option value="Order Confirmed" {% if order_tracking_id.order.order_status == 'Order Confirmed' %} selected {% endif %}>Order confirmed</option>
+                                                <option value="Picked By Courier" {% if order_tracking_id.order.order_status == 'Picked By Courier' %} selected {% endif %}>Picked by courier</option>
+                                                <option value="On The Way" {% if order_tracking_id.order.order_status == 'On The Way' %} selected {% endif %}>On the way</option>
+                                                <option value="Ready For Pickup" {% if order_tracking_id.order.order_status == 'Ready For Pickup' %} selected {% endif %}>Ready for pickup</option>
+                                                <option value="Order Received" {% if order_tracking_id.order.order_status == 'Order Received' %} selected {% endif %}>Order Received</option>
+                                                <option value="Order Cancled" {% if order_tracking_id.order.order_status == 'Order Cancled' %} selected {% endif %}>Order Cancled</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <input type="text" name="order_tracking_id" id="order_tracking_id" value="{{order_tracking_id.order.order_tracking_id}}" hidden>
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-primary" id="update_status" name="update_status" data-mdb-ripple-init data-mdb-ripple-color="dark">Update Status</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-0">
+                    <div class="card shadow">
+                        <div class="card-header mt-1">
+                            <span class="card-title">Order Price Detail</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content pt-2">
+                                <div class="tab-pane fade-out show active profile-overview">
+                                    <div class="row">
+                                        <div class="col-lg-7 label ">Order Amount :-</div>
+                                        <div class="col-lg-5">&nbsp; ₹{{order_tracking_id.order.order_amount}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-7 label ">Order Discount Amount :-</div>
+                                        <div class="col-lg-5 text-danger">- ₹{{order_tracking_id.order.order_discount_price}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-7 label ">Order Shipping Amount :-</div>
+                                        <div class="col-lg-5">+ ₹{{order_tracking_id.order.shipping_price}}</div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-lg-7 label ">Order Total Amount :-</div>
+                                        <div class="col-lg-5">₹{{order_tracking_id.order.order_total_amount}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-xl-7" id>
+                <div class="px-0 rounded-2 shadow-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h5 class="card-title">Product Detail</h5>
+                                </div>
+                                <div class="col text-end">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Send Mail
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Order Releted Mail</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <input type="text" id="order_releted_mail" name="order_releted_mail" placeholder="Order Releted Mail" class="form-control">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="send_order_releted_mail" data-user-email="{{order_tracking_id.order.user.email}}" data-bs-dismiss="modal">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-3">
+                            {% for i in order_detail %}
+                                <div class="d-flex mb-3">
+                                    <a href="" class="me-3">
+                                        <img src="/{{i.product.product_img}}" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
+                                    </a>
+                                    <div class="info">
+                                        <a href="" class="nav-link mb-1">{{i.product_name}}</a>
+                                        <div class="row">
+                                            <span class="text-dark">Product Price : <strong>₹ {{i.product.product_discount_price}}</strong></span>
+                                            <span class="text">Product Quantity : {{i.product_quantity}} </span>
+                                            {% for prescription in prescription_status %}
+                                                {% if prescription.order_detail_id == i.order_detail_id %}
+                                                    <span class="text">Prescription Status : 
+                                                        {% if prescription.prescription_status == 'Approve' %}
+                                                            <span class="text-success">{{ prescription.prescription_status }}</span>
+                                                        {% elif prescription.prescription_status == 'Reject'%}
+                                                            <span class="text-danger">{{ prescription.prescription_status }}</span>
+                                                        {% elif prescription.prescription_status == 'Pending For Approve'%}
+                                                            <span class="text-dark">{{ prescription.prescription_status }}</span>
+                                                        {% endif %}
+                                                    </span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+{% endblock  %}

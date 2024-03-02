@@ -121,7 +121,22 @@
                                     
                                     <hr />
                                 </div>
-                    
+
+                                <div class="row">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="payment_method" id="cod" value="Case On Delivery" />
+                                            <label class="form-check-label" for="payment_method">COD</label>
+                                          </div>
+                                          
+                                          <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="payment_method" id="online" value="Online Payment" />
+                                            <label class="form-check-label" for="payment_method">Online Payment</label>
+                                          </div>
+                                    </div>
+                                    <hr />
+                                </div>
+
                                 <div class="float-end">
                                     <button class="btn btn-light border">Cancel</button>
                                     <button data-item-id="{{checkout_product.product_id}}" class="btn btn-success shadow-0 border" id="continue_checkout" type="submit">Continue</button>
