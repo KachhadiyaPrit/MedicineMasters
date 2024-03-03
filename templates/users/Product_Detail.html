@@ -66,15 +66,6 @@
             <hr />
   
             <div class="row mb-4">
-              <!-- <div class="col-md-4 col-6">
-                <label class="mb-2">Size</label>
-                <select class="form-select border border-secondary" style="height: 35px;">
-                  <option>Small</option>
-                  <option>Medium</option>
-                  <option>Large</option>
-                </select>
-              </div> -->
-              <!-- col.// -->
               {% if user.is_authenticated %}
                 {% if product|is_in_cart_product_detail:cart %}
                 <div class="col-md-4 col-6">
@@ -235,8 +226,8 @@
               <div class="card-body">
                 <h5 class="card-title">Similar items</h5>
                 <hr>
-                {% for i in similar_product|slice:"0:4" %}
-                  <div class="d-flex mb-3">
+                {% for i in similar_product|slice:"0:3" %}
+                  <div class="d-flex">
                     <a href="{% url 'product_detail' i.product_id %}" class="me-3">
                       <img src="/{{i.product_img}}" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
                     </a>
@@ -245,7 +236,6 @@
                       <strong class="text-dark"> ₹ {{i.product_discount_price}}</strong>
                     </div>
                   </div>
-                  <hr>
                 {% endfor %}
               </div>
             </div>

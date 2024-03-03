@@ -94,9 +94,6 @@ urlpatterns = [
 
     # Admin To Order History
     path('admin/payment_history', admin_views.payment_history, name="payment_history"),
-    # path('admin/payment_history_detail/<str:payment_id>', admin_views.payment_history_detail, name="payment_history_detail"),
-    # path('admin/update_order_status', admin_views.update_order_status, name="update_order_status"),
-    # path('admin/order_history_detail/order_mail/<str:user_email>', admin_views.order_mail, name="order_mail"),
     
     # Admin To Notification
     path('admin/add_notification_page', admin_views.add_notification_page, name='add_notification_page'),
@@ -157,7 +154,6 @@ urlpatterns = [
     path('user/profile/track_order/cancle_order/<int:order_id>', user_views.cancle_order, name='cancle_order'),
     path('user/all_product_by_category/<int:category_id>', user_views.all_product_by_category, name='all_product_by_category'),
     path('user/all_product_by_company/<int:company_id>', user_views.all_product_by_company, name='all_product_by_company'),
-    # path('generate_invoice/<int:order_id>/', user_views.generate_invoice, name = 'generate_invoice'),
     path('user/profile/get_prescription', user_views.get_prescription, name = 'get_prescription'),
     path('feedback', user_views.feedback, name = 'feedback'),
     path('get-search/', user_views.get_search, name = 'get-search'),

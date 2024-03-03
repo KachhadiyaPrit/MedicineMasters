@@ -639,12 +639,3 @@ def payment_history(request):
         'payment' : payment,
     }
     return render(request, 'admin/payment history/payment_history.html',context)
-
-# Order History Detail
-# def payment_history_detail(request, payment_id):
-#     payment_detail = Payment.objects.get(payment_id = payment_id)
-    
-#     context = {
-#         'payment_detail' : payment_detail,
-#     }
-#     return render(request, 'admin/payment history/view_payment_detail.html',context)

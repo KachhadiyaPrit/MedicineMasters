@@ -17,17 +17,6 @@
                         <label for="notification_message" class="form-label">Notification Message :- </label>
                         <input type="text" class="form-control" id="notification_message" name="notification_message">
                     </div>
-                    <!-- <div class="mb-3">
-                        <label for="send_to" class="form-label">Send To :- </label>
-                        <select class="form-control mb-3" name="user_id" id="user_id" required>
-                            <option disabled selected>Select User Name</option>
-                            {% for i in user %}
-                                {% if i.user_type != 1 %}
-                                    <option value="{{i.user_id}}">{{i.username}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div> -->
                     <div class="d-grid">
                         <input type="submit" id="add_notification" class="btn btn-primary" value="Add Notification">
                     </div>

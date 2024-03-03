@@ -108,6 +108,8 @@ def all_product(request):
     if request.user.is_authenticated:
         cart_object = Cart.objects.get(user_id = request.user.user_id)
         cart = Cart_Detail.objects.filter(cart_id = cart_object.cart_id)
+    else:
+        cart = Cart.objects.all()   
     product_count = Product.objects.all().count()
     subcategory = Sub_Category.objects.all()
     company = Company.objects.all()
@@ -808,20 +810,20 @@ def checkout(request, product_id):
     checkout_product = Product.objects.get(product_id = product_id)
     checkout_price = Product.objects.filter(product_id = product_id)
     address = DeliveryAddress.objects.get(user_id = request.user.user_id)
-    prescription_status = Cart_Detail.objects.filter(product_id = product_id ,prescription_status = 0).count()
+    prescription_status = Product.objects.filter(product_id = product_id ,product_prescription_status = 0).count()
     discount = 0
     total = 0
-
+    after_discount_value = 0
     for i in checkout_price:
         discount = int(i.product_discount_price) * 2 / 100
 
     for i in checkout_price:
         total = i.product_discount_price
-    
-    after_discount_value = total - discount + 10
+
+    after_discount_value = int(total) - int(discount) + 10
 
     client = razorpay.Client(auth=(settings.RAZORPAY_KEY, settings.RAZORPAY_SECRET))
-    payment = client.order.create({'amount':(after_discount_value), 'currency':'INR','payment_capture':1})
+    payment = client.order.create({'amount':(after_discount_value * 100), 'currency':'INR','payment_capture':1})
 
     context = {
         'checkout_product':checkout_product,
