@@ -156,5 +156,6 @@ EMAIL_HOST_USER='medicinemasters23@gmail.com'
 EMAIL_HOST_PASSWORD='lfor vfap mpxe hjpr'
 EMAIL_USE_TLS=True
 
-KEY = 'rzp_test_SXFY1D0zq29TGB'
-SECRET = 'js7DS3s7maZsQXyF11Fx4xK3'
+# Razorpay
+RAZORPAY_KEY = 'rzp_test_SXFY1D0zq29TGB'
+RAZORPAY_SECRET = 'js7DS3s7maZsQXyF11Fx4xK3'

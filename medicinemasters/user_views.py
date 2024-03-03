@@ -820,12 +820,16 @@ def checkout(request, product_id):
     
     after_discount_value = total - discount + 10
 
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY, settings.RAZORPAY_SECRET))
+    payment = client.order.create({'amount':(after_discount_value), 'currency':'INR','payment_capture':1})
+
     context = {
         'checkout_product':checkout_product,
         'address':address,
         'discount':discount,
         'after_discount_value':after_discount_value,
-        'prescription_status':prescription_status
+        'prescription_status':prescription_status,
+        'payment':payment
     }
     return render(request, 'users/Checkout.html', context)
 
@@ -851,7 +855,8 @@ def cart_checkout(request, cart_id):
 
     # client = razorpay.Client(auth=('rzp_test_SXFY1D0zq29TGB', 'js7DS3s7maZsQXyF11Fx4xK3'))
     # payment = client.order.create({'amount':(after_discount_value), 'currency':'INR','payment_capture':1})
-
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY, settings.RAZORPAY_SECRET))
+    payment = client.order.create({'amount':(after_discount_value), 'currency':'INR','payment_capture':1})
     context = {
         'cart_items':cart_items,
         'address':address,
@@ -859,7 +864,8 @@ def cart_checkout(request, cart_id):
         'discount' : discount,
         'after_discount_value':after_discount_value,
         'shipping_cost':shipping_cost,
-        'prescription_status':prescription_status
+        'prescription_status':prescription_status,
+        'payment':payment
     }
     
     return render(request, 'users/Cart_Checkout.html', context)

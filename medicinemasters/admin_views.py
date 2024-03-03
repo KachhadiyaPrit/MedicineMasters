@@ -616,6 +616,21 @@ def add_doctor(request):
         return redirect('add_doctor_page')
     return render(request, 'admin/doctor/add_doctor.html')
 
+# View Doctor
+def view_doctor(request):
+    doctor = Users.objects.filter(user_type = 3)
+    context = {
+        'doctor':doctor,
+    }
+    return render(request, 'admin/doctor/view_doctor.html',context)
+
+def delete_doctor(request, doctor_id):
+    doctor = Users.objects.get(user_id = doctor_id)
+    doctor.delete()
+    messages.success(request, 'User Are Successfully Deleted...')
+    return redirect('view_doctor')
+
+
 # Payment
 # Payment History
 def payment_history(request):

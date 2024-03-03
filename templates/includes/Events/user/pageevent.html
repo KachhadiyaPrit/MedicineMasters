@@ -348,9 +348,8 @@
 
 <!-- checkout to order without page reload -->
 <script>
-    $(document).on('click', '#continue_checkout', function(e){
+    $(document).on('click', '#checkout-rzp-button1', function(e){
         e.preventDefault();
-
         var first_name = $('#first_name').val();
         var last_name = $('#last_name').val();
         var email = $('#email').val();
@@ -361,6 +360,8 @@
         var order_amount = $('#order_amount').val();
         var order_discount = $('#order_discount').val();
         var payment_method = $('input[name="payment_method"]:checked').val();
+        var prescription_img = $('#prescription_img')[0].files[0];
+        var product_id = $('#product_id').val();
 
         var form_data = new FormData();
 
@@ -374,9 +375,13 @@
         form_data.append('order_amount', order_amount);
         form_data.append('order_discount', order_discount);
         form_data.append('payment_method', payment_method);
-        form_data.append('prescription_img', $('#prescription_img')[0].files[0]);
 
-        var product_id = $(this).data('item-id');
+        if(prescription_img == ''){
+            form_data.append('prescription_img', '');
+        }
+        else{
+            form_data.append('prescription_img', prescription_img);
+        }
 
         $.ajax({
             url: 'checkout_order/' + product_id ,

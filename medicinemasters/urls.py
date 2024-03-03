@@ -105,6 +105,8 @@ urlpatterns = [
     # Admin To Doctor
     path('admin/add_doctor_page', admin_views.add_doctor_page, name='add_doctor_page'),
     path('admin/add_doctor', admin_views.add_doctor, name='add_doctor'),
+    path('admin/view_doctor', admin_views.view_doctor, name='view_doctor'),
+    path('admin/delete_doctor/<int:doctor_id>', admin_views.delete_doctor, name='delete_doctor'),
 
     # Doctor
     # Doctor Home Page Url
