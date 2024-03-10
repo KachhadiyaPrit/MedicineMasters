@@ -346,9 +346,140 @@
     })
 </script>
 
+<!-- cart checkout to cod order without page reload -->
+<script>
+    $(document).on('click', '#cod-payment', function(e){
+        e.preventDefault();
+
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var email = $('#email').val();
+        var phone = $('#phone').val();
+        var address = $('#address').val();
+        var pincode = $('#pincode').val();
+        var order_total_amount = $('#order_total_amount').val();
+        var order_amount = $('#order_amount').val();
+        var order_discount = $('#order_discount').val();
+        var shipping_price = $('#shipping_price').val();
+        var payment_method = $('input[name="payment_method"]:checked').val();
+        var prescription_img = $('#prescription_img')[0].files[0];
+
+        var form_data = new FormData();
+
+        form_data.append('first_name', first_name);
+        form_data.append('last_name', last_name);
+        form_data.append('email', email);
+        form_data.append('phone', phone);
+        form_data.append('address', address);
+        form_data.append('pincode', pincode);
+        form_data.append('order_total_amount', order_total_amount);
+        form_data.append('order_amount', order_amount);
+        form_data.append('order_discount', order_discount);
+        form_data.append('shipping_price', shipping_price);
+        form_data.append('payment_method', payment_method);
+        if(prescription_img == ''){
+            form_data.append('prescription_img', '');
+        }
+        else{
+            form_data.append('prescription_img', prescription_img);
+        }
+        
+        $.ajax({
+            url: "{% url 'cart_checkout_order' %}",
+            type: "POST",
+            mimeType: "multipart/form-data",
+            contentType: false,
+            processData: false,
+            data: form_data,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your order Is Confirmed...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>
+
 <!-- checkout to order without page reload -->
 <script>
     $(document).on('click', '#checkout-rzp-button1', function(e){
+        e.preventDefault();
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var email = $('#email').val();
+        var phone = $('#phone').val();
+        var address = $('#address').val();
+        var pincode = $('#pincode').val();
+        var order_total_amount = $('#order_total_amount').val();
+        var order_amount = $('#order_amount').val();
+        var order_discount = $('#order_discount').val();
+        var payment_method = $('input[name="payment_method"]:checked').val();
+        var prescription_img = $('#prescription_img')[0].files[0];
+        var product_id = $('#product_id').val();
+
+        var form_data = new FormData();
+
+        form_data.append('first_name', first_name);
+        form_data.append('last_name', last_name);
+        form_data.append('email', email);
+        form_data.append('phone', phone);
+        form_data.append('address', address);
+        form_data.append('pincode', pincode);
+        form_data.append('order_total_amount', order_total_amount);
+        form_data.append('order_amount', order_amount);
+        form_data.append('order_discount', order_discount);
+        form_data.append('payment_method', payment_method);
+
+        if(prescription_img == ''){
+            form_data.append('prescription_img', '');
+        }
+        else{
+            form_data.append('prescription_img', prescription_img);
+        }
+
+        $.ajax({
+            url: 'checkout_order/' + product_id ,
+            type: "POST",
+            mimeType: "multipart/form-data",
+            contentType: false,
+            processData: false,
+            data: form_data,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your order Is Confirmed...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }          
+        });
+    })
+</script>
+
+<!-- checkout to cod order without page reload -->
+<script>
+    $(document).on('click', '#checkout-cod-payment', function(e){
         e.preventDefault();
         var first_name = $('#first_name').val();
         var last_name = $('#last_name').val();

@@ -128,21 +128,42 @@
                                 <div class="row">
                                     <div class="d-flex justify-content-center">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="payment_method" id="cod" value="Case On Delivery" />
+                                            <input class="form-check-input" type="radio" name="payment_method" id="cod" value="Case On Delivery"/>
                                             <label class="form-check-label" for="payment_method">COD</label>
-                                          </div>
+                                        </div>
                                           
-                                          <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="payment_method" id="online" value="Online Payment" />
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="payment_method" id="online" value="Online Payment" checked/>
                                             <label class="form-check-label" for="payment_method">Online Payment</label>
-                                          </div>
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
+
+                                <script>
+                                    document.getElementById('cod').addEventListener('change', function() {
+                                        if (this.checked) {
+                                            document.getElementById('rzp-button1').style.display = 'none';
+                                            document.getElementById('cod-payment').style.display = 'block';
+                                        } else {
+                                            document.getElementById('rzp-button1').style.display = 'block';
+                                        }
+                                    });
+
+                                    document.getElementById('online').addEventListener('change', function() {
+                                        if (this.checked) {
+                                            document.getElementById('rzp-button1').style.display = 'block';
+                                            document.getElementById('cod-payment').style.display = 'none';
+                                        } else {
+                                            document.getElementById('cod-payment').style.display = 'block';
+                                        }
+                                    });
+                                </script>
                     
                                 <div class="d-flex justify-content-center">
                                     <button id="go-back" class="btn btn-light border me-1">Cancel</button>
                                     <button class="btn btn-success shadow-0 border ms-1" id="rzp-button1"><i class="fas fa-money-bill"></i> Continue</button>
+                                    <button class="btn btn-success shadow-0 border ms-1" style="display: none;" id="cod-payment"><i class="fas fa-money-bill"></i> Cod Continue</button>
                                 </div>
                             </div>
                         </div>
