@@ -1,5 +1,5 @@
 from urllib import request
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -10,7 +10,10 @@ from medicine_masters import helpers
 from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback,Prescription,Prescription_Detail,Payment
 import razorpay
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.core.mail import EmailMessage
 
 # Users Home Page
 def users_home(request):
@@ -1059,8 +1062,41 @@ def all_product_by_category(request, category_id):
     }
     return render(request, 'users/All_Product_By_Category.html', context)
 
-# def generate_invoice(request, order_id):
-#     pass
+def generate_invoice(request, order_tracking_id):
+    if request.user.is_authenticated:
+        order = Order.objects.get(order_tracking_id = order_tracking_id)
+        order_tracking_id = order_tracking_id
+        order_detail = Order_Detail.objects.filter(order_id = order.order_id)
+    
+        context = {
+            'order_detail':order_detail,
+            'order_tracking_id':order_tracking_id,
+            'order':order,
+            'first_name':request.user.first_name,
+            'last_name':request.user.last_name,
+            'email':request.user.email
+        }
+
+        template_path = 'invoice/invoice.html'
+        response = HttpResponse(content_type='application/pdf')
+        # response['Content-Disposition'] = 'attachment; filename="order-invoice.pdf"'
+        response['Content-Disposition'] = 'filename="order-invoice.pdf"'
+        template = get_template(template_path)
+        html = template.render(context)
+
+        # create a pdf
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        # return response
+        else:
+            email_subject = 'Your Invoice'
+            email_body = 'Please find attached your invoice.'
+            email = EmailMessage(email_subject, email_body, to=[request.user.email])
+            email.attach('invoice.pdf', response.getvalue(), 'application/pdf')
+            email.send()
+
+    return render(request, 'users/Track_Order_Detail.html', context)
     
 def delete_cart_item(request, cart_detail_id):
     cart = Cart.objects.all()
@@ -1099,22 +1135,14 @@ def feedback(request):
         email = request.POST.get('email')
         feedback_message = request.POST.get('feedback_message')
         
-        if request.user.is_authenticated:
-            feedback = Feedback(
-                name = name,
-                email = email,
-                feedback_message = feedback_message,
-                user_id = request.user.user_id
-            )
-            feedback.save()
-        else:
-            feedback = Feedback(
-                name = name,
-                email = email,
-                feedback_message = feedback_message
-            )
-            feedback.save()
-        return redirect('users_home')
+        feedback = Feedback(
+            name = name,
+            email = email,
+            feedback_message = feedback_message,
+            user_id = request.user.user_id
+        )
+        feedback.save()
+    return redirect('users_home')
 
 # Get Prescription
 def get_prescription(request):

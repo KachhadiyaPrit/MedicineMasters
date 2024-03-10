@@ -931,3 +931,35 @@
         });
     })
 </script>
+
+<!-- generate invoice without page reload -->
+<script>
+    $(document).on('click', '#generate_invoice', function(e){
+        e.preventDefault();
+
+        var order_tracking_id = $(this).data('item-id');
+        
+        $.ajax({
+            type: 'POST',
+            url: $('.generate_invoice').attr('href'),
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: () => {
+                // $(".cart_detail").load(location.href + " .cart_detail>*", "");
+                $("#myAlert").html(
+                    `
+                    <div id="alert-box" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+	                    <div class="d-flex">
+		                    <div class="toast-body">
+		                        Your Invoice Is Generated...
+		                    </div>
+	                    </div>
+	                </div>
+                    `
+                )
+                setInterval(function(){
+                    $('#alert-box').fadeOut();
+                }, 5000)
+            }
+        });
+    })
+</script>

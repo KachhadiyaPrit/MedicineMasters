@@ -79,6 +79,8 @@
                                                 <span class="text-warning">{{i.order_status}}</span>
                                             {% elif i.order_status == "Ready For Pickup" %}
                                                 <span class="text-info">{{i.order_status}}</span>
+                                            {% elif i.order_status == "Order Received" %}
+                                                <span class="text-success">{{i.order_status}}</span>
                                             {% else %}
                                                 <span class="text-danger">{{i.order_status}}</span>
                                             {% endif %}
