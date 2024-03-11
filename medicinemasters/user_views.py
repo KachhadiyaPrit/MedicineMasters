@@ -882,8 +882,8 @@ def cart_checkout_order(request):
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
-        address = request.POST.get('address')
-        pincode = request.POST.get('pincode')
+        order_delivery_address = request.POST.get('order_delivery_address')
+        order_delivery_address_pincode = request.POST.get('order_delivery_address_pincode')
         order_total_amount = request.POST.get('order_total_amount')
         order_amount = request.POST.get('order_amount')
         order_discount = request.POST.get('order_discount')
@@ -898,6 +898,12 @@ def cart_checkout_order(request):
             order_total_amount = order_total_amount,
             order_amount = order_amount,
             order_discount_price = order_discount,
+            first_name = first_name,
+            last_name = last_name,
+            phone = phone,
+            email = email,
+            order_delivery_address = order_delivery_address,
+            order_delivery_address_pincode = order_delivery_address_pincode,
             user_id = request.user.user_id
         )
         order.save()
@@ -959,8 +965,8 @@ def checkout_order(request, product_id):
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
-        address = request.POST.get('address')
-        pincode = request.POST.get('pincode')
+        order_delivery_address = request.POST.get('order_delivery_address')
+        order_delivery_address_pincode = request.POST.get('order_delivery_address_pincode')
         order_total_amount = request.POST.get('order_total_amount')
         order_amount = request.POST.get('order_amount')
         order_discount = request.POST.get('order_discount')
@@ -974,6 +980,12 @@ def checkout_order(request, product_id):
             order_total_amount = order_total_amount,
             order_amount = order_amount,
             order_discount_price = order_discount,
+            first_name = first_name,
+            last_name = last_name,
+            phone = phone,
+            email = email,
+            order_delivery_address = order_delivery_address,
+            order_delivery_address_pincode = order_delivery_address_pincode,
             user_id = request.user.user_id
         )
         order.save()
@@ -1067,14 +1079,14 @@ def generate_invoice(request, order_tracking_id):
         order = Order.objects.get(order_tracking_id = order_tracking_id)
         order_tracking_id = order_tracking_id
         order_detail = Order_Detail.objects.filter(order_id = order.order_id)
+        gst = 0
+        gst = order.order_total_amount * 18 / 100
     
         context = {
             'order_detail':order_detail,
             'order_tracking_id':order_tracking_id,
             'order':order,
-            'first_name':request.user.first_name,
-            'last_name':request.user.last_name,
-            'email':request.user.email
+            'gst':gst
         }
 
         template_path = 'invoice/invoice.html'

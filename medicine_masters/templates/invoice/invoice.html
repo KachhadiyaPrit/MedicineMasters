@@ -34,12 +34,7 @@
       margin-bottom: 10px;
     }
 
-    #logo img {
-      width: 90px;
-    }
-
     h1 {
-      
       color: #5D6975;
       font-size: 2.4em;
       line-height: 1.4em;
@@ -76,16 +71,12 @@
       margin-bottom: 20px;
     }
 
-
-
     table th,
     table td {
       text-align: center;
     }
 
     table th {
-      
-      
       color: #5D6975;
       border-bottom: 1px solid #C1CED9;
       white-space: nowrap;        
@@ -138,7 +129,9 @@
       text-align: center;
     }
 
-
+    img {
+      border-radius: 10px;
+    }
   </style>
 </head>
 
@@ -147,7 +140,7 @@
     <div id="logo" style="display:flex; justify-content:center; align-items:center;">
       <!-- <img src="static/firstapp/images/logo.png" class="brand-logo" width=60 height=60> not working -->
       <!-- {#<img src="static/logo.png" class="brand-logo" height="200px">#} not working -->
-      <img src="C:/Users/Prit Patel/Desktop/SDP/MEDICINE-MASTERS/MEDICINE-MASTERS/medicinemasters/static/medicine_masters_assets/images/mylogo.png" class="brand-logo" width=60 height=60>
+      <!-- <img src="../images/Medicine Masters.png" class="brand-logo" width=60 height=60> -->
       <h1 class="brand-name">Medicine Masters</h1>
     </div>
     <h1>INVOICE</h1>
@@ -157,9 +150,11 @@
       <div><a href="http://127.0.0.1:8000/">Medicine Masters</a></div>
     </div>
     <div id="project">
-      <div><span>Customer Name:</span> {{first_name}} {{last_name}}</div>
-      <div><span>Customer Email:</span> <a href="mailto:{{email}}">{{email}}</a></div>
+      <div><span>Customer Name:</span> {{order.first_name}} {{order.last_name}}</div>
+      <div><span>Customer Email:</span> <a href="mailto:{{email}}">{{order.email}}</a></div>
+      <div><span>Customer Phone:</span> <a href="">{{order.phone}}</a></div>
       <div><span>Order Date:</span> {{order.order_date|date:'d-M-Y'}}</div>
+      <div class="col-6"><span>Delivery Address:</span> {{order.order_delivery_address}},{{order.order_delivery_address_pincode}}</div>
       <div><span>Invoice ID:</span> {{order.order_tracking_id}}</div>
       <!-- <div><span>TRANSACTION ID:</span> {{transaction_id}}</div> -->
     </div>
@@ -185,16 +180,29 @@
               </tr>
               {% endfor %}
               <tr>
+                <td scope="row"></td>
+                <td><b>Order Discount Price : </b></td>
+                <td>{{order.order_discount_price}}</td>
+              </tr>
+              <tr>
+                <td scope="row"></td>
+                <td><b>GST : </b></td>
+                <td>{{gst}}</td>
+              </tr><tr>
+                <td scope="row"></td>
+                <td><b>Shipping Price : </b></td>
+                <td>{{order.shipping_price}}</td>
+              </tr>
+              <tr>
                   <td scope="row"></td>
-                  <td>TOTAL: </td>
+                  <td><b>Total : </b></td>
                   <td>{{order.order_total_amount}}</td>
-                  
               </tr>
           </tbody>
       </table>
 
     </div>
-    <p style="text-align:right; font-size:12px;">*All values are in INR<p>
+    <p style="text-align:right; font-size:12px;">*GST Is Include In Total<p>
 </body>
 
 </html>
