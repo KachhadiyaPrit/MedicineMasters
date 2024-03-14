@@ -26,12 +26,16 @@
                                         <div class="col-lg-6">{{order_tracking_id.order.order_tracking_id}}</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 label ">Order Username :-</div>
-                                        <div class="col-lg-6">{{order_tracking_id.order.user.username}}</div>
+                                        <div class="col-lg-6 label ">Order User Name :-</div>
+                                        <div class="col-lg-6">{{order.first_name}} {{order.last_name}}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 label ">Order Email :-</div>
-                                        <div class="col-lg-6">{{order_tracking_id.order.user.email}}</div>
+                                        <div class="col-lg-6">{{order.email}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 label ">Order Delivery Address :-</div>
+                                        <div class="col-lg-6">{{order.order_delivery_address}},{{order.order_delivery_address_pincode}}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 label ">Current Order Status :-</div>

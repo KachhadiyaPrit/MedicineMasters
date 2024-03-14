@@ -2,6 +2,7 @@ $("#profiletxt").click(
     function(){
         $("#addresscard").removeClass("d-block").addClass("d-none");
         $("#address_link").removeClass("d-flex").addClass("d-none");
+        $("#all_rewards_card").removeClass("d-flex").addClass("d-none");
         $("#profilecard").addClass("d-block").removeClass("d-none");
         $("#profile_link").addClass("d-flex").removeClass("d-none");
     }
@@ -11,6 +12,7 @@ $("#addresstxt").click(
     function(){
         $("#profilecard").removeClass("d-block").addClass("d-none");
         $("#profile_link").removeClass("d-flex").addClass("d-none");
+        $("#all_rewards_card").removeClass("d-flex").addClass("d-none");
         $("#addresscard").addClass("d-block").removeClass("d-none");
         $("#address_link").addClass("d-flex").removeClass("d-none");
     }
@@ -21,6 +23,7 @@ $("#view_all_offers_txt").click(
         $("#profilecard").removeClass("d-block").addClass("d-none");
         $("#profile_link").removeClass("d-flex").addClass("d-none");
         $("#addresscard").addClass("d-none").removeClass("d-block");
+        $("#all_rewards_card").addClass("d-none").removeClass("d-block");
         $("#address_link").addClass("d-flex").removeClass("d-none");
     }
 );
@@ -40,6 +43,7 @@ $("#profiletxt").click(
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#get_prescription").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").addClass("d-none").removeClass("d-block");
+        $("#all_rewards_card").addClass("d-none").removeClass("d-block");
     }
 );
 
@@ -50,6 +54,7 @@ $("#addresstxt").click(
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#get_prescription").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").addClass("d-none").removeClass("d-block");
+        $("#all_rewards_card").addClass("d-none").removeClass("d-block");
     }
 );
 
@@ -69,6 +74,18 @@ $("#view_all_offers_txt").click(
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#get_prescription").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").addClass("d-block").removeClass("d-none");
+        $("#all_rewards_card").removeClass("d-block").addClass("d-none");
+    }
+);
+
+$("#view_all_rewards_txt").click(
+    function(){
+        $("#user_detail").removeClass("d-block").addClass("d-none");
+        $("#delivery_address_card").removeClass("d-block").addClass("d-none");
+        $("#edit_user_detail").removeClass("d-block").addClass("d-none");
+        $("#get_prescription").removeClass("d-block").addClass("d-none");
+        $("#all_offer_card").addClass("d-none").removeClass("d-block");
+        $("#all_rewards_card").addClass("d-block").removeClass("d-none");
     }
 );
 
@@ -78,6 +95,7 @@ $("#get_prescription_txt").click(
         $("#delivery_address_card").removeClass("d-block").addClass("d-none");
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").removeClass("d-block").addClass("d-none");
+        $("#all_rewards_card").removeClass("d-block").addClass("d-none");
         $("#get_prescription").addClass("d-block").removeClass("d-none");
     }
 );

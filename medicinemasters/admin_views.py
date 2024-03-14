@@ -520,6 +520,7 @@ def order_history(request):
 
 # Order History Detail
 def order_history_detail(request, order_id):
+    order = Order.objects.get(order_id = order_id)
     order_detail = Order_Detail.objects.filter(order_id = order_id)
     for i in order_detail:
         prescription_status = Prescription_Detail.objects.all()
@@ -528,7 +529,8 @@ def order_history_detail(request, order_id):
     context = {
         'order_detail' : order_detail,
         'order_tracking_id' : order_tracking_id,
-        'prescription_status' : prescription_status
+        'prescription_status' : prescription_status,
+        'order':order
     }
     return render(request, 'admin/order history/view_order_detail.html',context)
     

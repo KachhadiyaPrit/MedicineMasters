@@ -1100,7 +1100,6 @@ def generate_invoice(request, order_tracking_id):
         pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
             return HttpResponse('We had some errors <pre>' + html + '</pre>')
-        # return response
         else:
             email_subject = 'Your Invoice'
             email_body = 'Please find attached your invoice.'
