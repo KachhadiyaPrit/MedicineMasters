@@ -31,6 +31,12 @@ urlpatterns = [
     path('check_username', views.check_username, name='check_username'),
     path('check_email', views.check_email, name='check_email'),
     path('dologout', views.dologout, name='dologout'),
+
+    # Forgot password
+    path('forgot_password_page', views.forgot_password_page, name='forgot_password_page'),
+    path('send_otp', views.send_otp, name='send_otp'),
+    path('verify_otp', views.verify_otp, name='verify_otp'),
+    path('forgot_password', views.forgot_password, name='forgot_password'),
     
     # Admin Home Page Url
     path('admin', admin_views.admin_home, name='admin_home'),

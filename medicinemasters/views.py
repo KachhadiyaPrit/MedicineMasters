@@ -6,6 +6,8 @@ from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.http import JsonResponse
+import random
 
 # login and signup screen send
 def login_page(request):
@@ -108,3 +110,61 @@ def dosignup(request):
                 
             return redirect(login_page)        
 
+# Forget Password
+def forgot_password_page(request):
+    return render(request, 'forgot-password.html')
+
+# Send OTP
+def send_otp(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        otp = random.randint(111111,999999)
+
+        user = Users.objects.get(email = email)
+        user.otp = otp
+        user.save()
+
+        send_mail(
+            'Message To Medicine Masters',
+            'Medicine Masters is send OTP for your request of forgot password your OTP is - '+str(otp),
+            'medicinemasters23@gmail.com',
+            [email],
+            fail_silently=False,
+        )
+        return JsonResponse({'status': 200, 'email':email})
+    return render(request, 'forgot-password.html')
+    
+# Verify OTP
+def verify_otp(request):
+    if request.method == 'POST':
+        email = request.POST.get('verifyemail')
+        otp = request.POST.get('otp')
+
+        user = Users.objects.get(email = email)
+
+        if str(user.otp) == otp:
+            user.otp = 0
+            user.save()
+            return JsonResponse({'status': 200, 'email':email})
+        else:
+            print('error')
+
+    return render(request, 'forgot-password.html')
+    
+# Forgot Password
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('passwordemail')
+        passw = request.POST.get('password')
+        password = make_password(passw)
+
+        user = Users.objects.get(email = email)
+
+        if user:
+            user.password = password
+            user.save()
+            return JsonResponse({'status': 200,})
+        else:
+            print('error')
+
+    return render(request, 'forgot-password.html')

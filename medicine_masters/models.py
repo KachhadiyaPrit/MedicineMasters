@@ -26,6 +26,7 @@ class Users(AbstractUser):
     pincode = models.CharField(max_length=100,null=True, blank=True)
     education = models.CharField(max_length=150, null=True, blank=True)
     user_type = models.IntegerField(choices=USER,default=2)
+    otp = models.IntegerField(null=True, blank=True)
     
 class DeliveryAddress(models.Model):
     addressType = (
