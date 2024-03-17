@@ -2,7 +2,7 @@ $("#profiletxt").click(
     function(){
         $("#addresscard").removeClass("d-block").addClass("d-none");
         $("#address_link").removeClass("d-flex").addClass("d-none");
-        $("#all_rewards_card").removeClass("d-flex").addClass("d-none");
+        $("#wallet_card").removeClass("d-flex").addClass("d-none");
         $("#profilecard").addClass("d-block").removeClass("d-none");
         $("#profile_link").addClass("d-flex").removeClass("d-none");
     }
@@ -12,7 +12,7 @@ $("#addresstxt").click(
     function(){
         $("#profilecard").removeClass("d-block").addClass("d-none");
         $("#profile_link").removeClass("d-flex").addClass("d-none");
-        $("#all_rewards_card").removeClass("d-flex").addClass("d-none");
+        $("#wallet_card").removeClass("d-flex").addClass("d-none");
         $("#addresscard").addClass("d-block").removeClass("d-none");
         $("#address_link").addClass("d-flex").removeClass("d-none");
     }
@@ -23,7 +23,7 @@ $("#view_all_offers_txt").click(
         $("#profilecard").removeClass("d-block").addClass("d-none");
         $("#profile_link").removeClass("d-flex").addClass("d-none");
         $("#addresscard").addClass("d-none").removeClass("d-block");
-        $("#all_rewards_card").addClass("d-none").removeClass("d-block");
+        $("#wallet_card").addClass("d-none").removeClass("d-block");
         $("#address_link").addClass("d-flex").removeClass("d-none");
     }
 );
@@ -43,7 +43,8 @@ $("#profiletxt").click(
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#get_prescription").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").addClass("d-none").removeClass("d-block");
-        $("#all_rewards_card").addClass("d-none").removeClass("d-block");
+        $("#wallet_card").addClass("d-none").removeClass("d-block");
+        $(window).scrollTop(0);
     }
 );
 
@@ -54,7 +55,8 @@ $("#addresstxt").click(
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#get_prescription").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").addClass("d-none").removeClass("d-block");
-        $("#all_rewards_card").addClass("d-none").removeClass("d-block");
+        $("#wallet_card").addClass("d-none").removeClass("d-block");
+        $(window).scrollTop(0);
     }
 );
 
@@ -74,18 +76,20 @@ $("#view_all_offers_txt").click(
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#get_prescription").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").addClass("d-block").removeClass("d-none");
-        $("#all_rewards_card").removeClass("d-block").addClass("d-none");
+        $("#wallet_card").removeClass("d-block").addClass("d-none");
+        $(window).scrollTop(0);
     }
 );
 
-$("#view_all_rewards_txt").click(
+$("#view_wallet_txt").click(
     function(){
         $("#user_detail").removeClass("d-block").addClass("d-none");
         $("#delivery_address_card").removeClass("d-block").addClass("d-none");
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#get_prescription").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").addClass("d-none").removeClass("d-block");
-        $("#all_rewards_card").addClass("d-block").removeClass("d-none");
+        $("#wallet_card").addClass("d-block").removeClass("d-none");
+        $(window).scrollTop(0);
     }
 );
 
@@ -95,8 +99,9 @@ $("#get_prescription_txt").click(
         $("#delivery_address_card").removeClass("d-block").addClass("d-none");
         $("#edit_user_detail").removeClass("d-block").addClass("d-none");
         $("#all_offer_card").removeClass("d-block").addClass("d-none");
-        $("#all_rewards_card").removeClass("d-block").addClass("d-none");
+        $("#wallet_card").removeClass("d-block").addClass("d-none");
         $("#get_prescription").addClass("d-block").removeClass("d-none");
+        $(window).scrollTop(0);
     }
 );
 

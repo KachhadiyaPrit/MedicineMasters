@@ -152,7 +152,7 @@ def order_status_handler(sender, instance, created, **kwargs):
         elif instance.order_status == 'Order Received':
             progress_status = 100
         else : 
-            progress_status = 0
+            progress_status = 0 
         data['progress'] = progress_status
         async_to_sync(channel_layer.group_send)(
             'order_%s' % instance.order_tracking_id,{

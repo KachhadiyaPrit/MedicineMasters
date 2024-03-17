@@ -9,18 +9,19 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 import random
 
-# login and signup screen send
+# login and signup screen forward
 def login_page(request):
     return render(request, 'login.html')
 
 def signup(request):
     return render(request, 'signup.html')
+
 # Login Process
 def dologin(request):
     if request.method == 'POST':
         user = EmailBackEnd.authenticate(request, username=request.POST.get('email'), password=request.POST.get('password'),)
 
-        if user != None: 
+        if user is not None: 
             login(request, user)
             user_type = user.user_type
             if user_type == 1:
@@ -30,13 +31,10 @@ def dologin(request):
             elif user_type == 3:
                 return redirect('doctor_home')
             else:
-                # Message For Not Match User Type...
-                message = 'User are Invalid !!'
+                message = 'You have not created account so first create account !'
                 return render(request, 'login.html',{'error':message})
         else:
-            # Message For User Is Not Exist...
-            message = 'Email and password are Invalid !'
-            # Message For User Is Not Exist...
+            message = 'Email or Password are invalid !!'
             return render(request, 'login.html',{'error':message})
 
 # Logout Process
