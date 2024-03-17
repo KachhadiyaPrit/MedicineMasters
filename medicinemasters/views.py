@@ -118,6 +118,31 @@ def send_otp(request):
         email = request.POST.get('email')
         otp = random.randint(111111,999999)
 
+        if email == '':
+            return JsonResponse({'email':email, 'error':'Your email is not found try again !'})
+        else:
+            try:
+                user = Users.objects.get(email = email)
+                user.otp = otp
+                user.save()
+                send_mail(
+                    'Message To Medicine Masters',
+                    'Medicine Masters is send OTP for your request of forgot password your OTP is - '+str(otp),
+                    'medicinemasters23@gmail.com',
+                    [email],
+                    fail_silently=False,
+                )
+                return JsonResponse({'status': 200, 'email':email})
+            except Users.DoesNotExist:
+                return JsonResponse({'email':email, 'error':'Your email is is not match try again with valid email!'})
+    return render(request, 'forgot-password.html')
+    
+# Re-Send OTP
+def re_send_otp(request):
+    if request.method == 'POST':
+        email = request.POST.get('verifyemail')
+        otp = random.randint(111111,999999)
+
         user = Users.objects.get(email = email)
         user.otp = otp
         user.save()
@@ -138,12 +163,32 @@ def verify_otp(request):
         email = request.POST.get('verifyemail')
         otp = request.POST.get('otp')
 
+        if otp == '':
+            return JsonResponse({'email':email, 'error':'Your otp is not found try again !'})
+        else:
+            try:
+                user = Users.objects.get(email = email)
+                if str(user.otp) == otp:
+                    user.otp = 0
+                    user.save()
+                    return JsonResponse({'status': 200, 'email':email})
+                else:
+                    return JsonResponse({'email':email, 'error':'Your otp is not match try again with correct otp !'})
+            except Users.DoesNotExist:
+                return JsonResponse({'email':email, 'error':'Your email is is not match try again with valid email!'})
+
+    return render(request, 'forgot-password.html')
+
+# Clear Otp
+def clear_otp(request):
+    if request.method == 'POST':
+        email = request.POST.get('verifyemail')
+
         user = Users.objects.get(email = email)
 
-        if str(user.otp) == otp:
+        if user:
             user.otp = 0
             user.save()
-            return JsonResponse({'status': 200, 'email':email})
         else:
             print('error')
 
@@ -154,15 +199,19 @@ def forgot_password(request):
     if request.method == 'POST':
         email = request.POST.get('passwordemail')
         passw = request.POST.get('password')
+        cpassw = request.POST.get('cpassword')
         password = make_password(passw)
 
-        user = Users.objects.get(email = email)
-
-        if user:
-            user.password = password
-            user.save()
-            return JsonResponse({'status': 200,})
+        if passw == cpassw:
+            try:
+                user = Users.objects.get(email = email)
+                if user:
+                    user.password = password
+                    user.save()
+                return JsonResponse({'status': 200,})
+            except Users.DoesNotExist:
+                return JsonResponse({'email':email, 'error':'Your password and confirm password is not match try again!'})
         else:
-            print('error')
+            return JsonResponse({'email':email, 'error':'Your password and confirm password is not match try again!'})
 
     return render(request, 'forgot-password.html')

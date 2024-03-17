@@ -35,6 +35,8 @@ urlpatterns = [
     # Forgot password
     path('forgot_password_page', views.forgot_password_page, name='forgot_password_page'),
     path('send_otp', views.send_otp, name='send_otp'),
+    path('clear_otp', views.clear_otp, name='clear_otp'),
+    path('re_send_otp', views.re_send_otp, name='re_send_otp'),
     path('verify_otp', views.verify_otp, name='verify_otp'),
     path('forgot_password', views.forgot_password, name='forgot_password'),
     
