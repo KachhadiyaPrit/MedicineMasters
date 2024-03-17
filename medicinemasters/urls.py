@@ -24,6 +24,7 @@ urlpatterns = [
     # Login Or Registration Page Url
     path('login_page', views.login_page, name='login_page'),
     path('signup', views.signup, name='signup'),
+    path('terms_and_conditions', views.terms_and_conditions, name='terms_and_conditions'),
     
     # Login Or Signup Process Page Url
     path('dologin', views.dologin, name='dologin'),
