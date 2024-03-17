@@ -431,12 +431,14 @@
 
             var offer_code = $('#offer_code').val();
             var offer_rate = $('#offer_rate').val();
+            var offer_required_amount = $('#offer_required_amount').val();
             var offer_description = $('#offer_description').val();
 
             var form_data = new FormData();
 
             form_data.append('offer_code', offer_code);
             form_data.append('offer_rate', offer_rate);
+            form_data.append('offer_required_amount', offer_required_amount);
             form_data.append('offer_description', offer_description);
             form_data.append('offer_image', $('#offer_image')[0].files[0]);
 
@@ -476,6 +478,7 @@
             var offer_id = $('#offer_id').val();
             var offer_code = $('#offer_code').val();
             var offer_rate = $('#offer_rate').val();
+            var offer_required_amount = $('#offer_required_amount').val();
             var offer_description = $('#offer_description').val();
             var prev_img = $('#prev_img').val();
 
@@ -484,6 +487,7 @@
             form_data.append('offer_id', offer_id);
             form_data.append('offer_code', offer_code);
             form_data.append('offer_rate', offer_rate);
+            form_data.append('offer_required_amount', offer_required_amount);
             form_data.append('offer_description', offer_description);
             form_data.append('offer_image', $('#offer_image')[0].files[0]);
             form_data.append('prev_img', prev_img);

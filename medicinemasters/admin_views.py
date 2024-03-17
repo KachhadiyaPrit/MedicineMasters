@@ -390,12 +390,14 @@ def add_offer(request):
     if request.method == "POST":
         offer_code = request.POST.get('offer_code')
         offer_rate = request.POST.get('offer_rate')
+        offer_required_amount = request.POST.get('offer_required_amount')
         offer_description = request.POST.get('offer_description')
         offer_image = request.FILES.get('offer_image')
         
         offer = Offer(
             offer_code = offer_code,
             offer_rate = offer_rate,
+            offer_required_amount = offer_required_amount,
             offer_description = offer_description,
             offer_img = offer_image,
         )
@@ -426,6 +428,7 @@ def update_offer(request):
         offer_id = request.POST.get('offer_id')
         offer_code = request.POST.get('offer_code')
         offer_rate = request.POST.get('offer_rate')
+        offer_required_amount = request.POST.get('offer_required_amount')
         offer_description = request.POST.get('offer_description')
         offer_image = request.FILES.get('offer_image')
         prev_img = request.POST.get('prev_img')
@@ -434,6 +437,7 @@ def update_offer(request):
 
         offer.offer_code = offer_code
         offer.offer_rate = offer_rate
+        offer.offer_required_amount = offer_required_amount
         offer.offer_description = offer_description
         if offer_image == None:
             offer.offer_img = prev_img

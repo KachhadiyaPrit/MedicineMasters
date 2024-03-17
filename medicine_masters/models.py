@@ -79,6 +79,7 @@ class Offer(models.Model):
     offer_id = models.BigAutoField(auto_created=True, primary_key=True)
     offer_code = models.CharField(max_length=150, unique=True, null=True)
     offer_rate = models.IntegerField(null=True)
+    offer_required_amount = models.IntegerField(null=True)
     offer_description = models.TextField(null=False)
     offer_img = models.ImageField(upload_to='media/offer_img',null=True)
 
