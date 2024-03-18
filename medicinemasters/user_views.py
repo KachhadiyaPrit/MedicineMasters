@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.core.mail import EmailMessage
+from django.contrib.auth.decorators import login_required
 
 # Users Home Page
 def users_home(request):
@@ -45,6 +46,7 @@ def users_home(request):
             return render(request, 'users/Home.html', context)
 
 # Users Profile
+@login_required(login_url='login_page')
 def users_profile(request):
     users = Users.objects.get(user_id=request.user.user_id)
     deliveryaddress = DeliveryAddress.objects.get(user_id=users.user_id)
@@ -53,6 +55,7 @@ def users_profile(request):
     return render(request, 'users/Profile.html',{'address':deliveryaddress, 'offer':offers})
 
 # Profile Update Process
+@login_required(login_url='login_page')
 def profile_update(request):
     if request.method == "POST":
         profile_pic = request.FILES.get('profile_pic')
@@ -89,6 +92,7 @@ def profile_update(request):
     return render(request, 'users/Profile.html')
 
 # Edit delivery address
+@login_required(login_url='login_page')
 def edit_address(request):
     if request.method == "POST":
         edit_delivery_address = request.POST.get('delivery_address')
@@ -137,6 +141,8 @@ def filter_category(request, subcategory_id):
     if request.user.is_authenticated:
         cart_object = Cart.objects.get(user_id = request.user.user_id)
         cart = Cart_Detail.objects.filter(cart_id = cart_object.cart_id)
+    else:
+        cart = Cart.objects.all()
     product_count = Product.objects.filter(subcategory_id = subcategory_id).count()
     subcategory = Sub_Category.objects.all()
     company = Company.objects.all()
@@ -161,6 +167,8 @@ def filter_company(request, company_id):
     if request.user.is_authenticated:
         cart_object = Cart.objects.get(user_id = request.user.user_id)
         cart = Cart_Detail.objects.filter(cart_id = cart_object.cart_id)
+    else:
+        cart = Cart.objects.all()
     product_count = Product.objects.filter(company_id = company_id).count()
     subcategory = Sub_Category.objects.all()
     company = Company.objects.all()
@@ -210,6 +218,7 @@ def product_detail(request, product_id):
     return render(request, 'users/Product_Detail.html', context)
 
 # Users Add Cart
+@login_required(login_url='login_page')
 def add_to_cart(request):
     if request.method == "POST":
         product_id_cart_item = request.POST.get('product_id_cart_item')
@@ -290,6 +299,7 @@ def add_to_cart(request):
     return render(request, 'users/Home.html', context)
 
 # Users Add Cart
+@login_required(login_url='login_page')
 def add_to_cart_all_product(request):
     if request.method == "POST":
         all_product_id_cart_item = request.POST.get('all_product_id_cart_item')
@@ -370,6 +380,7 @@ def add_to_cart_all_product(request):
     return render(request, 'users/All_Product.html', context)
 
 # Cart view
+@login_required(login_url='login_page')
 def cart_view(request):
     cart = Cart.objects.all()
     cart_item = Cart.objects.get(user_id = request.user.user_id)
@@ -387,6 +398,7 @@ def cart_view(request):
     return render(request, 'users/Cart_View.html', context)
 
 # Add qty
+@login_required(login_url='login_page')
 def plus_qty(request, product_id):
     product = Product.objects.all()
     cart = Cart_Detail.objects.all()
@@ -412,6 +424,7 @@ def plus_qty(request, product_id):
     return render(request, 'users/Home.html', context)
 
 # Minus qty
+@login_required(login_url='login_page')
 def minus_qty(request, product_id):
     product = Product.objects.all()
     cart = Cart_Detail.objects.all()
@@ -440,6 +453,7 @@ def minus_qty(request, product_id):
     return render(request, 'users/Home.html', context)
 
 # Cart plus qty
+@login_required(login_url='login_page')
 def cart_qty_plus(request, product_id):
     cart_detail = Cart_Detail.objects.get(product_id = product_id, user_id = request.user.user_id)
     
@@ -462,6 +476,7 @@ def cart_qty_plus(request, product_id):
     return render(request, 'users/Cart_View.html', context)
 
 # Cart Minus qty
+@login_required(login_url='login_page')
 def cart_qty_minus(request, product_id):
     cart_detail = Cart_Detail.objects.get(product_id = product_id, user_id = request.user.user_id)
 
@@ -487,6 +502,7 @@ def cart_qty_minus(request, product_id):
     return render(request, 'users/Cart_View.html', context)
 
 #all product qty plus
+@login_required(login_url='login_page')
 def all_product_plus_qty(request, product_id):
     if request.method == "POST":
         product = Product.objects.all()
@@ -514,6 +530,7 @@ def all_product_plus_qty(request, product_id):
     return render(request, 'users/All_Product.html', context)
 
 #all product qty plus
+@login_required(login_url='login_page')
 def all_product_by_category_plus_qty(request, product_id):
     if request.method == "POST":
         product = Product.objects.all()
@@ -541,6 +558,7 @@ def all_product_by_category_plus_qty(request, product_id):
     return render(request, 'users/All_Product_By_Category.html', context)
 
 #all product qty minus
+@login_required(login_url='login_page')
 def all_product_minus_qty(request, product_id):
     product = Product.objects.all()
     cart = Cart_Detail.objects.all()
@@ -569,6 +587,7 @@ def all_product_minus_qty(request, product_id):
     return render(request, 'users/All_Product.html', context)
 
 #all product qty minus
+@login_required(login_url='login_page')
 def all_product_by_category_minus_qty(request, product_id):
     product = Product.objects.all()
     cart = Cart_Detail.objects.all()
@@ -598,6 +617,7 @@ def all_product_by_category_minus_qty(request, product_id):
     
 
 # Product detail cart qty plus
+@login_required(login_url='login_page')
 def product_detail_plus_qty(request, product_id):
     if request.method == "POST":
         product = Product.objects.get(product_id = product_id)
@@ -625,6 +645,7 @@ def product_detail_plus_qty(request, product_id):
     return render(request, 'users/Product_Detail.html', context)
 
 # Product detail cart qty plus
+@login_required(login_url='login_page')
 def product_detail_minus_qty(request, product_id):
     if request.method == "POST":
         product = Product.objects.get(product_id = product_id)
@@ -654,6 +675,7 @@ def product_detail_minus_qty(request, product_id):
     return render(request, 'users/Product_Detail.html', context)
 
 # Users Add Cart
+@login_required(login_url='login_page')
 def add_to_cart_product_detail(request , product_id):
     if request.method == "POST":
         product = Product.objects.get(product_id = product_id)
@@ -735,6 +757,7 @@ def add_to_cart_product_detail(request , product_id):
     return render(request, 'users/Product_Detail.html', context)
 
 # Users Add Cart All Product By Category
+@login_required(login_url='login_page')
 def add_to_cart_all_product_by_category(request , product_id):
     if request.method == "POST":
         products = Product.objects.get(product_id = product_id)
@@ -809,6 +832,7 @@ def add_to_cart_all_product_by_category(request , product_id):
     return render(request, 'users/All_Product_By_Category.html')
 
 # Checkout view
+@login_required(login_url='login_page')
 def checkout(request, product_id):
     checkout_product = Product.objects.get(product_id = product_id)
     checkout_price = Product.objects.filter(product_id = product_id)
@@ -839,6 +863,7 @@ def checkout(request, product_id):
     return render(request, 'users/Checkout.html', context)
 
 # Cart Checkout view
+@login_required(login_url='login_page')
 def cart_checkout(request, cart_id):
     cart_items = Cart_Detail.objects.filter(cart_id = cart_id)
     prescription_status = Cart_Detail.objects.filter(cart_id = cart_id, prescription_status = 0).count()
@@ -876,6 +901,7 @@ def cart_checkout(request, cart_id):
     return render(request, 'users/Cart_Checkout.html', context)
 
 # Cart Checkout Order view
+@login_required(login_url='login_page')
 def cart_checkout_order(request):
     if request.method == "POST":
         first_name = request.POST.get('first_name')
@@ -959,6 +985,7 @@ def cart_checkout_order(request):
     return render(request, 'users/Cart_Checkout.html')
 
 # Checkout Order view
+@login_required(login_url='login_page')
 def checkout_order(request, product_id):
     if request.method == "POST":
         first_name = request.POST.get('first_name')
@@ -1039,6 +1066,7 @@ def checkout_order(request, product_id):
     return render(request, 'users/Checkout.html')
 
 # Order View Page
+@login_required(login_url='login_page')
 def track_order(request):
     order = Order.objects.filter(user_id=request.user.user_id)
     order_detail = Order_Detail.objects.filter(user_id=request.user.user_id)
@@ -1048,6 +1076,8 @@ def track_order(request):
     }
     return render(request, 'users/Track_Order.html', context)
     
+# Order Track
+@login_required(login_url='login_page')
 def track_order_detail(request, order_tracking_id, order_id):
     order_detail = Order_Detail.objects.filter(order_id = order_id)
     order_tracking_id = order_tracking_id
@@ -1059,6 +1089,7 @@ def track_order_detail(request, order_tracking_id, order_id):
     }
     return render(request, 'users/Track_Order_Detail.html', context)
 
+# Filter of category
 def all_product_by_category(request, category_id):
     product = Product.objects.filter(subcategory_id = category_id)
     category_name = Sub_Category.objects.get(subcategory_id = category_id)
@@ -1074,6 +1105,8 @@ def all_product_by_category(request, category_id):
     }
     return render(request, 'users/All_Product_By_Category.html', context)
 
+# Invoice Generate
+@login_required(login_url='login_page')
 def generate_invoice(request, order_tracking_id):
     if request.user.is_authenticated:
         order = Order.objects.get(order_tracking_id = order_tracking_id)
@@ -1109,6 +1142,8 @@ def generate_invoice(request, order_tracking_id):
 
     return render(request, 'users/Track_Order_Detail.html', context)
     
+# Cart item delete
+@login_required(login_url='login_page')
 def delete_cart_item(request, cart_detail_id):
     cart = Cart.objects.all()
     cart_item = Cart.objects.get(user_id = request.user.user_id)
@@ -1129,7 +1164,8 @@ def delete_cart_item(request, cart_detail_id):
     }
     return render(request, 'users/Cart_View.html', context)
 
-# Delete Company
+# Order calcle
+@login_required(login_url='login_page')
 def cancle_order(request, order_id):
     order = Order.objects.get(order_id = order_id)
     order_detail = Order_Detail.objects.filter(order_id = order_id)
@@ -1140,6 +1176,8 @@ def cancle_order(request, order_id):
     order.delete()
     return redirect('track_order')
 
+# Feedback
+@login_required(login_url='login_page')
 def feedback(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -1156,6 +1194,7 @@ def feedback(request):
     return redirect('users_home')
 
 # Get Prescription
+@login_required(login_url='login_page')
 def get_prescription(request):
     if request.method == "POST":
         prescription_message = request.POST.get('prescription_message')
@@ -1230,6 +1269,7 @@ def all_product_by_company(request, company_id):
     return render(request, 'users/All_Product_By_Company.html', context)
 
 # Add cart in all product by company
+@login_required(login_url='login_page')
 def add_to_cart_all_product_by_company(request , product_id):
     if request.method == "POST":
         products = Product.objects.get(product_id = product_id)
@@ -1304,6 +1344,7 @@ def add_to_cart_all_product_by_company(request , product_id):
     return render(request, 'users/All_Product_By_Company.html')
 
 #all product qty plus
+@login_required(login_url='login_page')
 def all_product_by_company_plus_qty(request, product_id):
     if request.method == "POST":
         product = Product.objects.all()
@@ -1331,6 +1372,7 @@ def all_product_by_company_plus_qty(request, product_id):
     return render(request, 'users/All_Product_By_Company.html', context)
 
 #all product qty minus
+@login_required(login_url='login_page')
 def all_product_by_company_minus_qty(request, product_id):
     product = Product.objects.all()
     cart = Cart_Detail.objects.all()

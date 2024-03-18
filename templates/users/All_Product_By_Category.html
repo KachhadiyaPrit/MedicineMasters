@@ -34,18 +34,18 @@
                         {% if user.is_authenticated %}
                           {% if i|is_in_cart:cart %}
                           <div class="input-group">
-                            <div class="col">
-                              <button data-item-id="{{ i.product_id }}" class="btn btn-white border border-secondary px-3 ms-2" style="height: 35px;" id="all_product_by_category_minus_qty" data-mdb-ripple-color="dark">
+                            <div class="col text-center">
+                              <button data-item-id="{{ i.product_id }}" class="btn btn-white border border-secondary px-3" style="height: 35px;" id="all_product_by_category_minus_qty" data-mdb-ripple-color="dark">
                                 <i class="fas fa-minus"></i>
                               </button>
                             </div>
 
                             <div class="col" id="cart_qty_value">
-                              <input id="cart_qty" type="text" class="form-control text-center border border-secondary rounded" value="{{i|cart_qty:cart}}" aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                              <input id="cart_qty" disabled type="text" class="form-control text-center border border-secondary rounded" value="{{i|cart_qty:cart}}" aria-label="Example text with button addon" aria-describedby="button-addon1" />
                             </div>
             
-                            <div class="col">
-                              <button data-item-id="{{ i.product_id }}" class="btn btn-white border border-secondary px-3 ms-2" style="height: 35px;" id="all_product_by_category_plus_qty" data-mdb-ripple-color="dark">
+                            <div class="col text-center">
+                              <button data-item-id="{{ i.product_id }}" class="btn btn-white border border-secondary px-3" style="height: 35px;" id="all_product_by_category_plus_qty" data-mdb-ripple-color="dark">
                                 <i class="fas fa-plus"></i>
                               </button>
                             </div>

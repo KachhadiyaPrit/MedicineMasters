@@ -103,11 +103,20 @@
                                 <header class="card-header track-order-card-header">
                                     <div class="row">
                                         <div class="col"> My Orders / Tracking </div>
+                                        {% if order.order_status != 'Order Cancled' %}
                                         <div class="col d-flex justify-content-end">
                                             <a href="{% url 'generate_invoice' order.order_tracking_id %}" type="submit" data-item-id="{{order.order_tracking_id}}" class="btn btn-primary generate_invoice" id="generate_invoice">
                                                 <i class="fas fa-light fa-download"></i> Download Invoice
                                             </a>
+
+                                            <div class="" id="loadinggenerateinvoicediv" style="display: none;">
+                                                <button class="btn btn-primary" type="button" disabled>
+                                                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                                    <span role="status">Invoice Download...</span>
+                                                </button>
+                                            </div>
                                         </div>
+                                        {% endif %}
                                     </div></header>
                                 <div class="card-body">
                                     <h6><b>Order Tracking ID : <span class="text-success">{{order.order_tracking_id}}</span></h6>
@@ -205,6 +214,18 @@
     socket.onclose = function(e){
 
     }
+
+    document.getElementById('generate_invoice').addEventListener('click', function(event) {
+        // Prevent the form from submitting normally
+        event.preventDefault();
+
+        // Select the sendotpdiv and lodingsendotpdiv elements
+        var generate_invoice = document.getElementById('generate_invoice');
+        var loadinggenerateinvoicediv = document.getElementById('loadinggenerateinvoicediv');
+
+        generate_invoice.style.display = 'none';
+        loadinggenerateinvoicediv.style.display = 'block';
+    });
 </script>
 
 {% endblock%}

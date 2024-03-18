@@ -15,9 +15,19 @@
                         </ul>
                     </div>
                     <div class="col offset-5">
-                        <button type="submit" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Send Mail To All
-                        </button>
+                        <div class="row">
+                            <div class="col" id="sendmailtoalldiv">
+                                <button type="submit" class="btn btn-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Send Mail To All
+                                </button>
+                            </div>
+                            <div class="col" id="loadingsendmailtoalldivdiv" style="display: none;">
+                                <button class="btn btn-primary mt-2 mb-2" type="submit" disabled>
+                                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                    <span role="status">Mail Sending To All...</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -35,7 +45,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Send Mail</button>
+                                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Send Mail</button>
                                     </div>
                                 </form>
                             </div>
@@ -91,4 +101,18 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.getElementById('send_mail_to_all').addEventListener('submit', function(event) {
+        // Prevent the form from submitting normally
+        event.preventDefault();
+
+        // Select the sendotpdiv and lodingsendotpdiv elements
+        var sendmailtoalldiv = document.getElementById('sendmailtoalldiv');
+        var loadingsendmailtoalldivdiv = document.getElementById('loadingsendmailtoalldivdiv');
+
+        sendmailtoalldiv.style.display = 'none';
+        loadingsendmailtoalldivdiv.style.display = 'block';
+    });
+</script>
 {% endblock  %}

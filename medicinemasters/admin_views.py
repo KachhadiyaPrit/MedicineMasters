@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password, check_password
 
 # Admin
 # Admin Home Page
+@login_required(login_url='login_page')
 def admin_home(request):
     user = Users.objects.filter(user_type = 2).count()
     products = Product.objects.all().count()
@@ -21,10 +22,12 @@ def admin_home(request):
     return render(request, 'admin/dashboard & profile/admin-home.html',context)
 
 # Admin Profile Page
+@login_required(login_url='login_page')
 def admin_profile(request):
     return render(request, 'admin/dashboard & profile/admin-profile.html')
 
 # Admin Profile Update Process
+@login_required(login_url='login_page')
 def admin_profile_update(request):
     if request.method == "POST":
         username = request.POST.get('user_name')
@@ -46,10 +49,12 @@ def admin_profile_update(request):
 
 # Category
 # Add Category Page
+@login_required(login_url='login_page')
 def add_category_page(request):
     return render(request, 'admin/category/add_category.html')
 
 # Category add into database
+@login_required(login_url='login_page')
 def add_category(request):
     if request.method == "POST":
         category_name = request.POST.get('category_name')
@@ -65,6 +70,7 @@ def add_category(request):
     return render(request, 'admin/category/add_category.html')
 
 # View category page
+@login_required(login_url='login_page')
 def view_category(request):
     category = Category.objects.all()
     context = {
@@ -73,6 +79,7 @@ def view_category(request):
     return render(request, 'admin/category/view_category.html',context)
 
 # Edit Category
+@login_required(login_url='login_page')
 def edit_category(request, category_id):
     category = Category.objects.get(category_id = category_id)
     context = {
@@ -81,6 +88,7 @@ def edit_category(request, category_id):
     return render(request, 'admin/category/edit_category.html', context)
 
 # Update Category
+@login_required(login_url='login_page')
 def update_category(request):
     if request.method == "POST":
         prev_img = request.POST.get('prev_img')
@@ -102,6 +110,7 @@ def update_category(request):
     return render(request, 'admin/category/edit_category.html')
 
 # Delete Category
+@login_required(login_url='login_page')
 def delete_category(request, category_id):
     category = Category.objects.get(category_id = category_id)
     category.delete()
@@ -109,6 +118,7 @@ def delete_category(request, category_id):
 
 # Sub Category
 # Add Sub Category Page
+@login_required(login_url='login_page')
 def add_subcategory_page(request):
     category = Category.objects.all()
     context = {
@@ -117,6 +127,7 @@ def add_subcategory_page(request):
     return render(request, 'admin/sub category/add_subcategory.html',context)
 
 # Sub Category add into database
+@login_required(login_url='login_page')
 def add_subcategory(request):
     if request.method == "POST":
         subcategory_name = request.POST.get('subcategory_name')
@@ -134,6 +145,7 @@ def add_subcategory(request):
     return render(request, 'admin/sub category/add_subcategory.html')
 
 # View sub category page
+@login_required(login_url='login_page')
 def view_subcategory(request):
     subcategory = Sub_Category.objects.all()
     context = {
@@ -142,6 +154,7 @@ def view_subcategory(request):
     return render(request, 'admin/sub category/view_subcategory.html',context)
 
 # Edit Sub Category
+@login_required(login_url='login_page')
 def edit_subcategory(request, subcategory_id):
     subcategory = Sub_Category.objects.get(subcategory_id = subcategory_id)
     category = Category.objects.all()
@@ -152,6 +165,7 @@ def edit_subcategory(request, subcategory_id):
     return render(request, 'admin/sub category/edit_subcategory.html', context)
 
 # Updaye sub category
+@login_required(login_url='login_page')
 def update_subcategory(request):
     if request.method == "POST":
         prev_img = request.POST.get('prev_img')
@@ -175,6 +189,7 @@ def update_subcategory(request):
     return render(request, 'admin/sub category/edit_subcategory.html')
 
 # Delete Sub Category
+@login_required(login_url='login_page')
 def delete_subcategory(request, subcategory_id):
     subcategory = Sub_Category.objects.get(subcategory_id = subcategory_id)
     subcategory.delete()
@@ -183,10 +198,12 @@ def delete_subcategory(request, subcategory_id):
 
 # Company
 # Add company page
+@login_required(login_url='login_page')
 def add_company_page(request):
     return render(request, 'admin/company/add_company.html')
 
 # Add company
+@login_required(login_url='login_page')
 def add_company(request):
     if request.method == "POST":
         company_name = request.POST.get('company_name')
@@ -208,6 +225,7 @@ def add_company(request):
     return render(request, 'admin/company/add_company.html')
 
 # View company page
+@login_required(login_url='login_page')
 def view_company(request):
     company = Company.objects.all()
     context = {
@@ -216,6 +234,7 @@ def view_company(request):
     return render(request, 'admin/company/view_company.html',context)
 
 # Edit Company
+@login_required(login_url='login_page')
 def edit_company(request, company_id):
     company = Company.objects.get(company_id = company_id)
     context = {
@@ -224,6 +243,7 @@ def edit_company(request, company_id):
     return render(request, 'admin/company/edit_company.html', context)
 
 # Update Company
+@login_required(login_url='login_page')
 def update_company(request):
     if request.method == "POST":
         company_id = request.POST.get('company_id')
@@ -247,6 +267,7 @@ def update_company(request):
     return render(request, 'admin/company/edit_company.html')
 
 # Delete Company
+@login_required(login_url='login_page')
 def delete_company(request, company_id):
     company = Company.objects.get(company_id = company_id)
     print('company',company)
@@ -256,6 +277,7 @@ def delete_company(request, company_id):
 
 # Product
 # Add Product Page
+@login_required(login_url='login_page')
 def add_product_page(request):
     company = Company.objects.all()
     subcategory = Sub_Category.objects.all()
@@ -266,6 +288,7 @@ def add_product_page(request):
     return render(request, 'admin/product/add_product.html',context)
 
 # Product add into database
+@login_required(login_url='login_page')
 def add_product(request):
     if request.method == "POST":
         product_name = request.POST.get('product_name')
@@ -305,6 +328,7 @@ def add_product(request):
     return render(request, 'admin/product/add_product.html')
 
 # View Product
+@login_required(login_url='login_page')
 def view_product(request):
     product = Product.objects.all()
     context = {
@@ -313,6 +337,7 @@ def view_product(request):
     return render(request, 'admin/product/view_product.html',context)
 
 # Edit product
+@login_required(login_url='login_page')
 def edit_product(request, product_id):
     product = Product.objects.get(product_id = product_id)
     subcategory = Sub_Category.objects.all()
@@ -325,6 +350,7 @@ def edit_product(request, product_id):
     return render(request, 'admin/product/edit_product.html', context)
 
 # Update product
+@login_required(login_url='login_page')
 def update_product(request):
     if request.method == "POST":
         product_id = request.POST.get('product_id')
@@ -374,6 +400,7 @@ def update_product(request):
     return render(request, 'admin/product/view_product.html')
 
 # Delete Company
+@login_required(login_url='login_page')
 def delete_product(request, product_id):
     product = Product.objects.get(product_id = product_id)
     product.delete()
@@ -382,10 +409,12 @@ def delete_product(request, product_id):
 
 # Offer
 # Add offer Page
+@login_required(login_url='login_page')
 def add_offer_page(request):
     return render(request, 'admin/offer/add_offer.html')
 
 # Offer add into database
+@login_required(login_url='login_page')
 def add_offer(request):
     if request.method == "POST":
         offer_code = request.POST.get('offer_code')
@@ -407,6 +436,7 @@ def add_offer(request):
     return render(request, 'admin/offer/add_offer.html')
 
 # View Offer
+@login_required(login_url='login_page')
 def view_offer(request):
     offer = Offer.objects.all()
     context = {
@@ -415,6 +445,7 @@ def view_offer(request):
     return render(request, 'admin/offer/view_offer.html',context)
 
 # Edit Offer
+@login_required(login_url='login_page')
 def edit_offer(request, offer_id):
     offer = Offer.objects.get(offer_id = offer_id)
     context = {
@@ -423,6 +454,7 @@ def edit_offer(request, offer_id):
     return render(request, 'admin/offer/edit_offer.html', context)
 
 # Update offer
+@login_required(login_url='login_page')
 def update_offer(request):
     if request.method == "POST":
         offer_id = request.POST.get('offer_id')
@@ -449,6 +481,7 @@ def update_offer(request):
     return render(request, 'admin/offer/view_offer.html')
 
 # Delete Offer
+@login_required(login_url='login_page')
 def delete_offer(request, offer_id):
     offer = Offer.objects.get(offer_id = offer_id)
     offer.delete()
@@ -457,6 +490,7 @@ def delete_offer(request, offer_id):
 
 # User
 # View Users
+@login_required(login_url='login_page')
 def view_user(request):
     users = Users.objects.filter(user_type = 2)
     context = {
@@ -465,6 +499,7 @@ def view_user(request):
     return render(request, 'admin/user/view_user.html',context)
 
 # View User Detail
+@login_required(login_url='login_page')
 def view_user_detail(request, user_id):
     user = Users.objects.get(user_id = user_id)
     order = Order.objects.filter(user_id = user_id)
@@ -481,12 +516,16 @@ def view_user_detail(request, user_id):
     }
     return render(request, 'admin/user/view_user_detail.html',context)
 
+# User delete
+@login_required(login_url='login_page')
 def delete_user(request, user_id):
     user = Users.objects.get(user_id = user_id)
     user.delete()
     messages.success(request, 'User Are Successfully Deleted...')
     return redirect('view_user')
 
+# Change user order status
+@login_required(login_url='login_page')
 def change_status(request, user_id):
     user = Users.objects.get(user_id = user_id)
     if user.is_active == 1:
@@ -498,6 +537,7 @@ def change_status(request, user_id):
     return redirect('view_user_detail', user_id)
 
 # Send mail to all
+@login_required(login_url='login_page')
 def send_mail_to_all(request):
     if request.method == "POST":
         email_msg = request.POST.get('email_msg')
@@ -515,6 +555,7 @@ def send_mail_to_all(request):
 
 # Order
 # Order History
+@login_required(login_url='login_page')
 def order_history(request):
     order = Order.objects.all()
     context = {
@@ -523,6 +564,7 @@ def order_history(request):
     return render(request, 'admin/order history/view_order_history.html',context)
 
 # Order History Detail
+@login_required(login_url='login_page')
 def order_history_detail(request, order_id):
     order = Order.objects.get(order_id = order_id)
     order_detail = Order_Detail.objects.filter(order_id = order_id)
@@ -539,6 +581,7 @@ def order_history_detail(request, order_id):
     return render(request, 'admin/order history/view_order_detail.html',context)
     
 # Update Order status
+@login_required(login_url='login_page')
 def update_order_status(request):
     if request.method == "POST":
         order_tracking_id = request.POST.get('order_tracking_id')
@@ -550,7 +593,16 @@ def update_order_status(request):
 
     return render(request, 'admin/order history/view_order_detail.html')
 
+# Order delete
+@login_required(login_url='login_page')
+def delete_order(request, order_id):
+    order = Order.objects.get(order_id = order_id)
+    order.delete()
+    messages.success(request, 'User Are Successfully Deleted...')
+    return redirect('order_history')
+
 # Send user order releted mail
+@login_required(login_url='login_page')
 def order_mail(request, user_email):
     order_releted_mail = request.POST.get('order_releted_mail')
 
@@ -565,6 +617,7 @@ def order_mail(request, user_email):
 
 # Offer
 # Add offer Page
+@login_required(login_url='login_page')
 def add_notification_page(request):
     user = Users.objects.all()
     context = {
@@ -573,6 +626,7 @@ def add_notification_page(request):
     return render(request, 'admin/notification/add_notification.html', context)
 
 # Notification add into database
+@login_required(login_url='login_page')
 def add_notification(request):
     if request.method == "POST":
         notification_message = request.POST.get('notification_message')
@@ -587,10 +641,12 @@ def add_notification(request):
 
 # Doctor
 # Add Doctor Page
+@login_required(login_url='login_page')
 def add_doctor_page(request):
     return render(request, 'admin/doctor/add_doctor.html')
 
 # Add Doctor
+@login_required(login_url='login_page')
 def add_doctor(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -623,6 +679,7 @@ def add_doctor(request):
     return render(request, 'admin/doctor/add_doctor.html')
 
 # View Doctor
+@login_required(login_url='login_page')
 def view_doctor(request):
     doctor = Users.objects.filter(user_type = 3)
     context = {
@@ -630,6 +687,8 @@ def view_doctor(request):
     }
     return render(request, 'admin/doctor/view_doctor.html',context)
 
+# Delete doctor
+@login_required(login_url='login_page')
 def delete_doctor(request, doctor_id):
     doctor = Users.objects.get(user_id = doctor_id)
     doctor.delete()
@@ -639,6 +698,7 @@ def delete_doctor(request, doctor_id):
 
 # Payment
 # Payment History
+@login_required(login_url='login_page')
 def payment_history(request):
     payment = Payment.objects.all()
     context = {

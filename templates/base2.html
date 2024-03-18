@@ -27,6 +27,14 @@
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
+        <style>
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        </style>
+
     </head>
     <body>
         
@@ -48,5 +56,11 @@
         <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
         <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
         <script src="{% static 'assets/js/myjs.js' %}"></script>
+
+        <script>
+            $('input').focus(function() {
+                $(this).select();
+            });
+        </script>
     </body>
 </html>

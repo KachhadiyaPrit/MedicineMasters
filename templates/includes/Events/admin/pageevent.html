@@ -550,7 +550,12 @@
                     )
                     setInterval(function(){
                         $('.alert').fadeOut();
-                    }, 3000)
+                    }, 3000);
+                    var sendmailtoalldiv = document.getElementById('sendmailtoalldiv');
+                    var loadingsendmailtoalldivdiv = document.getElementById('loadingsendmailtoalldivdiv');
+
+                    sendmailtoalldiv.style.display = 'block';
+                    loadingsendmailtoalldivdiv.style.display = 'none';
                 }
             });
         });
@@ -602,6 +607,16 @@
             },
             success: () => {
                 $("#order_detail").load(location.href + " #order_detail>*", "");
+                $("#success").html(
+                    `
+                    <div class="alert alert-success" roal="success">
+                        Your Order Status Is Updated...
+                    </div>
+                    `
+                )
+                setInterval(function(){
+                    $('.alert').fadeOut();
+                }, 3000)
             }
         });
     })
@@ -713,7 +728,13 @@
                 )
                 setInterval(function(){
                     $('.alert').fadeOut();
-                }, 3000)
+                }, 3000);
+
+                var sendmailtodiv = document.getElementById('sendmailtodiv');
+                var loadingsendmailtodiv = document.getElementById('loadingsendmailtodiv');
+
+                sendmailtodiv.style.display = 'block';
+                loadingsendmailtodiv.style.display = 'none';
             }
         });
     })

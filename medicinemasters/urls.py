@@ -100,6 +100,7 @@ urlpatterns = [
     path('admin/order_history_detail/<str:order_id>', admin_views.order_history_detail, name="order_history_detail"),
     path('admin/update_order_status', admin_views.update_order_status, name="update_order_status"),
     path('admin/order_history_detail/order_mail/<str:user_email>', admin_views.order_mail, name="order_mail"),
+    path('admin/delete_order/<str:order_id>', admin_views.delete_order, name="delete_order"),
 
     # Admin To Order History
     path('admin/payment_history', admin_views.payment_history, name="payment_history"),
@@ -141,8 +142,8 @@ urlpatterns = [
     path('user/plus_qty/<int:product_id>', user_views.plus_qty, name='plus_qty'),
     path('user/minus_qty/<int:product_id>', user_views.minus_qty, name='minus_qty'),
     path('user/product_detail/<str:product_id>', user_views.product_detail, name='product_detail'),
-    path('user/all_product_plus_qty/<int:product_id>', user_views.all_product_plus_qty, name='all_product_plus_qty'),
-    path('user/all_product_minus_qty/<int:product_id>', user_views.all_product_minus_qty, name='all_product_minus_qty'),
+    path('all_product_plus_qty/<int:product_id>', user_views.all_product_plus_qty, name='all_product_plus_qty'),
+    path('all_product_minus_qty/<int:product_id>', user_views.all_product_minus_qty, name='all_product_minus_qty'),
     path('user/all_product_by_category/all_product_by_category_plus_qty/<int:product_id>', user_views.all_product_by_category_plus_qty, name='all_product_by_category_plus_qty'),
     path('user/all_product_by_company/all_product_by_company_plus_qty/<int:product_id>', user_views.all_product_by_company_plus_qty, name='all_product_by_company_plus_qty'),
     path('user/all_product_by_category/all_product_by_category_minus_qty/<int:product_id>', user_views.all_product_by_category_minus_qty, name='all_product_by_category_minus_qty'),

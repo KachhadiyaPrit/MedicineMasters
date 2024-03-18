@@ -340,7 +340,7 @@
                 )
                 setInterval(function(){
                     $('#alert-box').fadeOut();
-                }, 5000)
+                }, 5000);
             }
         });
     })
@@ -406,7 +406,8 @@
                 )
                 setInterval(function(){
                     $('#alert-box').fadeOut();
-                }, 5000)
+                }, 5000);
+                window.location.href = "{% url 'users_home' %}";
             }
         });
     })
@@ -471,7 +472,7 @@
                 )
                 setInterval(function(){
                     $('#alert-box').fadeOut();
-                }, 5000)
+                }, 5000);
             }          
         });
     })
@@ -536,7 +537,8 @@
                 )
                 setInterval(function(){
                     $('#alert-box').fadeOut();
-                }, 5000)
+                }, 5000);
+                window.location.href = "{% url 'users_home' %}";
             }          
         });
     })
@@ -620,7 +622,7 @@
         var product_id = $(this).data('item-id');
 
         $.ajax({
-            url: 'all_product_plus_qty/' + product_id ,
+            url: '/all_product_plus_qty/' + product_id ,
             method: 'POST',
             headers: {'X-CSRFToken': '{{ csrf_token }}'},
             data: {
@@ -651,11 +653,10 @@
 <script>
     $(document).on('click', '#all_product_minus_qty', function(e){
         e.preventDefault();
-
         var product_id = $(this).data('item-id');
 
         $.ajax({
-            url: 'all_product_minus_qty/' + product_id ,
+            url: '/all_product_minus_qty/' + product_id ,
             method: 'POST',
             headers: {'X-CSRFToken': '{{ csrf_token }}'},
             data: {
@@ -1089,7 +1090,12 @@
                 )
                 setInterval(function(){
                     $('#alert-box').fadeOut();
-                }, 5000)
+                }, 5000);
+                var generate_invoice = document.getElementById('generate_invoice');
+                var loadinggenerateinvoicediv = document.getElementById('loadinggenerateinvoicediv');
+
+                generate_invoice.style.display = 'block';
+                loadinggenerateinvoicediv.style.display = 'none';
             }
         });
     })

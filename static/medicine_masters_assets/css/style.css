@@ -23,6 +23,12 @@
   font-size: 1.2em !important;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 
 /* .track-order-card{
   margin: auto;

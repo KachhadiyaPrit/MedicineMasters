@@ -8,6 +8,7 @@ from django.utils.html import strip_tags
 
 # Doctor
 # Doctor Home Page
+@login_required(login_url='login_page')
 def doctor_home(request):
     prescription = Prescription.objects.all().count()
     send_prscription_count = Prescription_Detail.objects.filter(prescription_status = 'Sending Successfully').count()
@@ -20,6 +21,7 @@ def doctor_home(request):
     return render(request, 'doctor/dashboard/doctor-home.html', context)
 
 # View all prescription
+@login_required(login_url='login_page')
 def view_all_prescription(request):
     prescription = Prescription.objects.all()
 
@@ -29,6 +31,7 @@ def view_all_prescription(request):
     return render(request, 'doctor/prescription/view_all_prescription.html',context)
 
 # View prescription detail
+@login_required(login_url='login_page')
 def view_prescription_details(request, prescription_id):
     prescription = Prescription.objects.get(prescription_id = prescription_id)
     prescription_detail = Prescription_Detail.objects.filter(prescription_id = prescription_id)
@@ -39,6 +42,7 @@ def view_prescription_details(request, prescription_id):
     return render(request, 'doctor/prescription/view_prescription_details.html', context)
 
 # Manage got prescription
+@login_required(login_url='login_page')
 def view_got_prescriptions(request):
     prescription = Prescription_Detail.objects.filter(prescription_status = 'Pending' , prescription_message__isnull = False)
     context = {
@@ -47,6 +51,7 @@ def view_got_prescriptions(request):
     return render(request, 'doctor/prescription/view_got_prescriptions.html', context)
 
 # Generate prescription page
+@login_required(login_url='login_page')
 def generate_prescription_page(request, prescription_detail_id):
     prescription = Prescription_Detail.objects.get(prescription_detail_id = prescription_detail_id)
     context = {
@@ -55,6 +60,7 @@ def generate_prescription_page(request, prescription_detail_id):
     return render(request, 'doctor/prescription/generate_prescription.html', context)
 
 # Send Prescription
+@login_required(login_url='login_page')
 def send_prescription(request):
     if request.method == "POST":
         prescription_detail_id = request.POST.get('prescription_detail_id')
@@ -86,6 +92,7 @@ def send_prescription(request):
     return render(request, 'doctor/prescription/generate_prescription.html', context)
 
 # Approve Prescription
+@login_required(login_url='login_page')
 def approve_prescription(request, prescription_id ,prescription_detail_id):
     prescription = Prescription.objects.get(prescription_id = prescription_id)
     prescription_detail = Prescription_Detail.objects.filter(prescription_id = prescription_id)
@@ -102,6 +109,7 @@ def approve_prescription(request, prescription_id ,prescription_detail_id):
     return render(request, 'doctor/prescription/view_prescription_details.html', context)
 
 # Reject Prescription
+@login_required(login_url='login_page')
 def reject_prescription(request, prescription_id, prescription_detail_id):
     prescription = Prescription.objects.get(prescription_id = prescription_id)
     prescription_detail = Prescription_Detail.objects.filter(prescription_id = prescription_id)

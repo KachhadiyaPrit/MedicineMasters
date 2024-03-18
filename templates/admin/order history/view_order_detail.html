@@ -107,9 +107,19 @@
                                     <h5 class="card-title">Product Detail</h5>
                                 </div>
                                 <div class="col text-end">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Send Mail
-                                    </button>
+                                    <div class="row">
+                                        <div class="col" id="sendmailtodiv">
+                                            <button type="submit" class="btn btn-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                Send Mail
+                                            </button>
+                                        </div>
+                                        <div class="col" id="loadingsendmailtodiv" style="display: none;">
+                                            <button class="btn btn-primary mt-2 mb-2" type="submit" disabled>
+                                                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                                <span role="status">Mail Sending...</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
@@ -166,4 +176,18 @@
         </div>
     </section>
 </main><!-- End #main -->
+
+<script>
+    document.getElementById('send_order_releted_mail').addEventListener('click', function(event) {
+        // Prevent the form from submitting normally
+        event.preventDefault();
+
+        // Select the sendotpdiv and lodingsendotpdiv elements
+        var sendmailtodiv = document.getElementById('sendmailtodiv');
+        var loadingsendmailtodiv = document.getElementById('loadingsendmailtodiv');
+
+        sendmailtodiv.style.display = 'none';
+        loadingsendmailtodiv.style.display = 'block';
+    });
+</script>
 {% endblock  %}
