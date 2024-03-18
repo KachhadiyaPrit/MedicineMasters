@@ -16,7 +16,7 @@ def login_page(request):
 def signup(request):
     return render(request, 'signup.html')
     
-def signup(request):
+def terms_and_conditions(request):
     return render(request, 'terms and conditions.html')
 
 # Login Process
