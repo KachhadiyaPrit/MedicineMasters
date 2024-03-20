@@ -165,8 +165,8 @@ def order_status_handler(sender, instance, created, **kwargs):
 class Order_Detail(models.Model):
     order_detail_id = models.BigAutoField(auto_created=True, primary_key=True)
     product_name = models.CharField(max_length=150, null=True)
-    product_quantity = models.CharField(max_length=150, null=True)
-    product_price = models.CharField(max_length=150, null=True)
+    product_quantity = models.IntegerField(null=True)
+    product_price = models.IntegerField(null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE,null=False)
     user = models.ForeignKey(Users, on_delete=models.CASCADE,null=False)

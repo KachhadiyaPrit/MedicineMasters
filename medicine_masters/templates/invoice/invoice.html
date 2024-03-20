@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+{% load product_filter %}
 <head>
   <title>Medicine Masters Order Invoice</title>
   <style>
@@ -168,6 +169,7 @@
                   <th scope="col">PRODUCT</th>
                   <th scope="col">QUANTITY</th>
                   <th scope="col">PRICE</th>
+                  <th scope="col">TOTAL</th>
               </tr>
           </thead>
           <tbody>
@@ -176,24 +178,29 @@
                   <td scope="row">{{i.product_name}}</td>
                   <td>{{i.product_quantity}}</td>
                   <td>{{i.product_price}}</td>
-                  
+                  <td>{{ i.product_price|product:i.product_quantity }}</td>
               </tr>
               {% endfor %}
               <tr>
+                <td scope="row"></td>
+                <td scope="row"></td>
+                <td><b>Sub Total : </b></td>
+                <td>{{sub_total}}</td>
+              </tr>
+              <tr>
+                <td scope="row"></td>
                 <td scope="row"></td>
                 <td><b>Order Discount Price : </b></td>
                 <td>{{order.order_discount_price}}</td>
               </tr>
               <tr>
                 <td scope="row"></td>
-                <td><b>GST : </b></td>
-                <td>{{gst}}</td>
-              </tr><tr>
                 <td scope="row"></td>
                 <td><b>Shipping Price : </b></td>
                 <td>{{order.shipping_price}}</td>
               </tr>
               <tr>
+                  <td scope="row"></td>
                   <td scope="row"></td>
                   <td><b>Total : </b></td>
                   <td>{{order.order_total_amount}}</td>

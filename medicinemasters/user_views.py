@@ -1112,14 +1112,13 @@ def generate_invoice(request, order_tracking_id):
         order = Order.objects.get(order_tracking_id = order_tracking_id)
         order_tracking_id = order_tracking_id
         order_detail = Order_Detail.objects.filter(order_id = order.order_id)
-        gst = 0
-        gst = order.order_total_amount * 18 / 100
+        sub_total = order.order_total_amount - 10
     
         context = {
             'order_detail':order_detail,
             'order_tracking_id':order_tracking_id,
             'order':order,
-            'gst':gst
+            'sub_total':sub_total
         }
 
         template_path = 'invoice/invoice.html'
