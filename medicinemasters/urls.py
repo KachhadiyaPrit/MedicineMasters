@@ -79,6 +79,7 @@ urlpatterns = [
     path('admin/edit_product/<str:product_id>', admin_views.edit_product, name='edit_product'),
     path('admin/update_product', admin_views.update_product, name='update_product'),
     path('admin/delete_product/<str:product_id>', admin_views.delete_product, name='delete_product'),
+    path('admin/most_selling_report', admin_views.most_selling_report, name='most_selling_report'),
 
     # Admin To Offer
     path('admin/add_offer_page', admin_views.add_offer_page, name='add_offer_page'),

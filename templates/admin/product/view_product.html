@@ -7,11 +7,24 @@
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <ul class="breadcrumb mt-3">
-                    <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
-                    <li class="breadcrumb-item">Category</li>
-                    <li class="breadcrumb-item active">View Product</li>
-                </ul>
+                <div class="row">
+                    <div class="col">
+                        <ul class="breadcrumb mt-3">
+                            <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item">Product</li>
+                            <li class="breadcrumb-item active">View Product</li>
+                        </ul>
+                    </div>
+                    <div class="col offset-5">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{% url 'most_selling_report' %}" class="btn btn-primary mt-2 mb-2" download>
+                                    Generate Most Sellign Report
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card card-table">

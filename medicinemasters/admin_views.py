@@ -1,9 +1,15 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Notification,Cart_Detail,Prescription,Prescription_Detail,Payment
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password, check_password
+from django.db.models import Sum
+from django.db.models import ExpressionWrapper, F
+from django.db import models
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.http import HttpResponse
 
 # Admin
 # Admin Home Page
@@ -705,3 +711,21 @@ def payment_history(request):
         'payment' : payment,
     }
     return render(request, 'admin/payment history/payment_history.html',context)
+
+def most_selling_report(request):
+    most_selling_products = Order_Detail.objects.values('product_id','product_name','product__product_discount_price') \
+        .annotate(total_quantity=Sum('product_quantity')) \
+        .annotate(product_total=Sum(ExpressionWrapper(F('product_quantity') * F('product__product_discount_price'), output_field=models.IntegerField()))) \
+        .order_by('-total_quantity')[:10]
+
+    total = most_selling_products.aggregate(Sum('product_total'))['product_total__sum']
+
+    context = {'most_selling_products': most_selling_products,'total':total}
+
+    template_path = 'reports/most_selling_report.html'
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="ProductSellReport.pdf"'
+    template = get_template(template_path)
+    html = template.render(context)
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    return response
