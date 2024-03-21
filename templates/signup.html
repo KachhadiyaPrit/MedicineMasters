@@ -91,7 +91,7 @@
                     <div class="col-12">
                       <label for="password" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="password" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
+                      <div class="invalid-feedback" id="password_error">Password must be at least 8 characters long.</div>
                     </div>
                     <!-- <div class="col-12">
                       <label for="cpassword" class="form-label">Confirm Password</label>
@@ -144,6 +144,21 @@
           $('#password-addon i').removeClass('fas fa-eye').addClass('fas fa-eye-slash');
         }
       });
+    });
+
+    const passwordInput = document.getElementById('password');
+
+    passwordInput.addEventListener('input', () => 
+    {
+      if (passwordInput.value.length < 8) 
+      {
+        passwordInput.setCustomValidity('Password must be at least 8 characters long.');
+      } 
+      else 
+      {
+        passwordInput.setCustomValidity('');
+      }
+      passwordInput.checkValidity();
     });
   </script>
 
