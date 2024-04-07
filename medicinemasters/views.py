@@ -3,7 +3,7 @@ from medicine_masters.EmailBackEnd import EmailBackEnd
 from django.contrib.auth import authenticate, logout, login
 from django.contrib import messages
 from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.http import JsonResponse
