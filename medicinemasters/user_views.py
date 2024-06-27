@@ -1,11 +1,9 @@
 from urllib import request
 from django.shortcuts import render, redirect
-from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
 from django.http import JsonResponse
-from rest_framework.views import APIView
 from medicine_masters import helpers
 from medicine_masters.models import Users,DeliveryAddress,Category,Sub_Category,Company,Product,Offer,Order,Order_Detail,Cart,Cart_Detail,Feedback,Prescription,Prescription_Detail,Payment
 import razorpay
